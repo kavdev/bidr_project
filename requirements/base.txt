@@ -1,0 +1,6 @@
+django-herokuapp==0.9.18
+Django==1.7
+git+https://github.com/wrightmx/Unipath
+colorama==0.3.2
+djangoajax==2.2.12
+raven==5.0.0
