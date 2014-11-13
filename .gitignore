@@ -5,23 +5,39 @@
 *.prefs
 
 # Python bytecode:
-*.py[co]
+*.py[cod]
+*.pyc
+__pycache__
 
 # Packaging files:
 *.egg*
 
 # Editor temp files:
-*.swp
 *~
+*.swp
+*.swo
 
 # Sphinx docs:
 build
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+# Translations
+*.mo
+*.pot
 
 # SQLite3 database files:
 *.db
 
 # Logs:
 *.log
+pip-log.txt
 
 # Environment Files
-*.env
+.env
+
+# Local settings
+local.py

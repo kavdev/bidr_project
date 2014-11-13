@@ -1,1 +1,1 @@
-web: waitress-serve --port=$PORT bidr.bidr.wsgi:application
+web: gunicorn --pythonpath="$PWD/bidr" -bind 127.0.0.1:5000  bidr.wsgi:application
