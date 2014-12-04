@@ -1,2 +1,2 @@
-web: gunicorn bidr.wsgi:application --pythonpath="$PWD/bidr"  --log-file "logs/gunicorn" --log-level info --preload --bind 0.0.0.0:80
+web: gunicorn bidr.wsgi:application --pythonpath="$PWD/bidr"  --log-file - --log-level debug --preload
 dev: gunicorn bidr.wsgi:application --pythonpath="$PWD/bidr" --bind 0.0.0.0:8020 --log-file "logs/gunicorn" --log-level debug --preload
