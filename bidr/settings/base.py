@@ -61,7 +61,7 @@ USE_I18N = True
 # calendars according to the current locale
 USE_L10N = True
 
-ROOT_URLCONF = 'resnet_internal.urls'
+ROOT_URLCONF = 'bidr.urls'
 
 # ======================================================================================================== #
 #                                          Database Configuration                                          #
@@ -197,7 +197,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'raven.contrib.django.raven_compat',
     'django_ajax',
-    'herokuapp',
+    'dj_database_url',
     'bidr.apps',
 )
 
