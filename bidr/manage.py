@@ -25,10 +25,10 @@ def activate_env():
 
     # Activate the virtual env
     # Check for Windows directory, otherwise use Linux directory
-    activate_env = virtualenv_dir.joinpath(repo_dir, "Scripts", "activate_this.py")
+    activate_env = str(virtualenv_dir.joinpath(repo_dir, "Scripts", "activate_this.py"))
 
     if not activate_env.exists():
-        activate_env = virtualenv_dir.joinpath(repo_dir, "bin", "activate_this.py")
+        activate_env = str(virtualenv_dir.joinpath(repo_dir, "bin", "activate_this.py"))
 
     exec(compile(open(activate_env).read(), activate_env, 'exec'), dict(__file__=activate_env))
 
@@ -40,11 +40,11 @@ def read_env():
 
     """
     try:
-        with open('.env') as f:
+        with open(str(Path(os.environ["PROJECT_HOME"], repo_name, '.env'))) as f:
             content = f.read()
     except IOError:
         content = ''
-
+    
     for line in content.splitlines():
         m1 = re.match(r'\A([A-Za-z_0-9]+)=(.*)\Z', line)
         if m1:
