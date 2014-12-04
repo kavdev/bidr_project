@@ -1,8 +1,9 @@
 import django
-from django.core.handlers.wsgi import WSGIHandler
+from django.core.wsgi import get_wsgi_application
 from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
+from whitenoise.django import DjangoWhiteNoise
 
 django.setup()
 
 # Send any wsgi errors to Sentry
-application = Sentry(WSGIHandler())
+application = Sentry(DjangoWhiteNoise(get_wsgi_application()))

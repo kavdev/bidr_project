@@ -8,3 +8,4 @@ djangoajax==2.2.12
 raven==5.0.0
 djangorestframework==3.0.0
 django-phonenumber-field==0.6
+whitenoise==1.0.5
