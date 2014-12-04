@@ -7,7 +7,9 @@
 """
 
 from django.core.mail import send_mail
+from django.db.models import Max
 
+from django_ajax.decorators import ajax
 from rest_framework.viewsets import ModelViewSet
 
 from ..core.models import Bidder
@@ -32,3 +34,8 @@ class BidViewSet(ModelViewSet):
                   message="Oh No! You've been outbid by {user} with a bid of {bid}".format(user=instance.user, bid=instance.amount),
                   from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
                   recipient_list=emails)
+
+
+@ajax
+def get_max_bid(request):
+    return {'max_bid': Bid.objects.aggregate(Max('amount'))["amount__max"]}
