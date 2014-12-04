@@ -14,4 +14,4 @@ from .models import Bidder
 class BidderSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Bidder
-        fields = ('name', 'email', 'phone_number', 'is_superuser')
+        fields = ('id', 'name', 'email', 'phone_number', 'is_superuser')

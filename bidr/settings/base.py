@@ -82,6 +82,11 @@ DATABASES = {
 # EMAIL_USE_TLS = True  # Whether or not to use SSL (Boolean)
 # EMAIL_HOST_USER = get_env_variable('BIDR_EMAIL_USERNAME')
 # EMAIL_HOST_PASSWORD = get_env_variable('BIDR_EMAIL_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bidrapp@gmail.com'
+EMAIL_HOST_PASSWORD = 'aro0aro0'
 
 # Set the server's email address (for sending emails only)
 SERVER_EMAIL = 'Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com>'
@@ -183,6 +188,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -203,6 +209,7 @@ INSTALLED_APPS = (
     'django_ajax',
     'dj_database_url',
     'rest_framework',
+    'corsheaders',
     'bidr.apps',
     'bidr.apps.core',
     'bidr.apps.bids',
@@ -216,6 +223,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'PAGINATE_BY': 10
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # ======================================================================================================== #
 #                                         Logging Configuration                                            #
