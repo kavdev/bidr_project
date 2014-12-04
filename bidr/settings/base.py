@@ -68,7 +68,7 @@ ROOT_URLCONF = 'resnet_internal.urls'
 # ======================================================================================================== #
 
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://localhost'),
+    'default': dj_database_url.config(default=get_env_variable('BIDR_DATABASE_URL')),
 }
 
 # ======================================================================================================== #
