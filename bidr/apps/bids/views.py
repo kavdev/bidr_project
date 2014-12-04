@@ -6,12 +6,13 @@
 
 """
 
+from django.core.mail import send_mail
+
 from rest_framework.viewsets import ModelViewSet
 
 from ..core.models import Bidder
 from .models import Bid
 from .serializers import BidSerializer
-from django.core.mail import send_mail
 
 
 class BidViewSet(ModelViewSet):
