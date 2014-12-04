@@ -11,6 +11,7 @@ from rest_framework.viewsets import ModelViewSet
 from ..core.models import Bidder
 from .models import Bid
 from .serializers import BidSerializer
+from django.core.mail import send_mail
 
 
 class BidViewSet(ModelViewSet):
@@ -19,10 +20,14 @@ class BidViewSet(ModelViewSet):
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
 
-    def perform_update(self, serializer):
-        for bidder in Bidder.objects.exclude(id=self.request.user.id):
-            bidder.email_user(subject="Bidr: You've been outbid!",
-                              message="Oh No! You've been outbid!",
-                              from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com")
+    def perform_create(self, serializer):
+        instance = serializer.save()
 
-        super(BidViewSet, self).perform_update(serializer)
+        emails = []
+        for bidder in Bidder.objects.exclude(id=instance.user.id):
+            emails.append(bidder.email)
+
+        send_mail(subject="Bidr: You've been outbid!",
+                  message="Oh No! You've been outbid by {user} with a bid of {bid}".format(user=instance.user, bid=instance.amount),
+                  from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
+                  recipient_list=emails)
