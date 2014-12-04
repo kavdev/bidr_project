@@ -106,7 +106,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_USER_MODEL = 'core.BidrUser'
+AUTH_USER_MODEL = 'core.Bidder'
 
 # ======================================================================================================== #
 #                                      Session/Security Configuration                                      #
@@ -198,8 +198,20 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
     'django_ajax',
     'dj_database_url',
+    'rest_framework',
     'bidr.apps',
+    'bidr.apps.core',
+    'bidr.apps.bids',
 )
+
+# ======================================================================================================== #
+#                                       REST Endpoint Configuration                                        #
+# ======================================================================================================== #
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+    'PAGINATE_BY': 10
+}
 
 # ======================================================================================================== #
 #                                         Logging Configuration                                            #

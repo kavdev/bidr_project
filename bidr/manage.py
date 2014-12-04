@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.4
 import os
 import sys
+import re
 
 from colorama import init as color_init
 from colorama import Fore, Style
@@ -21,26 +22,11 @@ def activate_env():
     repo_dir = filepath.parents[1].stem
 
     # Add the app's directory to the PYTHONPATH
-    sys.path.append(filepath.parent)
-
-    # Activate the virtual env
-    # Check for Windows directory, otherwise use Linux directory
-    activate_env = str(virtualenv_dir.joinpath(repo_dir, "Scripts", "activate_this.py"))
-
-    if not activate_env.exists():
-        activate_env = str(virtualenv_dir.joinpath(repo_dir, "bin", "activate_this.py"))
-
-    exec(compile(open(activate_env).read(), activate_env, 'exec'), dict(__file__=activate_env))
-
-
-def read_env():
-    """Pulled from Honcho code with minor updates, reads local default
-    environment variables from a .env file located in the project root
-    directory.
-
-    """
+    sys.path.append(str(filepath.parent))
+    
+    # Add environment variables
     try:
-        with open(str(Path(os.environ["PROJECT_HOME"], repo_name, '.env'))) as f:
+        with open(str(Path(os.environ["PROJECT_HOME"], repo_dir, '.env'))) as f:
             content = f.read()
     except IOError:
         content = ''
@@ -57,6 +43,12 @@ def read_env():
                 val = re.sub(r'\\(.)', r'\1', m3.group(1))
             os.environ.setdefault(key, val)
 
+    # Activate the virtual env
+    activate_env = str(virtualenv_dir.joinpath(repo_dir, "bin", "activate_this.py"))
+
+    exec(compile(open(activate_env).read(), activate_env, 'exec'), dict(__file__=activate_env))
+
+
 if __name__ == "__main__":
 
     # Set this manually in the environment
@@ -64,7 +56,6 @@ if __name__ == "__main__":
 
     color_init()
     activate_env()
-    read_env()
 
     try:
         from django.core.management import execute_from_command_line
