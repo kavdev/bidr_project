@@ -1,44 +1,40 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.4
 import os
 import sys
 
 from colorama import init as color_init
 from colorama import Fore, Style
-from unipath import Path
+from pathlib import Path
 
 
 def activate_env():
     """ Activates the virtual environment for this project."""
 
-    error_msg = None
-
     try:
         virtualenv_dir = Path(os.environ['WORKON_HOME'])
     except KeyError:
         error_msg = "Error: 'WORKON_HOME' is not set."
-
-    if error_msg:
         sys.stderr.write(Fore.RED + Style.BRIGHT + error_msg + "\n")
         sys.exit(1)
 
-    filepath = Path(__file__).absolute()
-    repo_dir = filepath.ancestor(2).components()[-1]
+    filepath = Path(__file__).resolve()
+    repo_dir = filepath.parents[1].stem
 
     # Add the app's directory to the PYTHONPATH
-    sys.path.append(filepath.ancestor(1))
+    sys.path.append(filepath.parent)
 
     # Activate the virtual env
     # Check for Windows directory, otherwise use Linux directory
-    activate_env = virtualenv_dir.child(repo_dir, "Scripts", "activate_this.py")
+    activate_env = virtualenv_dir.joinpath(repo_dir, "Scripts", "activate_this.py")
 
     if not activate_env.exists():
-        activate_env = virtualenv_dir.child(repo_dir, "bin", "activate_this.py")
+        activate_env = virtualenv_dir.joinpath(repo_dir, "bin", "activate_this.py")
 
     exec(compile(open(activate_env).read(), activate_env, 'exec'), dict(__file__=activate_env))
 
 if __name__ == "__main__":
 
-    # Set this manually in the environment...
+    # Set this manually in the environment
     # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.local")
 
     color_init()
