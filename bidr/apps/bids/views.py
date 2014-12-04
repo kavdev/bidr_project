@@ -7,10 +7,9 @@
 """
 
 from django.core.mail import send_mail
-from django.db.models import Max
 
-from django_ajax.decorators import ajax
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import OrderingFilter
 
 from ..core.models import Bidder
 from .models import Bid
@@ -22,6 +21,8 @@ class BidViewSet(ModelViewSet):
 
     queryset = Bid.objects.all()
     serializer_class = BidSerializer
+    filter_backends = (OrderingFilter,)
+    ordering_fields = ('amount',)
 
     def perform_create(self, serializer):
         instance = serializer.save()
@@ -34,8 +35,3 @@ class BidViewSet(ModelViewSet):
                   message="Oh No! You've been outbid by {user} with a bid of {bid}".format(user=instance.user, bid=instance.amount),
                   from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
                   recipient_list=emails)
-
-
-@ajax
-def get_max_bid(request):
-    return {'max_bid': Bid.objects.aggregate(Max('amount'))["amount__max"]}

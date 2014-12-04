@@ -15,7 +15,7 @@ from django.views.generic import RedirectView
 
 from rest_framework.routers import DefaultRouter
 
-from .apps.bids.views import BidViewSet, get_max_bid
+from .apps.bids.views import BidViewSet
 from .apps.core.views import BidderViewSet
 
 
@@ -41,5 +41,4 @@ urlpatterns = [
 # Bids
 urlpatterns += [
     url(r'^api/', include(bid_router.urls)),
-    url(r'^api/max_bid/$', get_max_bid, name="max_bid"),
 ]
