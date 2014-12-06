@@ -3,7 +3,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 
 import dj_database_url
-from unipath import Path
+from pathlib import Path
 
 
 def get_env_variable(name):
@@ -133,7 +133,7 @@ SECRET_KEY = get_env_variable('BIDR_SECRET_KEY')
 PROJECT_DIR = Path(__file__).ancestor(3)
 
 # The directory that will hold user-uploaded files.
-MEDIA_ROOT = PROJECT_DIR.child("media")
+MEDIA_ROOT = str(PROJECT_DIR.joinpath("media").resolve())
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
 MEDIA_URL = '/media/'
@@ -141,14 +141,14 @@ MEDIA_URL = '/media/'
 # The directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
-STATIC_ROOT = PROJECT_DIR.child("static")
+STATIC_ROOT = str(PROJECT_DIR.joinpath("static").resolve())
 
 # URL prefix for static files. Make sure to use a trailing slash.
 STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    PROJECT_DIR.child("bidr", "static"),
+    str(PROJECT_DIR.joinpath("bidr", "static").resolve()),
 )
 
 # List of finder classes that know how to find static files in various locations.
@@ -163,7 +163,7 @@ STATICFILES_FINDERS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 TEMPLATE_DIRS = (
-    PROJECT_DIR.child("bidr", "templates"),
+    str(PROJECT_DIR.joinpath("bidr", "templates").resolve()),
 )
 
 # List of callables that know how to import templates from various sources.
@@ -210,7 +210,6 @@ INSTALLED_APPS = (
     'dj_database_url',
     'rest_framework',
     'corsheaders',
-    'bidr.apps',
     'bidr.apps.core',
     'bidr.apps.bids',
 )

@@ -8,15 +8,30 @@ from colorama import Fore, Style
 from pathlib import Path
 
 
+def get_env_variable(name):
+    """ Gets the specified environment variable.
+
+    :param name: The name of the variable.
+    :type name: str
+    :returns: The value of the specified variable.
+    :raises: **ImproperlyConfigured** when the specified variable does not exist.
+
+    """
+
+    try:
+        return os.environ[name]
+    except KeyError:
+        error_msg = "Error: The %s environment variable is not set!" % name
+        color_init()
+        sys.stderr.write(Fore.RED + Style.BRIGHT + error_msg + "\n")
+        sys.exit(1)
+
+
 def activate_env():
     """ Activates the virtual environment for this project."""
 
-    try:
-        virtualenv_dir = Path(os.environ['WORKON_HOME'])
-    except KeyError:
-        error_msg = "Error: 'WORKON_HOME' is not set."
-        sys.stderr.write(Fore.RED + Style.BRIGHT + error_msg + "\n")
-        sys.exit(1)
+    virtualenv_home = Path(get_env_variable('WORKON_HOME'))
+    project_home = Path(get_env_variable("PROJECT_HOME"))
 
     filepath = Path(__file__).resolve()
     repo_name = filepath.parents[1].stem
@@ -26,7 +41,7 @@ def activate_env():
 
     # Add environment variables
     try:
-        with open(str(Path(os.environ["PROJECT_HOME"], repo_name, '.env'))) as f:
+        with open(str(Path(project_home, repo_name, '.env').resolve())) as f:
             content = f.read()
     except IOError:
         content = ''
@@ -44,21 +59,21 @@ def activate_env():
             os.environ.setdefault(key, val)
 
     # Activate the virtual env
-    activate_env = str(virtualenv_dir.joinpath(repo_name, "bin", "activate_this.py"))
+    # Check for Windows directory, otherwise use Linux directory
+    activate_env = virtualenv_home.joinpath(repo_name, "Scripts", "activate_this.py")
 
-    exec(compile(open(activate_env).read(), activate_env, 'exec'), dict(__file__=activate_env))
+    if not activate_env.exists():
+        activate_env = virtualenv_home.joinpath(repo_name, "bin", "activate_this.py")
 
+    exec(compile(open(str(activate_env)).read(), str(activate_env), 'exec'), dict(__file__=str(activate_env)))
 
 if __name__ == "__main__":
 
-    # Set this manually in the environment
+    # Set this manually in the environment...
     # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.local")
 
     color_init()
-
-    # Heroku doesn't run virtualens...
-    if "production" not in os.environ["DJANGO_SETTINGS_MODULE"]:
-        activate_env()
+    activate_env()
 
     try:
         from django.core.management import execute_from_command_line

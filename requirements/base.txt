@@ -1,7 +1,6 @@
 gunicorn==19.1.1
 Django==1.7
 psycopg2==2.5.4
-git+https://github.com/wrightmx/Unipath
 colorama==0.3.2
 dj-database-url==0.3.0
 djangoajax==2.2.12
