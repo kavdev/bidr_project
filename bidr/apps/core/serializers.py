@@ -8,10 +8,10 @@
 
 from rest_framework.serializers import HyperlinkedModelSerializer
 
-from .models import Bidder
+from .models import BidrUser
 
 
-class BidderSerializer(HyperlinkedModelSerializer):
+class BidrUserSerializer(HyperlinkedModelSerializer):
     class Meta:
-        model = Bidder
+        model = BidrUser
         fields = ('id', 'name', 'email', 'phone_number', 'is_superuser')

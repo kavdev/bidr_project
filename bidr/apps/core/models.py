@@ -13,7 +13,7 @@ from django.core.mail import send_mail
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Bidder(AbstractBaseUser, PermissionsMixin):
+class BidrUser(AbstractBaseUser, PermissionsMixin):
     """Enterprise Groups Management Tool User Model"""
 
     name = CharField(max_length=30, blank=True, verbose_name='Full Name')

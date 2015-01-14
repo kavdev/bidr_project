@@ -89,7 +89,7 @@ EMAIL_HOST_USER = 'bidrapp@gmail.com'
 EMAIL_HOST_PASSWORD = 'aro0aro0'
 
 # Set the server's email address (for sending emails only)
-SERVER_EMAIL = 'Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com>'
+SERVER_EMAIL = 'Bidr Mail Relay Server <do-not-reply@bidrapp.com>'
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
 # ======================================================================================================== #
@@ -111,7 +111,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_USER_MODEL = 'core.Bidder'
+AUTH_USER_MODEL = 'core.BidrUser'
 
 # ======================================================================================================== #
 #                                      Session/Security Configuration                                      #
