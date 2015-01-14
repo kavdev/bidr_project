@@ -11,5 +11,5 @@ TEMPLATE_DEBUG = DEBUG
 SESSION_COOKIE_NAME = 'BIDRSessionID'
 
 ALLOWED_HOSTS = [
-    'bidr-2.herokuapp.com',
+    '.bidrapp.com',
 ]
