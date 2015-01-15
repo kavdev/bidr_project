@@ -63,6 +63,8 @@ USE_L10N = True
 
 ROOT_URLCONF = 'bidr.urls'
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
 # ======================================================================================================== #
 #                                          Database Configuration                                          #
 # ======================================================================================================== #
@@ -76,17 +78,12 @@ DATABASES = {
 # ======================================================================================================== #
 
 # Outgoing email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # This configuration uses the SMTP protocol as a backend
-# EMAIL_HOST = 'mail.calpoly.edu'  # The host to use for sending email. Set to empty string for localhost.
-# EMAIL_PORT = 25  # The port to use. Defaul values: 25, 587
-# EMAIL_USE_TLS = True  # Whether or not to use SSL (Boolean)
-# EMAIL_HOST_USER = get_env_variable('BIDR_EMAIL_USERNAME')
-# EMAIL_HOST_PASSWORD = get_env_variable('BIDR_EMAIL_PASSWORD')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'bidrapp@gmail.com'
-EMAIL_HOST_PASSWORD = 'aro0aro0'
+EMAIL_HOST_PASSWORD = get_env_variable('BIDR_EMAIL_PASSWORD')
 
 # Set the server's email address (for sending emails only)
 SERVER_EMAIL = 'Bidr Mail Relay Server <do-not-reply@bidrapp.com>'
@@ -130,7 +127,7 @@ SECRET_KEY = get_env_variable('BIDR_SECRET_KEY')
 #                                  File/Application Handling Configuration                                 #
 # ======================================================================================================== #
 
-PROJECT_DIR = Path(__file__).ancestor(3)
+PROJECT_DIR = Path(__file__).parents[2]
 
 # The directory that will hold user-uploaded files.
 MEDIA_ROOT = str(PROJECT_DIR.joinpath("media").resolve())
@@ -146,6 +143,9 @@ STATIC_ROOT = str(PROJECT_DIR.joinpath("static").resolve())
 # URL prefix for static files. Make sure to use a trailing slash.
 STATIC_URL = '/static/'
 
+STATIC_PRECOMPILER_OUTPUT_DIR = ""
+STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = True
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     str(PROJECT_DIR.joinpath("bidr", "static").resolve()),
@@ -156,6 +156,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #   'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'static_precompiler.finders.StaticPrecompilerFinder',
 )
 
 # Simplified static file serving.
@@ -208,8 +209,9 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
     'django_ajax',
     'dj_database_url',
+    'static_precompiler',
     'rest_framework',
-    'corsheaders',
+    'rest_framework.authtoken',
     'bidr.apps.core',
     'bidr.apps.bids',
 )
@@ -219,7 +221,12 @@ INSTALLED_APPS = (
 # ======================================================================================================== #
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
     'PAGINATE_BY': 100
 }
 
@@ -271,11 +278,6 @@ LOGGING = {
             'level': 'DEBUG',
             'handlers': ['console'],
             'propagate': False,
-        },
-        'django_auth_ldap': {
-            'level': 'INFO',
-            'handlers': ['sentry'],
-            'propagate': True,
         },
         'django_ajax': {
             'level': 'INFO',

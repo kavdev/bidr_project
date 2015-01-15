@@ -45,6 +45,8 @@ DEBUG_TOOLBAR_CONFIG = {
 #                                  File/Application Handling Configuration                                 #
 # ======================================================================================================== #
 
+STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = False
+
 MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 
 INSTALLED_APPS += (

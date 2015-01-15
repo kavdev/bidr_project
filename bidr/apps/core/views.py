@@ -10,4 +10,8 @@ from django.views.generic.base import TemplateView
 
 
 class IndexView(TemplateView):
-    pass
+    template_name = "core/index.html"
+
+
+class LoginView(TemplateView):
+    template_name = "core/index.html"
