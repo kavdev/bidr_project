@@ -20,7 +20,7 @@ from registration.backends.default import urls as registration_urls
 
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet
-from .apps.core.views import IndexView, LoginView, handler500
+from .apps.core.views import IndexView, handler500
 
 
 admin.autodiscover()
