@@ -3,9 +3,15 @@
 {% block subtitle %} | HTTP 404{% endblock %}
 
 {% block content %}
-    <div>
-        <h1>Page Not Found (HTTP 404)</h1>
+<section id="404">
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <div>
+                <h1>Page Not Found (HTTP 404)</h1>
+            </div>
+            <p>Hmm, it looks like the page you're looking for doesn't exist.</p>
+            <p>For more information on what an HTTP 404 error is and how it occurs, <a href="http://www.checkupdown.com/status/E404.html" target="_blank">click here</a>.</p>
+        </div>
     </div>
-    <p>Hmm, it looks like the page you're looking for doesn't exist.</p>
-    <p>For more information on what an HTTP 404 error is and how it occurs, <a href="http://www.checkupdown.com/status/E404.html" target="_blank">click here</a>.</p>
+</section>
 {% endblock %}

@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-{% load staticfiles %}
 {% block content %}
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container">
@@ -22,12 +21,6 @@
                             <a href="#page-top"></a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="#services">Services</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="#contact">Contact</a>
-                        </li>
-                        <li>
                             <a class="page-scroll" href="{% url 'login' %}">Web Client</a>
                         </li>
                         <li>
@@ -46,17 +39,17 @@
                 <div class="intro-text">
                     <div class="intro-lead-in">Welcome To Bidr!</div>
                     <div class="intro-heading">A silent auction system for the digital age</div>
-                    <a href="{% url 'register' %}" class="page-scroll btn btn-xl">Get Started</a>
+                    <a href="#register" class="page-scroll btn btn-xl">Get Started</a>
                 </div>
             </div>
         </header>
 
-        <!-- Services Section -->
-        <section id="services">
+        <!-- About Section -->
+        <section id="about">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Services</h2>
+                        <h2 class="section-heading">What is Bidr?</h2>
                         <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
                     </div>
                 </div>
@@ -66,7 +59,7 @@
                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
                             <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="service-heading">E-Commerce</h4>
+                        <h4 class="about-heading">Bid on Items</h4>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                     </div>
                     <div class="col-md-4">
@@ -74,7 +67,7 @@
                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
                             <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="service-heading">Responsive Design</h4>
+                        <h4 class="about-heading">Mobile Friendly</h4>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                     </div>
                     <div class="col-md-4">
@@ -82,7 +75,7 @@
                             <i class="fa fa-circle fa-stack-2x text-primary"></i>
                             <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
                         </span>
-                        <h4 class="service-heading">Web Security</h4>
+                        <h4 class="about-heading">Web Security</h4>
                         <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
                     </div>
                 </div>
@@ -102,42 +95,43 @@
             </div>
         </aside>
     
-        <section id="contact">
+        <section id="register">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Contact Us</h2>
-                        <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                        <h2 class="section-heading">Get Started</h2>
+                        <h3 class="section-subheading text-muted">Sign up below to get started.</h3>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <form name="sentMessage" id="contactForm" novalidate>
+                        <form name="registration_form" id="registration_form">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-md-offset-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Your Name *" id="name" required>
+                                        <input type="text" class="form-control" placeholder="Name *" id="name" required>
                                         <p class="help-block text-danger"></p>
                                     </div>
                                     <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="Your Email *" id="email" required>
+                                        <input type="email" class="form-control" placeholder="Email *" id="email" required>
                                         <p class="help-block text-danger"></p>
                                     </div>
                                     <div class="form-group">
-                                        <input type="tel" class="form-control" placeholder="Your Phone *" id="phone" required>
+                                        <input type="tel" class="form-control" placeholder="Phone Number *" id="phone" required>
                                         <p class="help-block text-danger"></p>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <textarea class="form-control" placeholder="Your Message *" id="message" required></textarea>
+                                        <input type="password" class="form-control" placeholder="Password *" id="phone" required>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" placeholder="Confirm Password *" id="phone" required>
                                         <p class="help-block text-danger"></p>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
                                 <div class="col-lg-12 text-center">
-                                    <div id="success"></div>
-                                    <button type="submit" class="btn btn-xl">Send Message</button>
+                                    <button type="submit" class="btn btn-xl">Sign Up</button>
                                 </div>
                             </div>
                         </form>

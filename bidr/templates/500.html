@@ -3,13 +3,19 @@
 {% block subtitle %} | HTTP 500{% endblock %}
 
 {% block content %}
-    <div>
-        <h1>Internal Server Error (HTTP 500)</h1>
+<section id="500">
+    <div class="row text-center">
+        <div class="col-xs-12">
+            <div>
+                <h1>Internal Server Error (HTTP 500)</h1>
+            </div>
+            <p>Oh no! It looks like something went wrong with our code!</p>
+            {% if request.sentry.id %}
+            <b>SENTRY_ID = {{ request.sentry.id }}</b>
+            {% endif %}
+            </p>
+            <p>For more information on what an HTTP 500 error is and how it occurs, <a href="http://www.checkupdown.com/status/E500.html" target="_blank">click here</a>.</p>
+        </div>
     </div>
-    <p>Oh no! It looks like something went wrong with our code!</p>
-    {% if request.sentry.id %}
-    <b>SENTRY_ID = {{ request.sentry.id }}</b>
-    {% endif %}
-    </p>
-    <p>For more information on what an HTTP 500 error is and how it occurs, <a href="http://www.checkupdown.com/status/E500.html" target="_blank">click here</a>.</p>
+</section>
 {% endblock %}
