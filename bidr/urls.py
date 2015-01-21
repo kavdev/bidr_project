@@ -18,7 +18,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
 
 from .apps.bids.api import BidViewSet
-from .apps.core.api import BidrUserViewSet, register_bidr_user
+from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, handler500
 
 admin.autodiscover()
@@ -45,7 +45,7 @@ urlpatterns = [
 
 # Registration
 urlpatterns += [
-    url(r'api/users/register/', register_bidr_user)
+    url(r'api/users/register/', RegisterBidrUser.as_view())
 ]
 
 # Bids

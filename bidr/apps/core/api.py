@@ -9,9 +9,10 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
 
 from .models import BidrUser
 from .serializers import BidrUserSerializer, RegisterBidrUserSerializer
@@ -24,14 +25,17 @@ class BidrUserViewSet(ModelViewSet):
     serializer_class = BidrUserSerializer
 
 
-@api_view(['POST'])
-def register_bidr_user(request):
-    VALID_USER_FIELDS = [f.name for f in get_user_model()._meta.fields]
+class RegisterBidrUser(APIView):
 
-    serialized = RegisterBidrUserSerializer(data=request.DATA)
-    if serialized.is_valid():
-        user_data = {field: data for (field, data) in request.DATA.items() if field in VALID_USER_FIELDS}
-        user = get_user_model().objects.create_user(**user_data)
-        return Response(RegisterBidrUserSerializer(instance=user).data, status=status.HTTP_201_CREATED)
-    else:
-        return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        """Registration code inspired by http://stackoverflow.com/a/19337404."""
+        serializer = RegisterBidrUserSerializer(data=request.data)
+        valid_fields = [field.name for field in get_user_model()._meta.fields]
+
+        if serializer.is_valid(raise_exception=True):
+            user_data = {field: data for (field, data) in request.DATA.items() if field in valid_fields}
+            user = get_user_model().objects.create_user(**user_data)
+            token = Token.objects.create(user=user)
+            return Response({'token': token.key}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
