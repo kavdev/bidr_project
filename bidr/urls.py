@@ -19,9 +19,8 @@ from rest_framework.authtoken import views
 from registration.backends.default import urls as registration_urls
 
 from .apps.bids.api import BidViewSet
-from .apps.core.api import BidrUserViewSet
+from .apps.core.api import BidrUserViewSet, register_bidr_user
 from .apps.core.views import IndexView, handler500
-
 
 admin.autodiscover()
 
@@ -30,6 +29,7 @@ bid_router.register(r'bids', BidViewSet)
 
 bidruser_router = DefaultRouter()
 bidruser_router.register(r'users', BidrUserViewSet)
+bidruser_router.register(r'users/register/', register_bidr_user)
 
 logger = logging.getLogger(__name__)
 
@@ -37,9 +37,10 @@ logger = logging.getLogger(__name__)
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
     url(r'^favicon\.ico$', RedirectView.as_view(url=static('img/favicon.ico')), name='favicon'),
+    url(r'^robots\.txt$', RedirectView.as_view(url=static('robots.txt')), name='robots'),
     url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api-token-auth/', views.obtain_auth_token),
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/token-auth/', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
 ]
 
