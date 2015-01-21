@@ -6,11 +6,26 @@
 
 """
 
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse_lazy
+
 from registration.views import RegistrationView
+
+from .forms import UserRegistrationForm
 
 
 class IndexView(RegistrationView):
     template_name = "core/index.html"
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy("home")
+
+    def register(self, request, **cleaned_data):
+        """ Handles valid credentials"""
+
+        get_user_model().objects.create_user(name=cleaned_data["name"],
+                                             email=cleaned_data["email"],
+                                             phone_number=cleaned_data["phone_number"],
+                                             password=cleaned_data["password"])
 
 
 def handler500(request):

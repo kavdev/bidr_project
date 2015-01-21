@@ -212,6 +212,7 @@ INSTALLED_APPS = (
     'static_precompiler',
     'rest_framework',
     'rest_framework.authtoken',
+    'widget_tweaks',
     'bidr.apps.core',
     'bidr.apps.bids',
 )
