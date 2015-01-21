@@ -16,7 +16,6 @@ from django.views.defaults import permission_denied, page_not_found
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
-from registration.backends.default import urls as registration_urls
 
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, register_bidr_user
@@ -29,7 +28,6 @@ bid_router.register(r'bids', BidViewSet)
 
 bidruser_router = DefaultRouter()
 bidruser_router.register(r'users', BidrUserViewSet)
-bidruser_router.register(r'users/register/', register_bidr_user)
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +45,7 @@ urlpatterns = [
 
 # Registration
 urlpatterns += [
-    url(r'^/$', include(registration_urls)),
+    url(r'api/users/register/', register_bidr_user)
 ]
 
 # Bids
