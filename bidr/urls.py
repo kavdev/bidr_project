@@ -23,6 +23,7 @@ from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView
 from .apps.auctions.views import AuctionView
+from .apps.auctions.views import AuctionCreateView
 
 admin.autodiscover()
 
@@ -42,15 +43,15 @@ urlpatterns = [
     url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
     url(r'^admin$', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/token-auth/', views.obtain_auth_token),
+    url(r'^api/token-auth/$', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
-    url(r'^login/', LoginView.as_view(), name='login'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
     url(r'^logout/$', logout, name='logout'),
 ]
 
 # Registration
 urlpatterns += [
-    url(r'api/users/register/', RegisterBidrUser.as_view())
+    url(r'api/users/register/$', RegisterBidrUser.as_view())
 ]
 
 # Bids
@@ -60,8 +61,13 @@ urlpatterns += [
 
 # Organizations
 urlpatterns += [
-    url(r'^organizations/', login_required(OrganizationListView.as_view()), name="organizations"),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/', AuctionView.as_view(), name='auctions'),
+    url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
+]
+
+#Auctions
+urlpatterns += [
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(AuctionView.as_view()), name='auctions'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(AuctionCreateView.as_view()), name='create_auction'),
 ]
 
 # Hooks to intentionally raise errors
