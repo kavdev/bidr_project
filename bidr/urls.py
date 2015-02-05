@@ -20,6 +20,7 @@ from rest_framework.authtoken import views
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, handler500
+from .apps.organizations.views import OrganizationView
 
 admin.autodiscover()
 
@@ -52,6 +53,11 @@ urlpatterns += [
 # Bids
 urlpatterns += [
     url(r'^api/', include(bid_router.urls)),
+]
+
+# Organizations
+urlpatterns += [
+    url(r'^organizations/', OrganizationView.as_view(), name="organizations"),
 ]
 
 
