@@ -20,12 +20,12 @@ class Organization(Model):
     """An Organization that manages silent auction."""
 
     name = CharField(max_length=100, verbose_name="Name")
-    email = EmailField(unique=True, verbose_name='Email Address')
+    email = EmailField(blank=True, unique=True, verbose_name='Email Address')
     phone_number = PhoneNumberField(verbose_name='Phone Number')
     website = URLField(verbose_name="Website")
-    owner = ForeignKey(settings.AUTH_USER_MODEL, related_name="owner", verbose_name="Owner")
-    managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="managers", verbose_name="Managers")
-    auctions = ManyToManyField(Auction, related_name="auctions", verbose_name="Auctions")
+    owner = ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Admin")
+    managers = ManyToManyField(settings.AUTH_USER_MODEL, verbose_name="Manager")
+    auctions = ManyToManyField(Auction)
 
     def __str__(self):
         return self.name
