@@ -10,6 +10,7 @@ import logging
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.views.generic.base import RedirectView, TemplateView
 from django.views.defaults import permission_denied, page_not_found
@@ -20,7 +21,7 @@ from rest_framework.authtoken import views
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, handler500
-from django.contrib.auth.decorators import login_required
+from .apps.organizations.views import OrganizationView
 
 admin.autodiscover()
 
@@ -55,6 +56,10 @@ urlpatterns += [
     url(r'^api/', include(bid_router.urls)),
 ]
 
+# Organizations
+urlpatterns += [
+    url(r'^organizations/', login_required(OrganizationView.as_view()), name="organizations"),
+]
 
 # Hooks to intentionally raise errors
 urlpatterns += [
