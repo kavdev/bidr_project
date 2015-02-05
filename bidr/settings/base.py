@@ -213,8 +213,10 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'widget_tweaks',
     'taggit',
+    'bidr.apps.auctions',
     'bidr.apps.core',
     'bidr.apps.bids',
+    'bidr.apps.items',
 )
 
 # ======================================================================================================== #

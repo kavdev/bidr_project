@@ -32,7 +32,7 @@ class Auction(Model):
     description = TextField(verbose_name="Description")
     start_time = DateTimeField(verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
-    stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, "Plan Stage")
+    stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
     items = ManyToManyField(Item, verbose_name="Items")
     item_collections = ManyToManyField(ItemCollection, verbose_name="Collections of Items")
