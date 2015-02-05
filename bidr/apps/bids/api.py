@@ -28,7 +28,7 @@ class BidViewSet(ModelViewSet):
         instance = serializer.save()
 
         emails = []
-        for bidder in Bidder.objects.exclude(id=instance.user.id):
+        for bidder in BidrUser.objects.exclude(id=instance.user.id):
             emails.append(bidder.email)
 
         send_mail(subject="Bidr: You've been outbid!",
