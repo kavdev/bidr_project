@@ -63,9 +63,6 @@ urlpatterns += [
     url(r'^organization/create', login_required(OrganizationListView.as_view()), name="organizationcreate"),
 ]
 
-
-
-
 # Hooks to intentionally raise errors
 urlpatterns += [
     url(r'^500/$', handler500, name="500"),
