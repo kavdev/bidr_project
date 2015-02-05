@@ -35,7 +35,7 @@ class Auction(Model):
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
-    items = ManyToManyField(Item, verbose_name="Items")
-    item_collections = ManyToManyField(ItemCollection, verbose_name="Collections of Items")
+    items = ManyToManyField(Item, blank=True, verbose_name="Items")
+    item_collections = ManyToManyField(ItemCollection, blank=True, verbose_name="Collections of Items")
 
-    user_info = ManyToManyField(AuctionUserInfo, verbose_name="Additional User Info")
+    user_info = ManyToManyField(AuctionUserInfo, blank=True, verbose_name="Additional User Info")

@@ -217,6 +217,7 @@ INSTALLED_APPS = (
     'bidr.apps.core',
     'bidr.apps.bids',
     'bidr.apps.items',
+    'bidr.apps.organizations',
 )
 
 # ======================================================================================================== #

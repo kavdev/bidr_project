@@ -26,4 +26,3 @@ class OrganizationCreateView(CreateView):
     form_class = OrganizationCreateForm
     model = Organization
     fields = ['name', 'email', 'phone_number', 'website']
-

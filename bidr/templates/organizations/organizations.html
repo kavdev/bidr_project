@@ -3,5 +3,14 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
-    <h1>Hello Organizations!</h1>
+    <div class="row object_list">
+        <ul>
+            {% for org in organization_list %}
+            <li><a href="{% url 'auctions' slug=org.slug %}"><h1>{{ org.name }}</h1></a></li>
+            {% empty %}
+            <li><h1>You don't have any organizations.</h1></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <a href="{% url 'create_organization' %}"><button type="button" class="btn btn-xl">Create Organization</button></a>
 {% endblock %}
