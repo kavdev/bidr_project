@@ -1,0 +1,1 @@
+./bidr/manage.py
