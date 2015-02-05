@@ -11,8 +11,6 @@ from django.core.exceptions import ValidationError
 from django.forms.models import ModelForm
 from django.forms.fields import CharField
 from django.forms.widgets import PasswordInput
-from rest_framework import authentication
-from django.contrib.auth.forms import AuthenticationForm
 
 
 class UserRegistrationForm(ModelForm):
@@ -34,7 +32,3 @@ class UserRegistrationForm(ModelForm):
     class Meta:
         model = get_user_model()
         fields = ['name', 'email', 'phone_number', 'password']
-
-class LoginForm(AuthenticationForm):
-    organization =  CharField(max_length=128, label='Enter your organization')
-    
