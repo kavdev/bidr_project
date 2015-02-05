@@ -41,3 +41,6 @@ pip-log.txt
 
 # Local settings
 local.py
+
+# Symlink manage
+/manage.py

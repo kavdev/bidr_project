@@ -6,10 +6,11 @@
 
 """
 
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import FormView
-from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect
 
 from registration.views import RegistrationView
 
@@ -33,6 +34,26 @@ class IndexView(RegistrationView):
 class LoginView(FormView):
     template_name = "core/login.html"
     form_class = AuthenticationForm
+    success_url = reverse_lazy("organizations")
+
+    def form_valid(self, form):
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+
+        if user.is_authenticated():
+            auth_login(self.request, user)
+
+        self.success_url = self.request.POST.get('next', self.success_url)
+
+        return super(LoginView, self).form_valid(form)
+
+
+def logout(request):
+    """Logs the current user out."""
+
+    auth_logout(request)
+    return redirect("home")
 
 
 def handler500(request):

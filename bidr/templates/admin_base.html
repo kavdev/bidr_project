@@ -1,5 +1,45 @@
 {% extends 'base.html' %}
 
+{% block header %}
+    <nav class="navbar navbar-default {% block navbar_fixed %}navbar-fixed-top{% endblock %} {% block navbar_shrink %}navbar-shrink{% endblock %}">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top"><strong>Bidr</strong></font></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    {% block navitems %}
+                    <li>
+                        <a class="page-scroll" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% endblock %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
 {% block content %}
-hello world!
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                {% block admin_content %}
+                    <h1>Hello World!</h1>    
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
