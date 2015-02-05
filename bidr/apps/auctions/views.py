@@ -7,6 +7,7 @@
 
 from django.views.generic import ListView
 from django.views.generic import CreateView
+from django.core.urlresolvers import reverse_lazy
 
 from .models import Auction
 
@@ -22,3 +23,4 @@ class AuctionCreateView(CreateView):
     template_name = "auctions/create.html"
     model = Auction
     fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
+    success_url = reverse_lazy('auctions', kwargs={'slug': 'test'})
