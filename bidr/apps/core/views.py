@@ -33,6 +33,7 @@ class IndexView(RegistrationView):
 class LoginView(FormView):
     template_name = "core/login.html"
     form_class = AuthenticationForm
+    success_url = reverse_lazy("organizations")
 
 
 def handler500(request):
