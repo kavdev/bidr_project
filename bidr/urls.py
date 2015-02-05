@@ -19,7 +19,7 @@ from rest_framework.authtoken import views
 
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
-from .apps.core.views import IndexView, handler500
+from .apps.core.views import IndexView, LoginView, handler500
 
 admin.autodiscover()
 
