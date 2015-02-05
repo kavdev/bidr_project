@@ -6,8 +6,11 @@
 
 """
 from django.views.generic import ListView
-from .models import Organization
+from django.views.generic.edit import FormView, ModelFormMixin, CreateView
 from django.db.models import Q
+
+from .models import Organization
+from .forms import OrganizationCreateForm
 
 
 class OrganizationListView(ListView):
@@ -16,3 +19,11 @@ class OrganizationListView(ListView):
     def get_queryset(self):
         # return Organization.objects.filter(Q(owner=self.request.user) | Q(managers__in=self.request.user))
         return Organization.objects.filter(owner=self.request.user)
+
+
+class OrganizationCreateView(CreateView):
+    template_name = "organizations/create.html"
+    form_class = OrganizationCreateForm
+    model = Organization
+    fields = ['name', 'email', 'phone_number', 'website']
+
