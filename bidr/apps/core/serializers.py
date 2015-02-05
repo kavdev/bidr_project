@@ -6,6 +6,8 @@
 
 """
 
+from django.contrib.auth import get_user_model
+
 from rest_framework.serializers import HyperlinkedModelSerializer
 
 from .models import BidrUser
@@ -15,3 +17,9 @@ class BidrUserSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = BidrUser
         fields = ('id', 'name', 'email', 'phone_number', 'is_superuser')
+
+
+class RegisterBidrUserSerializer(HyperlinkedModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ['name', 'email', 'phone_number', 'password']
