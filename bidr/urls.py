@@ -64,7 +64,7 @@ urlpatterns += [
 # Organizations
 urlpatterns += [
     url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
-    url(r'^organizations/create/$', login_required(OrganizationCreateView.as_view()), name="organizationcreate"),
+    url(r'^organizations/create/$', login_required(OrganizationCreateView.as_view()), name="create_organization"),
 ]
 
 # Auctions

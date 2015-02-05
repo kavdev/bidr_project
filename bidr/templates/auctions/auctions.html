@@ -3,5 +3,14 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
-    <h1>Hello Auctions!</h1>
+    <div class="row object_list">
+        <ul>
+            {% for auction in auction_list %}
+            <li><h4>{{ auction.name }}</h4></li>
+            {% empty %}
+            <li><h1>You don't have any auctions.</h1></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <a href="{% url 'create_auction' slug='test' %}"><button type="button" class="btn btn-xl">Create Auction</button></a>
 {% endblock %}
