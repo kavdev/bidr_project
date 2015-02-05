@@ -17,11 +17,7 @@ class Bid(Model):
 
     amount = DecimalField(max_digits=40, decimal_places=2, verbose_name='Bid Amount')
     user = ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Bidder')
-    # item
     timestamp = DateTimeField(auto_now_add=True, blank=True, verbose_name='Timestamp')
 
     def __str__(self):
         return str(self.user) + " - $" + str(self.amount)
-
-    class Meta:
-        verbose_name = 'Bid'
