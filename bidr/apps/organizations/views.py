@@ -6,11 +6,11 @@
 
 """
 from django.views.generic import ListView
-from django.views.generic.edit import FormView, ModelFormMixin, CreateView
+from django.views.generic.edit import CreateView
 from django.db.models import Q
 
 from .models import Organization
-from .forms import OrganizationCreateForm
+# from .forms import OrganizationCreateForm
 
 
 class OrganizationListView(ListView):
@@ -23,7 +23,7 @@ class OrganizationListView(ListView):
 
 class OrganizationCreateView(CreateView):
     template_name = "organizations/create.html"
-    form_class = OrganizationCreateForm
+#     form_class = OrganizationCreateForm
     model = Organization
     fields = ['name', 'email', 'phone_number', 'website']
 

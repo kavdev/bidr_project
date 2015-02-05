@@ -16,7 +16,7 @@ class AuctionView(ListView):
 
     def get_queryset(self):
         return Auction.objects.all()
-    
+
 
 class AuctionCreateView(CreateView):
     template_name = "auctions/create.html"

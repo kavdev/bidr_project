@@ -15,6 +15,7 @@ from ..auctions.models import Auction
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+
 class Organization(Model):
     """An Organization that manages silent auction."""
 
