@@ -20,7 +20,7 @@ class Organization(Model):
     """An Organization that manages silent auction."""
 
     name = CharField(max_length=100, verbose_name="Name")
-    email = EmailField(blank=True, unique=True, verbose_name='Email Address')
+    email = EmailField(unique=True, verbose_name='Email Address')
     phone_number = PhoneNumberField(verbose_name='Phone Number')
     website = URLField(verbose_name="Website")
     owner = ForeignKey(settings.AUTH_USER_MODEL, related_name="owner", verbose_name="Owner")
