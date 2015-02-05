@@ -36,6 +36,7 @@ bidruser_router.register(r'users', BidrUserViewSet)
 
 logger = logging.getLogger(__name__)
 
+
 # Core
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
