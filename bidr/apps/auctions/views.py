@@ -6,6 +6,8 @@
 """
 
 from django.views.generic import ListView
+from django.views.generic import CreateView
+
 from .models import Auction
 
 
@@ -14,3 +16,9 @@ class AuctionView(ListView):
 
     def get_queryset(self):
         return Auction.objects.all()
+    
+
+class AuctionCreateView(CreateView):
+    template_name = "auctions/create.html"
+    model = Auction
+    fields = ['name', 'description', 'start_time', 'end_time', 'password']
