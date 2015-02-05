@@ -29,11 +29,12 @@ class RegisterBidrUser(APIView):
 
     def post(self, request):
         """Registration code inspired by http://stackoverflow.com/a/19337404."""
+        print(request.data)
         serializer = RegisterBidrUserSerializer(data=request.data)
         valid_fields = [field.name for field in get_user_model()._meta.fields]
-
+        
         if serializer.is_valid(raise_exception=True):
-            user_data = {field: data for (field, data) in request.DATA.items() if field in valid_fields}
+            user_data = {field: data for (field, data) in request.data.items() if field in valid_fields}
             user = get_user_model().objects.create_user(**user_data)
             token = Token.objects.create(user=user)
             return Response({'token': token.key}, status=status.HTTP_201_CREATED)
