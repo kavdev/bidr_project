@@ -16,6 +16,19 @@ from django.forms.widgets import PasswordInput
 class UserRegistrationForm(ModelForm):
     password_confirm = CharField(max_length=128, widget=PasswordInput, label='confirm password')
 
+    def clean_email(self):
+        """
+        Ensures the email address provided is unique.
+        For some reason this check isn't already happening.
+        """
+
+        email = self.cleaned_data["email"]
+        try:
+            get_user_model().objects.get(email=email)
+        except get_user_model().DoesNotExist:
+            return email
+        raise ValidationError("This email address is already in use.", code='email_not_unique')
+
     def clean(self):
         """
         Verifiy that the values entered into the two password fields
