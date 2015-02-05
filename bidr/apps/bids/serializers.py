@@ -17,10 +17,10 @@ class BidSerializer(HyperlinkedModelSerializer):
 
     def validate_amount(self, value):
         """Check that the blog post is about Django."""
-        
+
         agg = Bid.objects.aggregate(Max('amount'))["amount__max"]
 
-        if agg and value < agg: 
+        if agg and value < agg:
             raise ValidationError("Your bid must exceed the current bid amount.")
         return value
 
