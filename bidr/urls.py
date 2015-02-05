@@ -22,6 +22,7 @@ from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView
+from .apps.auctions.views import AuctionView
 
 admin.autodiscover()
 
@@ -60,6 +61,7 @@ urlpatterns += [
 # Organizations
 urlpatterns += [
     url(r'^organizations/', login_required(OrganizationListView.as_view()), name="organizations"),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/', AuctionView.as_view(), name='auctions'),
 ]
 
 # Hooks to intentionally raise errors
