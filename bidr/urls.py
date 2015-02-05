@@ -20,7 +20,7 @@ from rest_framework.authtoken import views
 
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
-from .apps.core.views import IndexView, LoginView, handler500
+from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView
 
 admin.autodiscover()
@@ -44,6 +44,7 @@ urlpatterns = [
     url(r'^api/token-auth/', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
     url(r'^login/', LoginView.as_view(), name='login'),
+    url(r'^logout/$', logout, name='logout'),
 ]
 
 # Registration
@@ -59,8 +60,6 @@ urlpatterns += [
 # Organizations
 urlpatterns += [
     url(r'^organizations/', login_required(OrganizationListView.as_view()), name="organizations"),
-    # Create Organization
-    url(r'^organization/create', login_required(OrganizationListView.as_view()), name="organizationcreate"),
 ]
 
 # Hooks to intentionally raise errors
