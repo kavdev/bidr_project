@@ -23,9 +23,9 @@ class Organization(Model):
     email = EmailField(blank=True, unique=True, verbose_name='Email Address')
     phone_number = PhoneNumberField(verbose_name='Phone Number')
     website = URLField(verbose_name="Website")
-    owner = ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Admin")
-    managers = ManyToManyField(settings.AUTH_USER_MODEL, verbose_name="Manager")
-    auctions = ManyToManyField(Auction)
+    owner = ForeignKey(settings.AUTH_USER_MODEL, related_name="owner", verbose_name="Owner")
+    managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="managers", verbose_name="Managers")
+    auctions = ManyToManyField(Auction, related_name="auctions", verbose_name="Auctions")
 
     def __str__(self):
         return self.name
