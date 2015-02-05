@@ -21,7 +21,7 @@ from rest_framework.authtoken import views
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, handler500
-from .apps.organizations.views import OrganizationView
+from .apps.organizations.views import OrganizationListView
 
 admin.autodiscover()
 
@@ -58,8 +58,13 @@ urlpatterns += [
 
 # Organizations
 urlpatterns += [
-    url(r'^organizations/', login_required(OrganizationView.as_view()), name="organizations"),
+    url(r'^organizations/', login_required(OrganizationListView.as_view()), name="organizations"),
+    # Create Organization
+    url(r'^organization/create', login_required(OrganizationListView.as_view()), name="organizationcreate"),
 ]
+
+
+
 
 # Hooks to intentionally raise errors
 urlpatterns += [

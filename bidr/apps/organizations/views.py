@@ -10,7 +10,7 @@ from .models import Organization
 from django.db.models import Q
 
 
-class OrganizationView(ListView):
+class OrganizationListView(ListView):
     template_name = "organizations/organizations.html"
 
     def get_queryset(self):
