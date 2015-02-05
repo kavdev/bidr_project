@@ -20,6 +20,7 @@ from rest_framework.authtoken import views
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, handler500
+from django.contrib.auth.decorators import login_required
 
 admin.autodiscover()
 
@@ -41,7 +42,7 @@ urlpatterns = [
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/token-auth/', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
-    url(r'^login/', LoginView.as_view(), name='login'),
+    url(r'^login/', login_required(LoginView.as_view()), name='login'),
 ]
 
 # Registration
