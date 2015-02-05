@@ -22,6 +22,7 @@ from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView
+from .apps.organizations.views import OrganizationCreateView
 
 admin.autodiscover()
 
