@@ -8,10 +8,14 @@
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import AuthenticationForm
 
 from registration.views import RegistrationView
 
 from .forms import UserRegistrationForm
+from bidr.apps.core.forms import LoginForm
+
 
 
 class IndexView(RegistrationView):
@@ -28,6 +32,12 @@ class IndexView(RegistrationView):
                                              password=cleaned_data["password"])
 
 
+
+class LoginView(FormView):
+    template_name = "core/login.html"
+    form_class = LoginForm
+    
+    
 def handler500(request):
     """500 error handler which includes ``request`` in the context."""
 

@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/token-auth/', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
+    url(r'^login/', LoginView.as_view(), name='login'),
 ]
 
 # Registration
