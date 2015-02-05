@@ -32,7 +32,7 @@ class RegisterBidrUser(APIView):
         print(request.data)
         serializer = RegisterBidrUserSerializer(data=request.data)
         valid_fields = [field.name for field in get_user_model()._meta.fields]
-        
+
         if serializer.is_valid(raise_exception=True):
             user_data = {field: data for (field, data) in request.data.items() if field in valid_fields}
             user = get_user_model().objects.create_user(**user_data)
