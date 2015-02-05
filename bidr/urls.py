@@ -19,7 +19,7 @@ from rest_framework.authtoken import views
 from registration.backends.default import urls as registration_urls
 
 from .apps.bids.api import BidViewSet
-from .apps.core.api import BidrUserViewSet
+from .apps.core.api import BidrUserViewSet, RegisterBidrUser
 from .apps.core.views import IndexView, LoginView, handler500
 
 
