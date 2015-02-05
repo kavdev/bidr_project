@@ -20,10 +20,11 @@ from rest_framework.authtoken import views
 
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet, RegisterBidrUser
+
+from .apps.auctions.views import AuctionView, AuctionCreateView
 from .apps.core.views import IndexView, LoginView, logout, handler500
-from .apps.organizations.views import OrganizationListView
-from .apps.auctions.views import AuctionView
-from .apps.auctions.views import AuctionCreateView
+from .apps.organizations.views import OrganizationListView, OrganizationCreateView
+
 
 admin.autodiscover()
 
@@ -62,6 +63,7 @@ urlpatterns += [
 # Organizations
 urlpatterns += [
     url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
+    url(r'^organizations/create/$', login_required(OrganizationCreateView.as_view()), name="organizationcreate"),
 ]
 
 # Auctions
