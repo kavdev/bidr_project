@@ -49,7 +49,7 @@ urlpatterns = [
 #     url(r'^api/token-auth/$', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
     url(r'^login/$', LoginView.as_view(), name='admin_login'),
-    url(r'^logout/$', logout, name='andmin_logout'),
+    url(r'^logout/$', logout, name='admin_logout'),
 ]
 
 # Bids
