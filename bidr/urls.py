@@ -17,9 +17,10 @@ from django.views.defaults import permission_denied, page_not_found
 
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken import views
+from djoser import urls as api_auth_urls
 
 from .apps.bids.api import BidViewSet
-from .apps.core.api import BidrUserViewSet, RegisterBidrUser
+from .apps.core.api import BidrUserViewSet
 
 from .apps.auctions.views import AuctionView, AuctionCreateView
 from .apps.core.views import IndexView, LoginView, logout, handler500
@@ -45,10 +46,10 @@ urlpatterns = [
     url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
     url(r'^admin/$', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/token-auth/$', views.obtain_auth_token),
+#     url(r'^api/token-auth/$', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
-    url(r'^login/$', LoginView.as_view(), name='login'),
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^login/$', LoginView.as_view(), name='admin_login'),
+    url(r'^logout/$', logout, name='admin_logout'),
 ]
 
 # Bids
@@ -58,7 +59,7 @@ urlpatterns += [
 
 # Registration
 urlpatterns += [
-    url(r'api/users/register/$', RegisterBidrUser.as_view())
+    url(r'^api/', include(api_auth_urls))
 ]
 
 # Organizations
