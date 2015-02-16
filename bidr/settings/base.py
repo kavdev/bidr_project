@@ -211,6 +211,7 @@ INSTALLED_APPS = (
     'static_precompiler',
     'rest_framework',
     'rest_framework.authtoken',
+    'djoser',
     'widget_tweaks',
     'taggit',
     'bidr.apps.auctions',
@@ -234,8 +235,14 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 100
 }
 
-# from rest_framework.authtoken.views import ObtainAuthToken
-UNAUTHENTICATED_TOKEN = "oogalyboogaly"
+DJOSER = {
+    'DOMAIN': 'bidrapp.com',
+    'SITE_NAME': 'Bidrapp',
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'LOGIN_AFTER_ACTIVATION': True,
+    'SEND_ACTIVATION_EMAIL': False,
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
