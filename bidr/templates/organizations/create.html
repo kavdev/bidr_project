@@ -9,20 +9,20 @@
         <div class="col-md-6 col-md-offset-3">
             <p class="help-block text-danger">{{ form.non_field_errors }}</p>
             <div class="form-group">
-                {% render_field form.name placeholder="Name *" required=true class+="form-control" %}
-                <!-- <p class="help-block text-danger">{{ form.username.errors }}</p> -->
+                {% render_field form.name placeholder="Organization Name *" required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.username.errors }}</p>
             </div>
         <div class="form-group">
-            {% render_field form.email placeholder="Email Address *" required=true class+="form-control" %}
-            <!-- <p class="help-block text-danger">{{ form.password.errors }}</p> -->
+            {% render_field form.email placeholder="Organization Email Address *" required=true class+="form-control" %}
+            <p class="help-block text-danger">{{ form.password.errors }}</p>
         </div>
         <div class="form-group">
-            {% render_field form.phone_number placeholder="Phone Number *" required=true class+="form-control" %}
-            <!-- <p class="help-block text-danger">{{ form.password.errors }}</p> -->
+            {% render_field form.phone_number placeholder="Organization Phone Number *" required=true class+="form-control" %}
+            <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
         </div>
         <div class="form-group">
-            {% render_field form.website placeholder="Website *" required=true class+="form-control" %}
-            <!-- <p class="help-block text-danger">{{ form.password.errors }}</p> -->
+            {% render_field form.website placeholder="Organization Website *" required=true class+="form-control" %}
+            <p class="help-block text-danger">{{ form.website.errors }}</p>
         </div>
     {% csrf_token %}
     </div>
