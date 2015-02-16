@@ -51,14 +51,14 @@ urlpatterns = [
     url(r'^logout/$', logout, name='logout'),
 ]
 
-# Registration
-urlpatterns += [
-    url(r'api/users/register/$', RegisterBidrUser.as_view())
-]
-
 # Bids
 urlpatterns += [
     url(r'^api/', include(bid_router.urls)),
+]
+
+# Registration
+urlpatterns += [
+    url(r'api/users/register/$', RegisterBidrUser.as_view())
 ]
 
 # Organizations
