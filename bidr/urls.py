@@ -48,8 +48,8 @@ urlpatterns = [
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
 #     url(r'^api/token-auth/$', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
-    url(r'^login/$', LoginView.as_view(), name='login'),
-    url(r'^logout/$', logout, name='logout'),
+    url(r'^login/$', LoginView.as_view(), name='admin_login'),
+    url(r'^logout/$', logout, name='andmin_logout'),
 ]
 
 # Bids
