@@ -3,36 +3,35 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
-<form method="post">
-    <!-- {{ form.as_p }} -->
-        <div class="row">
+<form method="POST" action="{% url 'create_organization' %}" name="organization_create" id="organization_create">
+    <input type="hidden" name="owner" value="1" />
+    <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <p class="help-block text-danger">{{ form.non_field_errors }}</p>
             <div class="form-group">
                 {% render_field form.name placeholder="Organization Name *" required=true class+="form-control" %}
-                <p class="help-block text-danger">{{ form.username.errors }}</p>
+                <p class="help-block text-danger">{{ form.name.errors }}</p>
             </div>
-        <div class="form-group">
-            {% render_field form.email placeholder="Organization Email Address *" required=true class+="form-control" %}
-            <p class="help-block text-danger">{{ form.password.errors }}</p>
+            <div class="form-group">
+                {% render_field form.email placeholder="Organization Email Address *" required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.password.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.phone_number placeholder="Organization Phone Number *" required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.website placeholder="Organization Website *" required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.website.errors }}</p>
+             </div>
+            {% csrf_token %}
         </div>
-        <div class="form-group">
-            {% render_field form.phone_number placeholder="Organization Phone Number *" required=true class+="form-control" %}
-            <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
-        </div>
-        <div class="form-group">
-            {% render_field form.website placeholder="Organization Website *" required=true class+="form-control" %}
-            <p class="help-block text-danger">{{ form.website.errors }}</p>
-        </div>
-    {% csrf_token %}
-    </div>
-    <div class="clearfix"></div>
+        <div class="clearfix"></div>
         <div class="col-lg-12 text-center">
-            <button class="btn btn-xl" name="organization_create" id="organization_create" type="submit">
+            <button class="btn btn-xl" form="organization_create" type="submit">
                 Submit
             </button>
         </div>
     </div>
-    
 </form>
 {% endblock %}

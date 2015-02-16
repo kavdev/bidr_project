@@ -1,9 +1,9 @@
 import os
+from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
 import dj_database_url
-from pathlib import Path
 
 
 def get_env_variable(name):
@@ -233,6 +233,9 @@ REST_FRAMEWORK = {
     ),
     'PAGINATE_BY': 100
 }
+
+# from rest_framework.authtoken.views import ObtainAuthToken
+UNAUTHENTICATED_TOKEN = "oogalyboogaly"
 
 CORS_ORIGIN_ALLOW_ALL = True
 

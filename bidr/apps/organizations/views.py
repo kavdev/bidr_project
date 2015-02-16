@@ -8,6 +8,8 @@
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from django.db.models import Q
+from django.core.urlresolvers import reverse_lazy
+
 
 from .models import Organization
 from .forms import OrganizationCreateForm
@@ -25,4 +27,14 @@ class OrganizationCreateView(CreateView):
     template_name = "organizations/create.html"
     form_class = OrganizationCreateForm
     model = Organization
-    fields = ['name', 'email', 'phone_number', 'website']
+#     fields = ['name', 'email', 'phone_number', 'website']
+    success_url = reverse_lazy('organizations')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return super(OrganizationCreateView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(OrganizationCreateView, self).get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
