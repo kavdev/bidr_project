@@ -31,6 +31,9 @@ class BidrUserViewSet(ModelViewSet):
 
 class RegisterBidrUser(APIView):
     permission_classes = ("AllowAny",)
+    
+    def check_permissions(self, request):
+        return True
 
     def post(self, request):
         """Registration code inspired by http://stackoverflow.com/a/19337404."""
