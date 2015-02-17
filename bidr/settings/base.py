@@ -217,6 +217,7 @@ INSTALLED_APPS = (
     'taggit',
     'bidr.apps.auctions',
     'bidr.apps.core',
+    'bidr.apps.core.templatetags.CoreTemplatetagsConfig',
     'bidr.apps.bids',
     'bidr.apps.items',
     'bidr.apps.organizations',
