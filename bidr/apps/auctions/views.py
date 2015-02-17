@@ -63,4 +63,4 @@ class AuctionClaimView(AuctionMixin, DetailView):
 
 
 class AuctionReportView(AuctionMixin, DetailView):
-    template_name = "auctions/plan.html"
+    template_name = "auctions/report.html"
