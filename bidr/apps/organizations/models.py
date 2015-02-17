@@ -25,23 +25,32 @@ class Organization(Model):
 
     name = CharField(max_length=100, verbose_name="Name")
     slug = SlugField(max_length=120, verbose_name="Slug")
-    email = EmailField(unique=True, verbose_name='Email Address')
-    phone_number = PhoneNumberField(verbose_name='Phone Number')
-    website = URLField(verbose_name="Website")
+    email = EmailField(unique=True, verbose_name='Email Address', null=True, blank=True)
+    phone_number = PhoneNumberField(verbose_name='Phone Number', null=True, blank=True)
+    website = URLField(verbose_name="Website", null=True, blank=True)
     owner = ForeignKey(settings.AUTH_USER_MODEL, related_name="owner", verbose_name="Owner")
-    managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="managers", verbose_name="Managers", blank=True)
     auctions = ManyToManyField(Auction, related_name="auctions", verbose_name="Auctions", blank=True)
- 
+
+    @property
+    def managers(self):
+        manager_list = []
+
+        for auction in self.auctions.all():
+            for manager in auction.managers.all():
+                manager_list.append(manager)
+
+        return manager_list
+
     def save(self):
-        """Auto-populate an empty slug field from the MyModel name and
+        """Auto-populate an empty slug field from the Organization name and
         if it conflicts with an existing slug then append a number and try
         saving again.
         https://djangosnippets.org/snippets/761/
         """
-         
+
         if not self.slug:
             self.slug = slugify(self.name)  # Where self.name is the field used for 'pre-populate from'
-  
+
         while True:
             try:
                 super(Organization, self).save()
@@ -55,6 +64,6 @@ class Organization(Model):
                     self.slug += '-2'
             else:
                 break
-  
+
     def __str__(self):
         return self.name

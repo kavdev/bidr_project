@@ -20,7 +20,7 @@ class OrganizationListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(OrganizationListView, self).get_context_data(**kwargs)
         context["owned_list"] = Organization.objects.filter(owner=self.request.user)
-        context["managed_list"] = Organization.objects.filter(managers__in=[self.request.user])
+        context["managed_list"] = [org for org in Organization.objects.all() if self.request.user in org.managers]
         return context
 
 

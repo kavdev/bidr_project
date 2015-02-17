@@ -38,21 +38,24 @@ class AuctionCreateView(CreateView):
         return reverse_lazy('plan_auction', kwargs={'slug': self.kwargs['slug'], 'pk': self.object.id})
 
 
-class AuctionPlanView(DetailView):
-    template_name = "auctions/plan.html"
+class AuctionMixin(object):
     model = Auction
 
+    def get_object(self, queryset=None):
+        return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
 
-class AuctionManageView(DetailView):
+
+class AuctionPlanView(AuctionMixin, DetailView):
+    template_name = "auctions/plan.html"
+
+
+class AuctionManageView(AuctionMixin, DetailView):
     template_name = "auctions/manage.html"
-    model = Auction
 
 
-class AuctionClaimView(DetailView):
+class AuctionClaimView(AuctionMixin, DetailView):
     template_name = "auctions/claim.html"
-    model = Auction
 
 
-class AuctionReportView(DetailView):
+class AuctionReportView(AuctionMixin, DetailView):
     template_name = "auctions/plan.html"
-    model = Auction
