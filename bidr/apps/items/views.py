@@ -5,10 +5,14 @@
 .. moduleauthor:: Jarred Stelfox <sstelfox@calpoly.edu>
 
 """
+
 from django.views.generic.detail import DetailView
+
 from .models import AbstractItem
 
+
 class ItemDetailView(DetailView):
+    
     model = AbstractItem
     
     def get_object(self, queryset=None):
