@@ -10,9 +10,10 @@ import logging
 
 from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
-from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.contrib.staticfiles.templatetags.staticfiles import static as staticfiles
 from django.views.generic.base import RedirectView, TemplateView
 from django.views.defaults import permission_denied, page_not_found
 
@@ -43,8 +44,8 @@ logger = logging.getLogger(__name__)
 # Core
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
-    url(r'^favicon\.ico$', RedirectView.as_view(url=static('img/favicon.ico')), name='favicon'),
-    url(r'^robots\.txt$', RedirectView.as_view(url=static('robots.txt')), name='robots'),
+    url(r'^favicon\.ico$', RedirectView.as_view(url=staticfiles('img/favicon.ico')), name='favicon'),
+    url(r'^robots\.txt$', RedirectView.as_view(url=staticfiles('robots.txt')), name='robots'),
     url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
     url(r'^admin/$', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
