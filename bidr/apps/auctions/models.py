@@ -8,6 +8,7 @@
 """
 
 from django.conf import settings
+from django.db.models.aggregates import Sum
 from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField
@@ -40,7 +41,7 @@ class Auction(Model):
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
-    bidables = ManyToManyField(AbstractItem, blank=True, verbose_name="Bidables")
+    bidables = ManyToManyField(AbstractItem, blank=True, related_name="bidables", verbose_name="Bidables")
 
     user_info = ManyToManyField(AuctionUserInfo, blank=True, verbose_name="Additional User Info")
 
@@ -51,6 +52,9 @@ class Auction(Model):
     
     def get_unsold_items(self):
         return self.bidables.filter(claimed=False)
+    
+    def get_total_income(self):
+        return self.get_sold_items().aggregate(Sum('claimed_bid__amount'))
     
     def __str__(self):
         return self.name
