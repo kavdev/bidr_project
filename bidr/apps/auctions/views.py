@@ -42,7 +42,7 @@ class AuctionMixin(object):
     model = Auction
 
     def get_context_data(self, **kwargs):
-        context = super(AuctionView, self).get_context_data(**kwargs)
+        context = super(AuctionMixin, self).get_context_data(**kwargs)
         context["org_slug"] = self.kwargs['slug']
         return context
 
