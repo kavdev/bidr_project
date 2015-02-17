@@ -41,6 +41,11 @@ class AuctionCreateView(CreateView):
 class AuctionMixin(object):
     model = Auction
 
+    def get_context_data(self, **kwargs):
+        context = super(AuctionView, self).get_context_data(**kwargs)
+        context["org_slug"] = self.kwargs['slug']
+        return context
+
     def get_object(self, queryset=None):
         return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
 

@@ -1,8 +1,9 @@
 """
-.. module:: bidr.apps.Admin.views
-   :synopsis: Bidr Silent Auction Admin Views.
+.. module:: bidr.apps.organization.views
+   :synopsis: Bidr Silent Auction System Organization Views.
 
 .. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
+.. moduleauthor:: Alexander Kavanaugh <kavanaugh.development@outlook.com>
 
 """
 

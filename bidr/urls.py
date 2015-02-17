@@ -25,6 +25,7 @@ from .apps.core.api import BidrUserViewSet
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionManageView, AuctionClaimView, AuctionReportView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
+from .apps.items.views import ItemDetailView
 
 
 admin.autodiscover()
@@ -76,6 +77,11 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/$', login_required(AuctionManageView.as_view()), name='auction_manage'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/claim/$', login_required(AuctionClaimView.as_view()), name='auction_claim'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/report/$', login_required(AuctionReportView.as_view()), name='auction_report'),
+]
+
+# Items
+urlpatterns += [
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/item/(?P<item_id>[\w-]+)/$', login_required(ItemDetailView.as_view()), name='item_detail')
 ]
 
 # Hooks to intentionally raise errors
