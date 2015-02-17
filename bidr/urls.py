@@ -8,6 +8,7 @@
 
 import logging
 
+from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
@@ -90,3 +91,6 @@ urlpatterns += [
     url(r'^403/$', permission_denied, name="403"),
     url(r'^404/$', page_not_found, name="404"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
