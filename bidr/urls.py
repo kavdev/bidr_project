@@ -22,7 +22,7 @@ from djoser import urls as api_auth_urls
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet
 
-from .apps.auctions.views import AuctionView, AuctionCreateView
+from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionManageView, AuctionClaimView, AuctionReportView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
 
@@ -72,6 +72,10 @@ urlpatterns += [
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(AuctionView.as_view()), name='auctions'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(AuctionCreateView.as_view()), name='create_auction'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/plan/$', login_required(AuctionPlanView.as_view()), name='auction_plan'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/$', login_required(AuctionManageView.as_view()), name='auction_manage'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/claim/$', login_required(AuctionClaimView.as_view()), name='auction_claim'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/report/$', login_required(AuctionReportView.as_view()), name='auction_report'),
 ]
 
 # Hooks to intentionally raise errors

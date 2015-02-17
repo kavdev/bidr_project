@@ -40,3 +40,18 @@ class AuctionCreateView(CreateView):
 class AuctionPlanView(DetailView):
     template_name = "auctions/plan.html"
     model = Auction
+
+
+class AuctionManageView(DetailView):
+    template_name = "auctions/manage.html"
+    model = Auction
+
+
+class AuctionClaimView(DetailView):
+    template_name = "auctions/claim.html"
+    model = Auction
+
+
+class AuctionReportView(DetailView):
+    template_name = "auctions/plan.html"
+    model = Auction
