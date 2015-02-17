@@ -13,7 +13,7 @@ from rest_framework.urls import template_name
 
 
 class ItemDetailView(DetailView):
-    template_name = "auctions/ItemDetail.html"
+    template_name = "auctions/itemdetail.html"
     model = AbstractItem
     
     def get_object(self, queryset=None):
