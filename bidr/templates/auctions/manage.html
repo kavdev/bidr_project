@@ -4,6 +4,28 @@
 {% block admin_content %}
 Let's Manage an auction!
      <div class="row object_list">
-        
-     </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Current Highest Bid</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img src="{{ item.picture.url }}" alt="Item Picture"></td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ plan.stripe_plan.amount|currency }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan=3 style="text-align: right; font-weight: bold;">Total Price:</td>
+                <td style="font-weight: bold;">{{ plan.stripe_plan.amount|currency }}</td>
+            </tr>
+        </tfoot>
+    </table>
 {% endblock %}
