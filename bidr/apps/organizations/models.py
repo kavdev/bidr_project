@@ -41,7 +41,7 @@ class Organization(Model):
 
         return manager_list
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """Auto-populate an empty slug field from the Organization name and
         if it conflicts with an existing slug then append a number and try
         saving again.
@@ -53,7 +53,7 @@ class Organization(Model):
 
         while True:
             try:
-                super(Organization, self).save()
+                super(Organization, self).save(*args, **kwargs)
             # Assuming the IntegrityError is due to a slug fight
             except IntegrityError:
                 match_obj = re.match(r'^(.*)-(\d+)$', self.slug)
