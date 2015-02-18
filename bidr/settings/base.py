@@ -158,10 +158,6 @@ STATICFILES_FINDERS = (
     'static_precompiler.finders.StaticPrecompilerFinder',
 )
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
 TEMPLATE_DIRS = (
     str(PROJECT_DIR.joinpath("bidr", "templates").resolve()),
 )
