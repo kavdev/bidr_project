@@ -26,7 +26,7 @@ class OrganizationListView(TemplateView):
 
 
 class OrganizationCreateView(CreateView):
-    template_name = "organizations/create.html"
+    template_name = "organizations/create_organization.html"
     form_class = OrganizationCreateForm
     model = Organization
 

@@ -2,30 +2,43 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
-Let's Manage an auction!
-     <div class="row object_list">
+    <p><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">Plan</a></h4></p>
     <table class="table">
         <thead>
             <tr>
-                <th>&nbsp;</th>
+                <th>Item Picture</th>
                 <th>Item Name</th>
                 <th>Description</th>
                 <th>Current Highest Bid</th>
             </tr>
         </thead>
         <tbody>
+        {% for item in auction.bidables.all %}
             <tr>
-                <td><img src="{{ item.picture.url }}" alt="Item Picture"></td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.description }}</td>
-                <td>{{ plan.stripe_plan.amount|currency }}</td>
+                <td>
+                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        <img src="{{ item.picture.url }}" alt="Item Picture">
+                    </a>    
+                </td>
+                <td>
+                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        {{ item.title }}
+                     </a>
+                </td>
+                
+                <td>
+                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        {{ item.description }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        Highest Bid ??
+                    </a>
+                </td>
             </tr>
+            </a>
+            {% endfor %}
         </tbody>
-        <tfoot>
-            <tr>
-                <td colspan=3 style="text-align: right; font-weight: bold;">Total Price:</td>
-                <td style="font-weight: bold;">{{ plan.stripe_plan.amount|currency }}</td>
-            </tr>
-        </tfoot>
     </table>
 {% endblock %}
