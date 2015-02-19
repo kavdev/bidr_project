@@ -1,6 +1,14 @@
-{% extends 'admin_base.html' %}
-{% block navbar_fixed %}{% endblock %}
+{% extends 'auctions/auction_base.html' %}
 
-{% block admin_content %}
+{% block auction_inner %}
 Let's plan an auction!
+{% endblock %}
+
+{% block extended_scripts %}
+{{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#plan_stage").addClass("active");
+        });
+    </script>
 {% endblock %}
