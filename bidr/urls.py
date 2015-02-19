@@ -77,7 +77,7 @@ urlpatterns += [
 
 # Auctions
 urlpatterns += [
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(user_is_type(UserType.MANAGER)(AuctionView.as_view())), name='auctions'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(AuctionView.as_view()), name='auctions'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(user_is_type(UserType.MANAGER)(AuctionCreateView.as_view())), name='create_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(user_is_type(UserType.MANAGER)(AuctionPlanView.as_view())), name='auction_plan'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/manage/$', login_required(user_is_type(UserType.MANAGER)(AuctionManageView.as_view())), name='auction_manage'),
