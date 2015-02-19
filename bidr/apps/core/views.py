@@ -20,7 +20,7 @@ from .forms import UserRegistrationForm
 class IndexView(RegistrationView):
     template_name = "core/index.html"
     form_class = UserRegistrationForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("organizations")
 
     def register(self, request, **cleaned_data):
         """ Handles valid credentials"""
