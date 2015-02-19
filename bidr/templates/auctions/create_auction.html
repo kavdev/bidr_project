@@ -24,7 +24,7 @@
                 <p class="help-block text-danger">{{ form.end_time.errors }}</p>
             </div>
             <div class="form-group">
-                {% render_field form.optional_password placeholder="Optional Password" required=true class+="form-control" %}
+                {% render_field form.optional_password placeholder="Optional Password" class+="form-control" %}
                 <p class="help-block text-danger">{{ form.optional_password.errors }}</p>
             </div>
             {% csrf_token %}

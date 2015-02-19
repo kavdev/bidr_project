@@ -18,7 +18,7 @@ class OrganizationCreateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
         super(OrganizationCreateForm, self).__init__(*args, **kwargs)
-    
+
     def clean_email(self):
         """
         Ensures the email address provided is unique.
@@ -33,11 +33,7 @@ class OrganizationCreateForm(ModelForm):
 
     def clean_owner(self):
         return self.request.user
-    
+
     class Meta:
         model = Organization
         fields = ['name', 'email', 'phone_number', 'website', 'owner']
-        
-    
-        
-    
