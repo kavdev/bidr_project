@@ -11,6 +11,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import redirect
 
 from ..organizations.models import Organization
 from .models import Auction
@@ -35,8 +36,14 @@ class AuctionCreateView(CreateView):
     fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
 
     def get_success_url(self):
-        return reverse_lazy('plan_auction', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
+        return reverse_lazy('auction_plan', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
 
+    def form_valid(self, form):
+        self.object = form.save()
+        org_instance = Organization.objects.get(slug=self.kwargs['slug'])
+        org_instance.auctions.add(self.object)
+        org_instance.save()
+        return redirect(self.get_success_url())
 
 class AuctionMixin(object):
     model = Auction
