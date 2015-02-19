@@ -35,7 +35,7 @@ class AuctionCreateView(CreateView):
     fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
 
     def get_success_url(self):
-        return reverse_lazy('plan_auction', kwargs={'slug': self.kwargs['slug'], 'pk': self.object.id})
+        return reverse_lazy('plan_auction', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
 
 
 class AuctionMixin(object):
@@ -60,7 +60,6 @@ class AuctionManageView(AuctionMixin, DetailView):
 
 class AuctionClaimView(AuctionMixin, DetailView):
     template_name = "auctions/claim.html"
-
 
 class AuctionReportView(AuctionMixin, DetailView):
     template_name = "auctions/report.html"
