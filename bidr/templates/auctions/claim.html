@@ -1,8 +1,11 @@
-{% extends 'admin_base.html' %}
+{% extends 'auctions/auction_base.html' %}
+{% load staticfiles %}
+{% load currency %}
+
 {% block navbar_fixed %}{% endblock %}
 
-{% block admin_content %}
-    <p><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">Plan</a></h4></p>
+{% block auction_inner %}
+    
         <table class="table table-hover">
         <thead>
             <tr>
@@ -15,7 +18,7 @@
         </thead>
         <tbody>
         {% for item in auction.bidables.all %}
-                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
+                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}" id="item_{{ item.id }}">
                     <td>
                         <img src="{{ item.get_image_url }}" alt="Item Picture" style="height:100px">  
                     </td>
@@ -24,36 +27,40 @@
                     </td>
                     
                     <td>
-                        {{ item.description }}
+                        {{ item.highest_bid.user }}
                     </td>
                     <td>
-                        Highest Bid ??
+                        {{ item.highest_bid.amount|currency }}
                     </td>
                     <td>
-                        <button class="btn btn-default" type="button" onclick="claim_item({{ item.id }})">
+                        <button class="btn btn-default" type="button" onclick="claim_item({{ item.id }}, {{ item.highest_bid.id }})">
                             Claim 
                         </button>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
-    </table>
-
-           
+    </table>   
 {% endblock %}
 {% block extended_scripts %}
 {{ block.super }}
+<script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
     <script type="text/javascript">
-        function claim_item(item_id) {
+        function claim_item(item_id, bid_id) {
             var response = confirm('Are you sure this item has been claimed?');
             if (response) {
-                ajaxPost("{% url 'claim_item' %}"), {"item_id": item_id}, function(response_context) {
+                ajaxPost("{% url 'claim_item' slug=org_slug auction_id=auction.id %}", {"item_id": item_id, "bid_id": bid_id}, function(response_context) {
                     $("#item_"+ item_id).remove();
-                }
+                });
             }
             else {
                 return false;
             }
         }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#claim_stage").addClass("active");
+        });
     </script>
 {% endblock %}
