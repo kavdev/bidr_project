@@ -18,7 +18,6 @@ class ItemCreateView(CreateView):
     template_name = "items/create_item.html"
     model = Item
     fields = ["name", "description", "min_price", "picture"]
-    success_url = reverse_lazy("create_item")
 
     def form_valid(self, form):
         self.object = form.save()
@@ -26,3 +25,6 @@ class ItemCreateView(CreateView):
         auction_instance.bidables.add(self.object)
         auction_instance.save()
         return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('create_item', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})
