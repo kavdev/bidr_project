@@ -1,0 +1,24 @@
+{% extends 'admin_base.html' %}
+{% block navbar_fixed %}{% endblock %}
+
+{% block admin_content %}
+Let's Report an auction!
+<div class="row">
+    <div class="col-md-8">
+        <h3 class="text-left">Sold Items</h3>
+    </div>
+    <div class="col-md-4">
+        <h3>Total Income</h3>
+        <h4>${{auction.get_total_income}}</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <h3 class="text-left">Unsold Items</h3>
+    </div>
+    <div class="col-md-4">
+        <h3>Bider Turnout</h3>
+    </div>
+</div>
+     
+{% endblock %}

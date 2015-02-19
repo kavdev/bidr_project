@@ -61,6 +61,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
     is_staff = BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'phone_number']
     objects = BidrUserManager()
 
     class Meta:

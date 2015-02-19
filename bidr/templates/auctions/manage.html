@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+{% block navbar_fixed %}{% endblock %}
+
+{% block admin_content %}
+    <p><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">Plan</a></h4></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item Picture</th>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Current Highest Bid</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in auction.bidables.all %}
+            <tr>
+                <td>
+                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        <img src="{{ item.picture.url }}" alt="Item Picture">
+                    </a>    
+                </td>
+                <td>
+                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        {{ item.title }}
+                     </a>
+                </td>
+                
+                <td>
+                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        {{ item.description }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                        Highest Bid ??
+                    </a>
+                </td>
+            </tr>
+            </a>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

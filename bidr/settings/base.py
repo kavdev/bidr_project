@@ -1,9 +1,9 @@
 import os
+from pathlib import Path
 
 from django.core.exceptions import ImproperlyConfigured
 
 import dj_database_url
-from pathlib import Path
 
 
 def get_env_variable(name):
@@ -158,10 +158,6 @@ STATICFILES_FINDERS = (
     'static_precompiler.finders.StaticPrecompilerFinder',
 )
 
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
 TEMPLATE_DIRS = (
     str(PROJECT_DIR.joinpath("bidr", "templates").resolve()),
 )
@@ -200,6 +196,7 @@ MIDDLEWARE_CLASSES = (
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'polymorphic',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -211,10 +208,12 @@ INSTALLED_APPS = (
     'static_precompiler',
     'rest_framework',
     'rest_framework.authtoken',
+    'djoser',
     'widget_tweaks',
     'taggit',
     'bidr.apps.auctions',
     'bidr.apps.core',
+    'bidr.apps.core.templatetags.CoreTemplatetagsConfig',
     'bidr.apps.bids',
     'bidr.apps.items',
     'bidr.apps.organizations',
@@ -232,6 +231,15 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'PAGINATE_BY': 100
+}
+
+DJOSER = {
+    'DOMAIN': 'bidrapp.com',
+    'SITE_NAME': 'Bidrapp',
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'LOGIN_AFTER_ACTIVATION': True,
+    'SEND_ACTIVATION_EMAIL': False,
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

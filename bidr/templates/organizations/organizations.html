@@ -3,14 +3,35 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
-    <div class="row object_list">
-        <ul>
-            {% for org in organization_list %}
-            <li><a href="{% url 'auctions' slug=org.slug %}"><h1>{{ org.name }}</h1></a></li>
-            {% empty %}
-            <li><h1>You don't have any organizations.</h1></li>
-            {% endfor %}
-        </ul>
+    <div class="row">
+        <div {% if owned_list and not managed_list %} class="col-xs-12" {% else %} class="col-md-6" {% endif %}>
+        <!-- <div {% if not owned_list %} class="col-md-6" {% endif %} > -->
+            <div class="object_list">
+                <ul>
+                    <h3>Organizations you own</h3>
+                    {% for org in owned_list %}
+                    <li><a href="{% url 'auctions' slug=org.slug %}"><h1>{{ org.name }}</h1></a></li>
+                    {% empty %}
+                    <li><h1>You don't own any organizations.</h1></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% if managed_list %}<div class="col-md-6">
+            <div class="object_list">
+                <ul>
+                    <h3>Organizations you manage</h3>
+                    {% for org in managed_list %}
+                    <li><a href="{% url 'auctions' slug=org.slug %}"><h1>{{ org.name }}</h1></a></li>
+                    {% empty %}
+                    <li><h1>{% if not owned_list %} You don't manage any organizations either.{% endif %}</h1></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>{% endif %}
+        
+        <!-- <div class="col-xs-12"> -->
+        
     </div>
     <a href="{% url 'create_organization' %}"><button type="button" class="btn btn-xl">Create Organization</button></a>
 {% endblock %}

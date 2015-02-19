@@ -1,28 +1,39 @@
 """
-.. module:: bidr.apps.Admin.views
-   :synopsis: Bidr Silent Auction Admin Views.
+.. module:: bidr.apps.organization.views
+   :synopsis: Bidr Silent Auction System Organization Views.
 
 .. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
+.. moduleauthor:: Alexander Kavanaugh <kavanaugh.development@outlook.com>
 
 """
-from django.views.generic import ListView
+
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from django.db.models import Q
+from django.core.urlresolvers import reverse_lazy
 
 from .models import Organization
 from .forms import OrganizationCreateForm
 
 
-class OrganizationListView(ListView):
+class OrganizationListView(TemplateView):
     template_name = "organizations/organizations.html"
 
-    def get_queryset(self):
-        # return Organization.objects.filter(Q(owner=self.request.user) | Q(managers__in=self.request.user))
-        return Organization.objects.filter(owner=self.request.user)
+    def get_context_data(self, **kwargs):
+        context = super(OrganizationListView, self).get_context_data(**kwargs)
+        context["owned_list"] = Organization.objects.filter(owner=self.request.user)
+        context["managed_list"] = [org for org in Organization.objects.all() if self.request.user in org.managers]
+        return context
 
 
 class OrganizationCreateView(CreateView):
-    template_name = "organizations/create.html"
+    template_name = "organizations/create_organization.html"
     form_class = OrganizationCreateForm
     model = Organization
-    fields = ['name', 'email', 'phone_number', 'website']
+
+    def get_form_kwargs(self):
+        kwargs = super(OrganizationCreateView, self).get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
