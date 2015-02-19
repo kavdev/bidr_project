@@ -3,3 +3,4 @@
 -r base.txt
 
 whitenoise==1.0.6
+dj-static==0.0.6
