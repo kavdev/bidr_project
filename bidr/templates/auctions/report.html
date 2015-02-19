@@ -1,8 +1,8 @@
-{% extends 'admin_base.html' %}
+{% extends 'auctions/auction_base.html' %}
 {% load currency %}
 {% block navbar_fixed %}{% endblock %}
 
-{% block admin_content %}
+{% block auction_inner %}
 Let's Report an auction!
 <div class="row">
     <div class="col-md-8">
@@ -87,5 +87,13 @@ Let's Report an auction!
         <h4>Items Won: {{ auction.sold_item_count }}
     </div>
 </div>
-     
+
+{% block extended_scripts %}
+{{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#report_stage").addClass("active");
+        });
+    </script>
+{% endblock %}
 {% endblock %}
