@@ -87,7 +87,7 @@ urlpatterns += [
 
 # Items
 urlpatterns += [
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/items/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
+    url(r'^items/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
 ]
 
 # Hooks to intentionally raise errors
