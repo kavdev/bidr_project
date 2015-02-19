@@ -26,7 +26,7 @@
                     {{ item.description }}
                 </td>
                 <td>
-                    {{ item.highest_bid|currency }}
+                    {{ item.highest_bid.amount|currency }}
                 </td>
             </tr>
             {% endfor %}

@@ -36,12 +36,15 @@ class AbstractItem(PolymorphicModel):
         return self.name
     
     def get_image_url(self):
-         raise NotImplementedError("Subclasses should implement this!")
-     
+        raise NotImplementedError("Subclasses should implement this!")
+
     @property
     def highest_bid(self):
-         return self.bids.all().aggregate(Max('amount'))["amount__max"]
-
+        """ This only works because no bid can have the same amount."""
+        
+        highest_amount = self.bids.all().aggregate(Max('amount'))["amount__max"]
+        return self.bids.get(amount=highest_amount)
+    
 
 class Item(AbstractItem):
     """ An auction item."""
