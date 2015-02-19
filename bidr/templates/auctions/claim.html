@@ -1,0 +1,59 @@
+{% extends 'admin_base.html' %}
+{% block navbar_fixed %}{% endblock %}
+
+{% block admin_content %}
+    <p><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">Plan</a></h4></p>
+        <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Item Picture</th>
+                <th>Item Name</th>
+                <th>Highest Bidder</th>
+                <th>Current Highest Bid</th>
+                <th>Unclaimed Items</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in auction.bidables.all %}
+                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
+                    <td>
+                        <img src="{{ item.get_image_url }}" alt="Item Picture" style="height:100px">  
+                    </td>
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    
+                    <td>
+                        {{ item.description }}
+                    </td>
+                    <td>
+                        Highest Bid ??
+                    </td>
+                    <td>
+                        <button class="btn btn-default" type="button" onclick="claim_item({{ item.id }})">
+                            Claim 
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+           
+{% endblock %}
+{% block extended_scripts %}
+{{ block.super }}
+    <script type="text/javascript">
+        function claim_item(item_id) {
+            var response = confirm('Are you sure this item has been claimed?');
+            if (response) {
+                ajaxPost("{% url 'claim_item' %}"), {"item_id": item_id}, function(response_context) {
+                    $("#item_"+ item_id).remove();
+                }
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+{% endblock %}

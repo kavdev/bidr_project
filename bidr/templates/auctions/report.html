@@ -1,4 +1,5 @@
 {% extends 'admin_base.html' %}
+{% load currency %}
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
@@ -6,18 +7,84 @@ Let's Report an auction!
 <div class="row">
     <div class="col-md-8">
         <h3 class="text-left">Sold Items</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Item Picture</th>
+                    <th>Item Name</th>
+                    <th>Winner</th>
+                    <th>Ammount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in auction.get_sold_items %}
+                    <tr>
+                        <td>
+                            <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">
+                        </td>
+                        <td>
+                            {{ item.name }}
+                        </td>
+                        <td>
+                            {{ item.claimed_bid.user.name }}
+                        </td>
+                        <td>
+                            {{ item.claimed_bid.amount|currency }}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan=4>
+                            No items were sold.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="col-md-4">
+        <br />
+        <br />
         <h3>Total Income</h3>
-        <h4>${{auction.get_total_income}}</h4>
+        <h4>{{ auction.total_income|currency }}</h4>
     </div>
 </div>
 <div class="row">
     <div class="col-md-8">
         <h3 class="text-left">Unsold Items</h3>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Item Picture</th>
+                    <th>Item Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in auction.get_unsold_items %}
+                    <tr>
+                        <td>
+                            <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">
+                        </td>
+                        <td>
+                            {{ item.name }}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan=2>
+                            All items were sold!
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     <div class="col-md-4">
+        <br />
+        <br />
         <h3>Bider Turnout</h3>
+        <h4>Total Bids: {{ auction.bid_count }}</h4>
+        <h4>Items Won: {{ auction.sold_item_count }}
     </div>
 </div>
      

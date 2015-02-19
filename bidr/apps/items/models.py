@@ -9,6 +9,7 @@
 from django.db.models.fields import CharField, TextField, DecimalField, BooleanField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
+from django.db.models.aggregates import Max
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from taggit.managers import TaggableManager
@@ -36,6 +37,10 @@ class AbstractItem(PolymorphicModel):
     
     def get_image_url(self):
          raise NotImplementedError("Subclasses should implement this!")
+     
+    @property
+    def highest_bid(self):
+         return self.bids.all().aggregate(Max('amount'))["amount__max"]
 
 
 class Item(AbstractItem):
