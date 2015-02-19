@@ -68,5 +68,11 @@ class AuctionManageView(AuctionMixin, DetailView):
 class AuctionClaimView(AuctionMixin, DetailView):
     template_name = "auctions/claim.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(AuctionClaimView, self).get_context_data(**kwargs)
+        context["unclaimed_items"] = self.object.bidables.filter(claimed=False)
+        return context
+
+
 class AuctionReportView(AuctionMixin, DetailView):
     template_name = "auctions/report.html"
