@@ -395,3 +395,26 @@ ul.errorlist {
 .hyperlinked_row {
     cursor: pointer;
 }
+
+@brand-grey: rgb(153, 153, 153);
+
+/* Stage Tracker */
+#stage_tracker {
+    text-align: right;
+    margin-bottom: 30px;
+    padding-left: 0;
+    font-size: 13px;
+    
+    li {
+        border: 1px solid rgb(173, 173, 173);
+        display: inline-block;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 20px;
+    }
+    
+    li.active {
+        background-color: @brand-primary;
+        color: white;
+    }
+}
