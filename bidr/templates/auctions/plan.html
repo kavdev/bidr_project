@@ -81,6 +81,10 @@
             $("#plan_stage").addClass("active");
         });
         
+        $('#create_item').on('hidden.bs.modal', function () {
+            location.reload();
+        });
+        
         function delete_item(item_id) {
             $("#item_" + item_id + " a").attr("disabled", "disabled");
             $("#item_" + item_id + " a").css("color", "gray");
