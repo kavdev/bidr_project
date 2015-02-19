@@ -4,8 +4,7 @@
 
 {% block admin_content %}
     <div class="row">
-        <div {% if owned_list and not managed_list %} class="col-xs-12" {% else %} class="col-md-6" {% endif %}>
-        <!-- <div {% if not owned_list %} class="col-md-6" {% endif %} > -->
+        <div {% if owned_list and not managed_list %} class="col-xs-12" {% else %} class="col-md-6 col-offset-3" {% endif %}>
             <div class="object_list">
                 <ul>
                     <h3>Organizations you own</h3>
@@ -29,8 +28,6 @@
                 </ul>
             </div>
         </div>{% endif %}
-        
-        <!-- <div class="col-xs-12"> -->
         
     </div>
     <a href="{% url 'create_organization' %}"><button type="button" class="btn btn-xl">Create Organization</button></a>
