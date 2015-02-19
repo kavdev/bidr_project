@@ -27,7 +27,11 @@ from .apps.core.api import BidrUserViewSet
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionManageView, AuctionClaimView, AuctionReportView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
-from .apps.items.views import ItemDetailView
+from .apps.items.views import ItemCreateView
+
+from .apps.items.ajax import claim_item, delete_item
+
+from .apps.core.utils import user_is_type, UserType
 
 
 admin.autodiscover()
@@ -68,22 +72,24 @@ urlpatterns += [
 # Organizations
 urlpatterns += [
     url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
-    url(r'^organizations/create/$', login_required(OrganizationCreateView.as_view()), name="create_organization"),
+    url(r'^organizations/create/$', login_required(user_is_type(UserType.OWNER)(OrganizationCreateView.as_view())), name="create_organization"),
 ]
 
 # Auctions
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(AuctionView.as_view()), name='auctions'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(AuctionCreateView.as_view()), name='create_auction'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/plan/$', login_required(AuctionPlanView.as_view()), name='auction_plan'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/$', login_required(AuctionManageView.as_view()), name='auction_manage'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/claim/$', login_required(AuctionClaimView.as_view()), name='auction_claim'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/report/$', login_required(AuctionReportView.as_view()), name='auction_report'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(user_is_type(UserType.MANAGER)(AuctionCreateView.as_view())), name='create_auction'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(user_is_type(UserType.MANAGER)(AuctionPlanView.as_view())), name='auction_plan'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/manage/$', login_required(user_is_type(UserType.MANAGER)(AuctionManageView.as_view())), name='auction_manage'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(user_is_type(UserType.MANAGER)(AuctionClaimView.as_view())), name='auction_claim'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/report/$', login_required(user_is_type(UserType.MANAGER)(AuctionReportView.as_view())), name='auction_report'),
 ]
 
 # Items
 urlpatterns += [
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/item/(?P<item_id>[\w-]+)/$', login_required(ItemDetailView.as_view()), name='item_detail')
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
+    url(r'organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
+    url(r'organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/delete-item/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
 ]
 
 # Hooks to intentionally raise errors

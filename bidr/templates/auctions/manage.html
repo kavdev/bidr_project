@@ -1,9 +1,9 @@
-{% extends 'admin_base.html' %}
-{% block navbar_fixed %}{% endblock %}
+{% extends 'auctions/auction_base.html' %}
+{% load currency %}
 
-{% block admin_content %}
-    <p><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">Plan</a></h4></p>
-    <table class="table">
+
+{% block auction_inner %}
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Item Picture</th>
@@ -14,31 +14,91 @@
         </thead>
         <tbody>
         {% for item in auction.bidables.all %}
-            <tr>
+            <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
                 <td>
-                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
-                        <img src="{{ item.picture.url }}" alt="Item Picture">
-                    </a>    
+                    <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">  
                 </td>
                 <td>
-                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
-                        {{ item.title }}
-                     </a>
+                    {{ item.name }}
                 </td>
                 
                 <td>
-                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
-                        {{ item.description }}
-                    </a>
+                    {{ item.description }}
                 </td>
                 <td>
-                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
-                        Highest Bid ??
-                    </a>
+                    {{ item.highest_bid.amount|currency }}
                 </td>
             </tr>
-            </a>
             {% endfor %}
         </tbody>
     </table>
+    
+    {% for abstractitem in auction.bidables.all %}
+
+<div class="modal fade" id="item_modal_{{abstractitem.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{abstractitem.id}}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1 class="modal-title" id="myModalLabel">
+            {{ abstractitem.name }}
+        </h1>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ abstractitem.get_image_url }}" alt="Item Picture" height="250px">
+            </div>
+            <div class="col-md-8">
+                <h4>{{ abstractitem.description }}</h4>
+            </div>
+        </div>
+        
+        <br />
+        <p><h3>Bid History</h3></p>
+        <br />
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Email</th>
+                    <th>Time</th>
+                    <th>Bid</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for bid in abstractitem.bids.all %}
+                <tr>
+                    <td>
+                        {{ bid.user }} 
+                    </td>
+                    <td>
+                        {{ bid.timestamp }}
+                    </td>
+                    
+                    <td>
+                        {{ bid.amount|currency }}
+                    </td>
+                </tr>
+                </a>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock %}
+
+{% block extended_scripts %}
+{{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#manage_stage").addClass("active");
+        });
+    </script>
 {% endblock %}

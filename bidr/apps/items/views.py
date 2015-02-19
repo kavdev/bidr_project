@@ -1,20 +1,28 @@
 """
-.. module:: bidr.apps.items.models
-   :synopsis: Bidr Silent Auction System Item Models.
+.. module:: bidr.apps.items.views
+   :synopsis: Bidr Silent Auction System Item Views.
 
-.. moduleauthor:: Jarred Stelfox <sstelfox@calpoly.edu>
+.. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
 
 """
 
-from django.views.generic.detail import DetailView
+from django.core.urlresolvers import reverse_lazy
+from django.views.generic.edit import CreateView
+from django.shortcuts import redirect
 
-from .models import AbstractItem
-from rest_framework.urls import template_name
+from ..auctions.models import Auction
+from ..items.models import Item
 
 
-class ItemDetailView(DetailView):
-    template_name = "auctions/itemdetail.html"
-    model = AbstractItem
-    
-    def get_object(self, queryset=None):
-        return AbstractItem.objects.get(bidables__id=self.kwargs['auction_id'], bidables__auctions__slug=self.kwargs['slug'], id=self.kwargs['item_id'])
+class ItemCreateView(CreateView):
+    template_name = "items/create_item.html"
+    model = Item
+    fields = ["name", "description", "min_price", "picture"]
+    success_url = reverse_lazy("create_item")
+
+    def form_valid(self, form):
+        self.object = form.save()
+        auction_instance = Auction.objects.get(id=self.kwargs['auction_id'])
+        auction_instance.bidables.add(self.object)
+        auction_instance.save()
+        return redirect(self.get_success_url())

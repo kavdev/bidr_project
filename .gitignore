@@ -44,3 +44,4 @@ local.py
 
 # Symlink manage
 /manage.py
+/bower_components/

@@ -53,8 +53,17 @@ class Auction(Model):
     def get_unsold_items(self):
         return self.bidables.filter(claimed=False)
     
-    def get_total_income(self):
-        return self.get_sold_items().aggregate(Sum('claimed_bid__amount'))
+    @property
+    def total_income(self):
+        return self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
+    
+    @property
+    def bid_count(self):
+        return sum([item.bids.all().count() for item in self.bidables.all()])
+    
+    @property
+    def sold_item_count(self):
+        return self.get_sold_items().count()
     
     def __str__(self):
         return self.name
