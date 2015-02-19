@@ -14,7 +14,7 @@
         </thead>
         <tbody>
         {% for item in auction.bidables.all %}
-                <tr onclick="input" data-toggle="modal" data-target="#item_modal_{{item.id}}">
+                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
                     <td>
                         <img src="{{ item.get_image_url }}" alt="Item Picture" style="height:100px">  
                     </td>
