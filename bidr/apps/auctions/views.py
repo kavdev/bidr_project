@@ -45,6 +45,7 @@ class AuctionCreateView(CreateView):
         org_instance.save()
         return redirect(self.get_success_url())
 
+
 class AuctionMixin(object):
     model = Auction
 
@@ -59,6 +60,12 @@ class AuctionMixin(object):
 
 class AuctionPlanView(AuctionMixin, DetailView):
     template_name = "auctions/plan.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(AuctionPlanView, self).get_context_data(**kwargs)
+        context["items"] = self.object.bidables.filter(polymorphic_ctype__name="item")
+        context["item_collections"] = self.object.bidables.filter(polymorphic_ctype__name="itemcollection")
+        return context
 
 
 class AuctionManageView(AuctionMixin, DetailView):

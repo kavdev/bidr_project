@@ -1,6 +1,6 @@
 """
-.. module:: bidr.apps.auctions.ajax
-   :synopsis: Bidr Silent Auction System AJAX Methods.
+.. module:: bidr.apps.items.ajax
+   :synopsis: Bidr Silent Auction System Item AJAX Methods.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
 
@@ -23,3 +23,12 @@ def claim_item(request, slug, auction_id):
     item_instance = Item.objects.get(id=item_id)
     bid_instance = Bid.objects.get(id=bid_id)
     item_instance.claim(bid_instance)
+
+
+@ajax
+@require_POST
+def delete_item(request, slug, auction_id):
+    item_id = request.POST["item_id"]
+
+    item_instance = Item.objects.get(id=item_id)
+    item_instance.delete()

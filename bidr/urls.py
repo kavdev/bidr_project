@@ -27,9 +27,8 @@ from .apps.core.api import BidrUserViewSet
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionManageView, AuctionClaimView, AuctionReportView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
-from .apps.items.views import ItemDetailView
 
-from .apps.auctions.ajax import claim_item
+from .apps.items.ajax import claim_item, delete_item
 
 from .apps.core.utils import user_is_type, UserType
 
@@ -88,6 +87,7 @@ urlpatterns += [
 # Items
 urlpatterns += [
     url(r'organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
+    url(r'organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/delete-item/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
 ]
 
 # Hooks to intentionally raise errors

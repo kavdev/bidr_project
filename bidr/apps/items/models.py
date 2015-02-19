@@ -9,7 +9,7 @@
 from django.db.models.fields import CharField, TextField, DecimalField, BooleanField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
-from django.db.models.aggregates import Max
+from django.db.models.aggregates import Max, Sum
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from taggit.managers import TaggableManager
@@ -34,17 +34,17 @@ class AbstractItem(PolymorphicModel):
 
     def __str__(self):
         return self.name
-    
+
     def get_image_url(self):
         raise NotImplementedError("Subclasses should implement this!")
 
     @property
     def highest_bid(self):
         """ This only works because no bid can have the same amount."""
-        
+
         highest_amount = self.bids.all().aggregate(Max('amount'))["amount__max"]
         return self.bids.get(amount=highest_amount)
-    
+
 
 class Item(AbstractItem):
     """ An auction item."""
@@ -60,6 +60,7 @@ class Item(AbstractItem):
         else:
             return static('img/no_image.png')
 
+
 class ItemCollection(AbstractItem):
     """ A collection of items."""
 
@@ -69,6 +70,10 @@ class ItemCollection(AbstractItem):
         for item in self.items.all():
             item.claim(bid)
         super(ItemCollection, self).claim(bid)
-        
+
     def get_image_url(self):
             return static('img/no_image.png')
+
+    @property
+    def min_price(self):
+        self.items.aggregate(Sum('min_price'))["min_price__sum"]
