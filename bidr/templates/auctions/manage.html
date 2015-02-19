@@ -3,7 +3,7 @@
 
 {% block admin_content %}
     <p><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">Plan</a></h4></p>
-    <table class="table">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>Item Picture</th>
@@ -14,31 +14,82 @@
         </thead>
         <tbody>
         {% for item in auction.bidables.all %}
-            <tr>
-                <td>
-                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
-                        <img src="{{ item.picture.url }}" alt="Item Picture">
-                    </a>    
-                </td>
-                <td>
-                     <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
-                        {{ item.title }}
-                     </a>
-                </td>
-                
-                <td>
-                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                <tr onclick="input" data-toggle="modal" data-target="#item_modal_{{item.id}}">
+                    <td>
+                        <img src="{{ item.get_image_url }}" alt="Item Picture" style="height:100px">  
+                    </td>
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    
+                    <td>
                         {{ item.description }}
-                    </a>
-                </td>
-                <td>
-                    <a href="{% url 'item_detail' slug=org_slug auction_id=auction.id item_id=item.id %}">
+                    </td>
+                    <td>
                         Highest Bid ??
-                    </a>
-                </td>
-            </tr>
-            </a>
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
+    
+    {% for item in auction.bidables.all %}
+
+<div class="modal fade" id="item_modal_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{item.id}}" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1 class="modal-title" id="myModalLabel">
+            {{ item.name }}
+        </h1>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ item.get_image_url }}" alt="Item Picture" style="height:250px">
+            </div>
+            <div class="col-md-8">
+                <h4>{{ item.description }}</h4>
+            </div>
+        </div>
+        
+        <br />
+        <p><h3>Bid History</h3></p>
+        <br />
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Email</th>
+                    <th>Time</th>
+                    <th>Bid</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in object.bids.all %}
+                <tr>
+                    <td>
+                        {{ item.user }} 
+                    </td>
+                    <td>
+                        {{ item.timestamp }}
+                    </td>
+                    
+                    <td>
+                        {{ item.amount }}
+                    </td>
+                </tr>
+                </a>
+                {% endfor %}
+            </tbody>
+        </table>
+  </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
 {% endblock %}
