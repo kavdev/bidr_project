@@ -1,4 +1,6 @@
 {% extends 'auctions/auction_base.html' %}
+{% load currency %}
+
 
 {% block auction_inner %}
     <table class="table table-hover">
@@ -12,43 +14,43 @@
         </thead>
         <tbody>
         {% for item in auction.bidables.all %}
-                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
-                    <td>
-                        <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">  
-                    </td>
-                    <td>
-                        {{ item.name }}
-                    </td>
-                    
-                    <td>
-                        {{ item.description }}
-                    </td>
-                    <td>
-                        Highest Bid ??
-                    </td>
-                </tr>
+            <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
+                <td>
+                    <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">  
+                </td>
+                <td>
+                    {{ item.name }}
+                </td>
+                
+                <td>
+                    {{ item.description }}
+                </td>
+                <td>
+                    {{ item.highest_bid|currency }}
+                </td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
     
-    {% for item in auction.bidables.all %}
+    {% for abstractitem in auction.bidables.all %}
 
-<div class="modal fade" id="item_modal_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{item.id}}" aria-hidden="true">
+<div class="modal fade" id="item_modal_{{abstractitem.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{abstractitem.id}}" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h1 class="modal-title" id="myModalLabel">
-            {{ item.name }}
+            {{ abstractitem.name }}
         </h1>
       </div>
       <div class="modal-body">
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ item.get_image_url }}" alt="Item Picture" height="250px">
+                <img src="{{ abstractitem.get_image_url }}" alt="Item Picture" height="250px">
             </div>
             <div class="col-md-8">
-                <h4>{{ item.description }}</h4>
+                <h4>{{ abstractitem.description }}</h4>
             </div>
         </div>
         
@@ -65,24 +67,24 @@
                 </tr>
             </thead>
             <tbody>
-            {% for item in object.bids.all %}
+            {% for bid in abstractitem.bids.all %}
                 <tr>
                     <td>
-                        {{ item.user }} 
+                        {{ bid.user }} 
                     </td>
                     <td>
-                        {{ item.timestamp }}
+                        {{ bid.timestamp }}
                     </td>
                     
                     <td>
-                        {{ item.amount }}
+                        {{ bid.amount|currency }}
                     </td>
                 </tr>
                 </a>
                 {% endfor %}
             </tbody>
         </table>
-  </div>
+        </div>
       <div class="modal-footer">
       </div>
     </div>
@@ -96,7 +98,7 @@
 {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#plan_stage").addClass("active");
+            $("#manage_stage").addClass("active");
         });
     </script>
 {% endblock %}
