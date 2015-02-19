@@ -27,6 +27,7 @@ from .apps.core.api import BidrUserViewSet
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionManageView, AuctionClaimView, AuctionReportView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
+from .apps.items.views import ItemCreateView
 
 from .apps.items.ajax import claim_item, delete_item
 
@@ -70,7 +71,7 @@ urlpatterns += [
 
 # Organizations
 urlpatterns += [
-    url(r'^organizations/$', login_required(user_is_type(UserType.MANAGER)(OrganizationListView.as_view())), name="organizations"),
+    url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
     url(r'^organizations/create/$', login_required(user_is_type(UserType.OWNER)(OrganizationCreateView.as_view())), name="create_organization"),
 ]
 
@@ -86,6 +87,7 @@ urlpatterns += [
 
 # Items
 urlpatterns += [
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
     url(r'organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
     url(r'organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/delete-item/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
 ]
