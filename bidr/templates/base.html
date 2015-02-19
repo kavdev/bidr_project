@@ -21,7 +21,7 @@
         <link href='//fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-        {% extended_head %}
+        {% block extended_head %}{% endblock %}
     </head>
 
     <body id="page-top" class="index">
@@ -57,6 +57,6 @@
         <script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/agency.js' %}"></script>
-        {% block extended_scripts %}
+        {% block extended_scripts %}{% endblock %}
     </body>
 </html>
