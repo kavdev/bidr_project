@@ -1,0 +1,21 @@
+{% extends 'admin_base.html' %}
+{% block navbar_fixed %}{% endblock %}
+
+{% block admin_content %}
+    {% block auction_stages %}
+        <div class="row" id="stages">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 column" id="stage_tracker">
+                <ol>
+                    <li id="plan_stage">Plan</li>
+                    <li id="manage_stage">Manage</li>
+                    <li id="claim_stage">Claim</li>
+                    <li id="report_stage">Report</li>
+                </ol>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-12 column">
+                {% block auction_inner %}{% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
