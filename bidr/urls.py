@@ -29,6 +29,8 @@ from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
 from .apps.items.views import ItemDetailView
 
+from .apps.auctions.ajax import claim_item
+
 
 admin.autodiscover()
 
@@ -75,15 +77,16 @@ urlpatterns += [
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(AuctionView.as_view()), name='auctions'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(AuctionCreateView.as_view()), name='create_auction'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/plan/$', login_required(AuctionPlanView.as_view()), name='auction_plan'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/$', login_required(AuctionManageView.as_view()), name='auction_manage'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/claim/$', login_required(AuctionClaimView.as_view()), name='auction_claim'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/report/$', login_required(AuctionReportView.as_view()), name='auction_report'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(AuctionPlanView.as_view()), name='auction_plan'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/manage/$', login_required(AuctionManageView.as_view()), name='auction_manage'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(AuctionClaimView.as_view()), name='auction_claim'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/report/$', login_required(AuctionReportView.as_view()), name='auction_report'),
 ]
 
 # Items
 urlpatterns += [
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/item/(?P<item_id>[\w-]+)/$', login_required(ItemDetailView.as_view()), name='item_detail')
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/manage/item/(?P<item_id>[\w-]+)/$', login_required(ItemDetailView.as_view()), name='item_detail'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>[\w-]+)/items/claim-item/$', login_required(claim_item), name='claim_item'),
 ]
 
 # Hooks to intentionally raise errors

@@ -15,6 +15,5 @@ class Migration(migrations.Migration):
             model_name='auction',
             name='bidables',
             field=models.ManyToManyField(verbose_name='Bidables', blank=True, to='items.AbstractItem', related_name='bidables'),
-            preserve_default=True,
         ),
     ]
