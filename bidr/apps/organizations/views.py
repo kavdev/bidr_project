@@ -7,12 +7,12 @@
 
 """
 
+from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
-from django.core.urlresolvers import reverse_lazy
 
-from .models import Organization
 from .forms import OrganizationCreateForm
+from .models import Organization
 
 
 class OrganizationListView(TemplateView):
