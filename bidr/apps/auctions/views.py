@@ -34,7 +34,7 @@ class AuctionView(ListView):
 class AuctionCreateView(CreateView):
     template_name = "auctions/create_auction.html"
     model = Auction
-    fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
+    fields = ['name', 'description', 'end_time', 'optional_password']
 
     def get_success_url(self):
         return reverse_lazy('auction_plan', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
