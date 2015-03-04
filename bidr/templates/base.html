@@ -24,10 +24,13 @@
     </head>
 
     <body id="page-top" class="index">
+        <div class="page-wrap">
         {% block header %}{% endblock %}
         {% block content %}{% endblock %}
+        </div>
+        
         {% block footer %}
-        <footer>
+        <footer class="site-footer">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
