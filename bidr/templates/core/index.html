@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-{% load widget_tweaks %}
 
+{% load widget_tweaks %}
+{% load staticfiles %}
 
 {% block header %}
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -144,3 +145,5 @@
             </div>
         </section>
 {% endblock %}
+
+{% block extended_scripts %}<script type="text/javascript" src="{% static 'js/cbpAnimatedHeader.js' %}"></script>{% endblock %}
