@@ -3,6 +3,11 @@
 
 
 {% block auction_inner %}
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            <a class="btn btn-default" href="{% url 'end_auction' slug=org_slug auction_id=auction.id %}">End Auction</a>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>

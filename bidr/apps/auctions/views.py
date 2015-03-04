@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 
 from ..organizations.models import Organization
 from .models import Auction
+from bidr.apps.auctions.models import STAGES
 
 
 class AuctionView(ListView):
@@ -84,3 +85,17 @@ class AuctionClaimView(AuctionMixin, DetailView):
 
 class AuctionReportView(AuctionMixin, DetailView):
     template_name = "auctions/report.html"
+
+
+def start_auction(request, slug, auction_id):
+    auc_instance = Auction.objects.get(id=auction_id)
+    auc_instance.stage = STAGES.index("Observe")
+    auc_instance.save()
+    return redirect('auction_observe', slug, auction_id)
+
+
+def end_auction(request, slug, auction_id):
+    auc_instance = Auction.objects.get(id=auction_id)
+    auc_instance.stage = STAGES.index("Claim")
+    auc_instance.save()
+    return redirect('auction_claim', slug, auction_id)
