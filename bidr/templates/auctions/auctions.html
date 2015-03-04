@@ -3,8 +3,10 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
+    <h1 class="org_title">{{ org_name }}</h1>
     <div class="row object_list">
         <ul>
+            <h2>Active Auctions</h2>
             {% for auction in auction_list %}
             <li><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">{{ auction.name }}</a></h4></li>
             {% empty %}
