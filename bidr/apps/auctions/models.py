@@ -36,7 +36,6 @@ class Auction(Model):
 
     name = CharField(max_length=60, verbose_name="Name")
     description = TextField(verbose_name="Description")
-    start_time = DateTimeField(verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
@@ -49,21 +48,21 @@ class Auction(Model):
 
     def get_sold_items(self):
         return self.bidables.filter(claimed=True)
-    
+
     def get_unsold_items(self):
         return self.bidables.filter(claimed=False)
-    
+
     @property
     def total_income(self):
         return self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
-    
+
     @property
     def bid_count(self):
         return sum([item.bids.all().count() for item in self.bidables.all()])
-    
+
     @property
     def sold_item_count(self):
         return self.get_sold_items().count()
-    
+
     def __str__(self):
         return self.name
