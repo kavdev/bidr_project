@@ -15,10 +15,6 @@
                 {% render_field form.description placeholder="Description *" required=true class+="form-control" %}
                 <p class="help-block text-danger">{{ form.description.errors }}</p>
             </div>
-             <div class="form-group">
-                {% render_field form.start_time placeholder="Start Time *" title="YYYY-mm-dd HH:MM:SS" required=true class+="form-control" %}
-                <p class="help-block text-danger">{{ form.start_time.errors }}</p>
-            </div>
             <div class="form-group">
                 {% render_field form.end_time placeholder="End Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
                 <p class="help-block text-danger">{{ form.end_time.errors }}</p>
