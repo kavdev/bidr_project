@@ -442,6 +442,7 @@ ul.errorlist {
 }
 
 @brand-grey: rgb(153, 153, 153);
+@brand-grey-light: rgb(183, 183, 183);
 
 /* Stage Tracker */
 #stage_tracker {
@@ -460,6 +461,16 @@ ul.errorlist {
     
     li.active {
         background-color: @brand-primary;
+        color: white;
+    }
+    
+    li:hover {
+        background-color: @brand-primary;
+        color: white;
+    }
+    
+    li.inactive {
+        background-color: @brand-grey-light;
         color: white;
     }
 }
