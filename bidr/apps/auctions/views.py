@@ -50,6 +50,16 @@ class AuctionCreateView(CreateView):
 
 class AuctionMixin(object):
     model = Auction
+    stage = None
+
+    def dispatch(self, request, *args, **kwargs):
+        auction = self.model.objects.get(id=kwargs["auction_id"])
+        stage_map = ["auction_plan", "auction_observe", "auction_claim", "auction_report"]
+
+        if auction.stage != self.stage:
+            return redirect(stage_map[auction.stage], **kwargs)
+
+        return super(AuctionMixin, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(AuctionMixin, self).get_context_data(**kwargs)
@@ -62,6 +72,7 @@ class AuctionMixin(object):
 
 class AuctionPlanView(AuctionMixin, DetailView):
     template_name = "auctions/plan.html"
+    stage = STAGES.index("Plan")
 
     def get_context_data(self, **kwargs):
         context = super(AuctionPlanView, self).get_context_data(**kwargs)
@@ -72,10 +83,12 @@ class AuctionPlanView(AuctionMixin, DetailView):
 
 class AuctionObserveView(AuctionMixin, DetailView):
     template_name = "auctions/observe.html"
+    stage = STAGES.index("Observe")
 
 
 class AuctionClaimView(AuctionMixin, DetailView):
     template_name = "auctions/claim.html"
+    stage = STAGES.index("Claim")
 
     def get_context_data(self, **kwargs):
         context = super(AuctionClaimView, self).get_context_data(**kwargs)
@@ -85,6 +98,7 @@ class AuctionClaimView(AuctionMixin, DetailView):
 
 class AuctionReportView(AuctionMixin, DetailView):
     template_name = "auctions/report.html"
+    stage = STAGES.index("Report")
 
 
 def start_auction(request, slug, auction_id):
