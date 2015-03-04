@@ -6,7 +6,7 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="stage_tracker">
             <ol>
                 <a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}"><li id="plan_stage">Plan</li></a>
-                <a href="{% url 'auction_manage' slug=org_slug auction_id=auction.id %}"><li id="manage_stage">Manage</li></a>
+                <a href="{% url 'auction_observe' slug=org_slug auction_id=auction.id %}"><li id="observe_stage">Observe</li></a>
                 <a href="{% url 'auction_claim' slug=org_slug auction_id=auction.id %}"><li id="claim_stage">Claim</li></a>
                 <a href="{% url 'auction_report' slug=org_slug auction_id=auction.id %}"><li id="report_stage">Report</li></a>
             </ol>

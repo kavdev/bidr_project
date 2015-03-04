@@ -25,7 +25,7 @@ class AuctionUserInfo(Model):
     attribute_value = CharField(max_length=100)
 
 
-STAGES = ["Plan", "Manage", "Claim", "Report"]
+STAGES = ["Plan", "Observe", "Claim", "Report"]
 STAGE_CHOICES = [(STAGES.index(stage), stage) for stage in STAGES]
 
 

@@ -68,8 +68,8 @@ class AuctionPlanView(AuctionMixin, DetailView):
         return context
 
 
-class AuctionManageView(AuctionMixin, DetailView):
-    template_name = "auctions/manage.html"
+class AuctionObserveView(AuctionMixin, DetailView):
+    template_name = "auctions/observe.html"
 
 
 class AuctionClaimView(AuctionMixin, DetailView):

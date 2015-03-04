@@ -24,7 +24,7 @@ from djoser import urls as api_auth_urls
 from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet
 
-from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionManageView, AuctionClaimView, AuctionReportView
+from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
 from .apps.items.views import ItemCreateView
@@ -80,7 +80,7 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/$', login_required(AuctionView.as_view()), name='auctions'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(user_is_type(UserType.MANAGER)(AuctionCreateView.as_view())), name='create_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(user_is_type(UserType.MANAGER)(AuctionPlanView.as_view())), name='auction_plan'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/manage/$', login_required(user_is_type(UserType.MANAGER)(AuctionManageView.as_view())), name='auction_manage'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/observe/$', login_required(user_is_type(UserType.MANAGER)(AuctionObserveView.as_view())), name='auction_manage'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(user_is_type(UserType.MANAGER)(AuctionClaimView.as_view())), name='auction_claim'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/report/$', login_required(user_is_type(UserType.MANAGER)(AuctionReportView.as_view())), name='auction_report'),
 ]
