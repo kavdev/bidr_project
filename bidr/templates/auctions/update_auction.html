@@ -1,17 +1,35 @@
+{% extends 'base.html' %}
 {% load widget_tweaks %}
 
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h1 class="modal-title" id="myModalLabel">
-            Update Auction
-        </h1>
-      </div>
-      
-      <div class="modal-body">
-        <form method="POST" name="auction_update" id="auction_update">
-            <div class="row">
-                <div class="col-md-6 col-md-offset-3">
+{% block extended_head %}
+    <style type="text/css">
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            cursor: inherit;
+            display: block;
+        }
+        input[readonly] {
+            background-color: transparent !important;
+            cursor: text !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <form name="create_item_form" id="create_item_form" method="POST">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
                     <p class="help-block text-danger">{{ form.non_field_errors }}</p>
                     <div class="form-group">
                         {% render_field form.name required=true class+="form-control" %}
@@ -35,10 +53,11 @@
                 <div class="col-lg-12 text-center">
                     <button type="submit" form="auction_update" class="btn btn-xl">Update</button>
                 </div>
-            </div>
-        </form>
-      </div>
-      
-      <div class="modal-footer">
-      </div>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
