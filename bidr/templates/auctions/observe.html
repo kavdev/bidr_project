@@ -3,6 +3,11 @@
 
 
 {% block auction_inner %}
+    <div class="row">
+        <div class="col-xs-12 text-right">
+            <a class="btn btn-default" onClick="confirm_end()">End Auction</a>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -98,7 +103,14 @@
 {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#manage_stage").addClass("active");
+            $("#plan_stage").addClass("inactive");
+            $("#observe_stage").addClass("active");
         });
+        
+    function confirm_end() {
+        if (confirm('Are you sure you want to end the Auction?')) {
+            window.location.href = "{% url 'end_auction' slug=org_slug auction_id=auction.id %}";
+        }
+    }
     </script>
 {% endblock %}

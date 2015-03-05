@@ -91,6 +91,9 @@
 {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#plan_stage").addClass("inactive");
+            $("#observe_stage").addClass("inactive");
+            $("#claim_stage").addClass("inactive");
             $("#report_stage").addClass("active");
         });
     </script>

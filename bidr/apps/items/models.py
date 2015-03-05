@@ -72,7 +72,7 @@ class ItemCollection(AbstractItem):
         super(ItemCollection, self).claim(bid)
 
     def get_image_url(self):
-            return static('img/no_image.png')
+        return static('img/no_image.png')
 
     @property
     def min_price(self):
