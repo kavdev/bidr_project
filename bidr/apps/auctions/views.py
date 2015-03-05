@@ -9,7 +9,7 @@
 """
 
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
@@ -48,6 +48,17 @@ class AuctionCreateView(CreateView):
         org_instance.save()
         return redirect(self.get_success_url())
 
+class AuctionUpdateView(UpdateView):
+    template_name = "auctions/update_auction.html"
+    model = Auction
+    fields = ['name', 'description', 'end_time', 'optional_password']
+    
+    def get_object(self, queryset=None):
+        return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
+    
+    def get_success_url(self):
+        return reverse_lazy('update_auction', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
+    
 
 class AuctionMixin(object):
     model = Auction
