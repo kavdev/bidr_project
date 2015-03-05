@@ -238,7 +238,8 @@ DJOSER = {
     'SITE_NAME': 'Bidrapp',
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'LOGIN_AFTER_ACTIVATION': True,
+    'LOGIN_AFTER_REGISTRATION': True,
+    'LOGIN_AFTER_ACTIVATION': False,
     'SEND_ACTIVATION_EMAIL': False,
 }
 

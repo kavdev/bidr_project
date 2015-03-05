@@ -53,7 +53,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
     """Enterprise Groups Management Tool User Model"""
 
     name = CharField(max_length=30, blank=True, verbose_name='Full Name')
-    email = EmailField(blank=True, unique=True, verbose_name='Email Address')
+    email = EmailField(unique=True, verbose_name='Email Address')
     phone_number = PhoneNumberField(verbose_name='Phone Number')
     date_joined = DateTimeField(default=timezone.now)
 
