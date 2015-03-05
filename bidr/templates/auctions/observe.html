@@ -21,7 +21,7 @@
         {% for item in auction.bidables.all %}
             <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
                 <td>
-                    <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">  
+                    <img src="{{ item.image_url }}" alt="Item Picture" height="100px">  
                 </td>
                 <td>
                     {{ item.name }}
@@ -52,7 +52,7 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ abstractitem.get_image_url }}" alt="Item Picture" height="250px">
+                <img src="{{ abstractitem.image_url }}" alt="Item Picture" height="250px">
             </div>
             <div class="col-md-8">
                 <h4>{{ abstractitem.description }}</h4>

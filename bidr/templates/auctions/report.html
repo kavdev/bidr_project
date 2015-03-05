@@ -19,7 +19,7 @@
                 {% for item in auction.get_sold_items %}
                     <tr>
                         <td>
-                            <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">
+                            <img src="{{ item.image_url }}" alt="Item Picture" height="100px">
                         </td>
                         <td>
                             {{ item.name }}
@@ -62,7 +62,7 @@
                 {% for item in auction.get_unsold_items %}
                     <tr>
                         <td>
-                            <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">
+                            <img src="{{ item.image_url }}" alt="Item Picture" height="100px">
                         </td>
                         <td>
                             {{ item.name }}
