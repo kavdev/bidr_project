@@ -105,7 +105,7 @@ class AuctionClaimView(AuctionMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionClaimView, self).get_context_data(**kwargs)
-        context["unclaimed_items"] = self.object.bidables.filter(claimed=False)
+        context["unclaimed_items"] = self.object.bidables.filter(claimed=False).exclude(bids=None)
 
         return context
 
