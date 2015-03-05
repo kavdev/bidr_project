@@ -5,7 +5,7 @@
 {% block auction_inner %}
     <div class="row">
         <div class="col-xs-12 text-right">
-            <a class="btn btn-default" href="{% url 'start_auction' slug=org_slug auction_id=auction.id %}">Start Auction</a>
+            <a class="btn btn-default" onclick="confirm_start()">Start Auction</a>
         </div>
     </div>
     <div class="row">
@@ -101,6 +101,12 @@
                 });
             } else {
                 return false;
+            }
+        }
+        
+        function confirm_start() {
+            if (confirm('Are you sure you want to start the Auction? You will not be able to add more items to it.')) {
+                window.location.href = "{% url 'start_auction' slug=org_slug auction_id=auction.id %}";
             }
         }
     </script>

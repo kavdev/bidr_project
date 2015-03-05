@@ -4,6 +4,7 @@
 
 .. moduleauthor:: Jarred Stelfox <sstelfox@calpoly.edu>
 .. moduleauthor:: Alexander Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
 
 """
 
