@@ -53,12 +53,8 @@ class AuctionUpdateView(UpdateView):
     model = Auction
     fields = ['name', 'description', 'end_time', 'optional_password']
     
-    def form_valid(self, form):
-        self.object = form.save()
-        org_instance = Organization.objects.get(slug=self.kwargs['slug'])
-        org_instance.auctions.add(self.object)
-        org_instance.save()
-        return redirect(self.get_success_url())
+    def get_object(self, queryset=None):
+        return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
     
     def get_success_url(self):
         return reverse_lazy('update_auction', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
