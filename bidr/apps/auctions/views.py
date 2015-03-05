@@ -48,17 +48,18 @@ class AuctionCreateView(CreateView):
         org_instance.save()
         return redirect(self.get_success_url())
 
+
 class AuctionUpdateView(UpdateView):
     template_name = "auctions/update_auction.html"
     model = Auction
     fields = ['name', 'description', 'end_time', 'optional_password']
-    
+
     def get_object(self, queryset=None):
         return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
-    
+
     def get_success_url(self):
         return reverse_lazy('update_auction', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
-    
+
 
 class AuctionMixin(object):
     model = Auction
@@ -88,8 +89,8 @@ class AuctionPlanView(AuctionMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionPlanView, self).get_context_data(**kwargs)
-        context["items"] = self.object.bidables.filter(polymorphic_ctype__name="item")
-        context["item_collections"] = self.object.bidables.filter(polymorphic_ctype__name="item collection")
+        context["items"] = self.object.bidables.filter(polymorphic_ctype__name="item").order_by("name")
+        context["item_collections"] = self.object.bidables.filter(polymorphic_ctype__name="item collection").order_by("name")
         return context
 
 
@@ -105,6 +106,7 @@ class AuctionClaimView(AuctionMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(AuctionClaimView, self).get_context_data(**kwargs)
         context["unclaimed_items"] = self.object.bidables.filter(claimed=False)
+
         return context
 
 

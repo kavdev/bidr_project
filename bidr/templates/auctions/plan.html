@@ -3,7 +3,7 @@
 {% load currency %}
 
 {% block auction_inner %}
-    <div class="row">
+    <div class="row auction_action_button">
         <div class="col-xs-12 text-right">
             <a class="btn btn-default" onclick="confirm_start()">Start Auction</a>
         </div>
@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     {% for item in items %}
-                    <tr id="item_{{ item.id }}" class="draggable_item">
+                    <tr id="item_{{ item.id }}" data-object-id="{{ item.id }}" class="draggable_item">
                         <td class="text-left">
                             {{ item.name }}
                         </td>
@@ -36,7 +36,7 @@
             </table>
         </div>
         <div class="col-md-6">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Collection Name</th>
@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                     {% for itemcollection in item_collections %}
-                    <tr id="itemcollection_{{ itemcollection.id }}">
+                    <tr id="itemcollection_{{ itemcollection.id }}" data-object-id="{{ itemcollection.id }}" class="item_destination">
                         <td class="text-left">
                             {{ itemcollection.name }}
                         </td>
@@ -57,8 +57,8 @@
                             <a onclick="delete_item_collection({{ itemcollection.id }})">Delete</a>
                         </td>
                     </tr>
-                        {% for item in itemcollection.items.all %}
-                            <tr class="itemcollectionitem" id="itemcollectionitem_{{ item.id }}">
+                        {% for item in itemcollection.ordered_items %}
+                            <tr class="itemcollectionitem draggable_item" id="itemcollection_{{ itemcollection.id }}" data-object-id="{{ item.id }}" data-object-collection-id="{{ itemcollection.id }}">
                                 <td class="text-left" style="padding-left: 40px;">
                                     {{ item.name }}
                                 </td>
@@ -109,18 +109,31 @@
 
 {% block extended_scripts %}
 {{ block.super }}
+    <script type="text/javascript" src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#plan_stage").addClass("active");
             
-            $(".draggable_item").draggable();
+            $(".draggable_item").draggable({
+                helper: "clone",
+                cursor: "grabbing",
+                cursorAt: {top: 10, left: 15},
+            });
+            
+            $(".item_destination" ).droppable({
+                drop: function(event, ui) {
+                    var item_id = ui.draggable.data("object-id");
+                    var new_itemcollection_id = $(this).data("object-id");
+                    var old_itemcollection_id = ui.draggable.data("object-collection-id");
+                
+                    ajaxPost("{% url 'add_item_to_collection' slug=org_slug auction_id=auction.id %}", {"item_id": item_id, "new_itemcollection_id": new_itemcollection_id, "old_itemcollection_id": old_itemcollection_id}, function(response_context) {
+                        location.reload();
+                    });
+                }
+            });
         });
         
-        $('#create_item_modal').on('hidden.bs.modal', function () {
-            location.reload();
-        });
-        
-        $('#create_item_collection_modal').on('hidden.bs.modal', function () {
+        $('#create_item_modal, #create_item_collection_modal').on('hidden.bs.modal', function () {
             location.reload();
         });
         
@@ -138,12 +151,12 @@
         }
 
         function delete_item_collection(itemcollection_id) {
-            var response = confirm('Are you sure you want to delete this collection of items?');
+            var response = confirm('Are you sure you want to delete this collection of items? The individual items will not be deleted.');
             if (response) {
                 $("#itemcollection_" + itemcollection_id + " a").attr("disabled", "disabled");
                 $("#itemcollection_" + itemcollection_id).addClass("disabled_link");
                 ajaxPost("{% url 'delete_item_collection' slug=org_slug auction_id=auction.id %}", {"itemcollection_id": itemcollection_id}, function(response_context) {
-                    $("#itemcollection_" + itemcollection_id).remove();
+                    location.reload();
                 });
             } else {
                 return false;
@@ -152,14 +165,14 @@
         
         function remove_item_from_collection(itemcollection_id, item_id) {
             $("#itemcollectionitem_" + item_id + " a").attr("disabled", "disabled");
-            $("#itemcollectionitem_" + item_id + " a").css("color", "gray");
-            $("#itemcollectionitem_" + item_id + " a").css("cursor", "default");
+            $("#itemcollection_" + itemcollection_id).addClass("disabled_link");
             ajaxPost("{% url 'remove_item_from_collection' slug=org_slug auction_id=auction.id %}", {"itemcollection_id": itemcollection_id, "item_id": item_id}, function(response_context) {
                 location.reload();
             });
+        }
 
         function confirm_start() {
-            if (confirm('Are you sure you want to start the Auction? You will not be able to add more items to it.')) {
+            if (confirm('Are you sure you want to start this Auction? You will not be able to add or modify items once the auction has begun.')) {
                 window.location.href = "{% url 'start_auction' slug=org_slug auction_id=auction.id %}";
             }
         }

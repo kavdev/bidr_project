@@ -29,7 +29,7 @@ from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView
 
-from .apps.items.ajax import claim_item, delete_item, remove_item_from_collection, delete_item_collection
+from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection
 
 from .apps.core.utils import user_is_type, UserType
 
@@ -73,6 +73,7 @@ urlpatterns += [
 urlpatterns += [
     url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
     url(r'^organizations/create/$', login_required(OrganizationCreateView.as_view()), name="create_organization"),
+#     url(r'^organizations/update/(?P<slug>[\w-]+)/$', login_required(OrganizationUpdateView.as_view()), name="update_organization"),
 ]
 
 # Auctions
@@ -93,6 +94,7 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCollectionCreateView.as_view())), name='create_item_collection'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/add-item/$', login_required(user_is_type(UserType.MANAGER)(add_item_to_collection)), name='add_item_to_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/remove-item/$', login_required(user_is_type(UserType.MANAGER)(remove_item_from_collection)), name='remove_item_from_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item_collection)), name='delete_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),

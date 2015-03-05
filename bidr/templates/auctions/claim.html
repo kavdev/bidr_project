@@ -17,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for item in auction.bidables.all %}
+        {% for item in unclaimed_items %}
                 <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}" id="item_{{ item.id }}">
                     <td>
                         <img src="{{ item.get_image_url }}" alt="Item Picture" style="height:100px">  
@@ -44,13 +44,12 @@
 {% endblock %}
 {% block extended_scripts %}
 {{ block.super }}
-<script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
     <script type="text/javascript">
         function claim_item(item_id, bid_id) {
             var response = confirm('Are you sure this item has been claimed?');
             if (response) {
                 ajaxPost("{% url 'claim_item' slug=org_slug auction_id=auction.id %}", {"item_id": item_id, "bid_id": bid_id}, function(response_context) {
-                    $("#item_"+ item_id).remove();
+                    $("#item_" + item_id).remove();
                 });
             }
             else {
