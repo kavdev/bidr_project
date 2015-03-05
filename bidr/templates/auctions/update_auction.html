@@ -1,0 +1,35 @@
+{% extends 'admin_base.html' %}
+{% load widget_tweaks %}
+{% block navbar_fixed %}{% endblock %}
+
+{% block admin_content %}
+<h2>Update Auction</h2>
+<form method="POST" name="auction_update" id="auction_update">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+            <div class="form-group">
+                {% render_field form.name required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.name.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.description required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.description.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.end_time title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.end_time.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.optional_password class+="form-control" %}
+                <p class="help-block text-danger">{{ form.optional_password.errors }}</p>
+            </div>
+            {% csrf_token %}
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-lg-12 text-center">
+            <button type="submit" form="auction_update" class="btn btn-xl">Update</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
