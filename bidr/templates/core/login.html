@@ -27,6 +27,7 @@
                                 {% render_field form.password type="password" placeholder="Password *" required=true class+="form-control" %}
                                 <p class="help-block text-danger">{{ form.password.errors }}</p>
                             </div>
+                            <input type="hidden" name="next" id="id_next" value="{{ request.GET.next }}" />
                             {% csrf_token %}
                         </div>
                         <div class="clearfix"></div>
