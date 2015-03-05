@@ -93,7 +93,7 @@ class AuctionPlanView(AuctionMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(AuctionPlanView, self).get_context_data(**kwargs)
         context["items"] = self.object.bidables.filter(polymorphic_ctype__name="item")
-        context["item_collections"] = self.object.bidables.filter(polymorphic_ctype__name="itemcollection")
+        context["item_collections"] = self.object.bidables.filter(polymorphic_ctype__name="item collection")
         return context
 
 
