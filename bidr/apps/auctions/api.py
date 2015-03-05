@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, serializers, response, status
 
-from .serializers import AddAuctionParticipantSerializer
+from .serializers import AddAuctionParticipantSerializer, GetAuctionModelSerializer
 from .models import Auction
 
 
@@ -38,3 +38,15 @@ class AddAuctionParticipantView(generics.UpdateAPIView):
             data={"participant_added": "The participant was either added or was already signed up for the auction."},
             status=status.HTTP_200_OK,
         )
+
+
+class GetAuctionModelView(generics.RetrieveAPIView):
+    """
+    Use this endpoint to get a list of all the auctions a user has signed up for.
+    """
+    queryset = Auction.objects.all()
+    serializer_class = GetAuctionModelSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )

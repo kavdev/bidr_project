@@ -28,3 +28,9 @@ class AddAuctionParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = ['optional_password', 'user_email']
+
+
+class GetAuctionModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Auction
+        fields = ['name', 'stage', 'id']

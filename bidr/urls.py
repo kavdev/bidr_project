@@ -25,8 +25,9 @@ from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet
 
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
-from .apps.auctions.api import AddAuctionParticipantView
+from .apps.auctions.api import AddAuctionParticipantView, GetAuctionModelView
 from .apps.core.views import IndexView, LoginView, logout, handler500
+from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView
 
@@ -65,6 +66,8 @@ urlpatterns += [
 #    url(r'^api/token-auth/$', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
     url(r'^api/auctions/(?P<pk>\d+)/add-participant/', AddAuctionParticipantView.as_view()),
+    url(r'^api/bidruser/(?P<pk>\d+)/get-auctions-participating-in/', GetBidrUserParticipatedAuctionsView.as_view()),
+    url(r'^api/auctions/(?P<pk>\d+)/get=auction-data/', GetAuctionModelView.as_view())
 ]
 
 # Organizations
