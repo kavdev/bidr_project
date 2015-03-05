@@ -448,6 +448,10 @@ ul.errorlist {
     color: @brand-grey;
 }
 
+.item_destination {
+    background-color: rgb(249, 249, 249);
+}
+
 .remove {
     a {
         color: gray;
@@ -466,9 +470,14 @@ ul.errorlist {
     }
 }
 
-/* .draggable_item {
-    cursor: pointer;
-} */
+.draggable_item {
+    cursor: grab;
+    z-index: 1000;
+}
+
+.auction_action_button {
+    margin-bottom: 30px;
+}
 
 /* Stage Tracker */
 #stage_tracker {

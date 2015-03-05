@@ -64,7 +64,7 @@ class Item(AbstractItem):
 class ItemCollection(AbstractItem):
     """ A collection of items."""
 
-    items = ManyToManyField(Item, verbose_name="Items")
+    items = ManyToManyField(Item, blank=True, verbose_name="Items")
 
     def claim(self, bid):
         for item in self.items.all():
@@ -76,4 +76,8 @@ class ItemCollection(AbstractItem):
 
     @property
     def min_price(self):
-        self.items.aggregate(Sum('min_price'))["min_price__sum"]
+        return self.items.aggregate(Sum('min_price'))["min_price__sum"]
+
+    @property
+    def ordered_items(self):
+        return self.items.all().order_by("name")
