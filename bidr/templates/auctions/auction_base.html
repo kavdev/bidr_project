@@ -2,7 +2,7 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block auction_stages %}
-    <h1 class="page_title text-left">{{ auction.name }} <a href="{% url 'update_auction' slug=org_slug auction_id=auction.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></h1>
+    <h1 class="page_title text-left">{{ auction.name }} <a data-toggle="modal" data-target="#update_auction_modal" href="{% url 'update_auction' slug=org_slug auction_id=auction.id %}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></h1>
     <div class="row" id="stages">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="stage_tracker">
             <ol>
@@ -13,6 +13,26 @@
             </ol>
         </div>
     </div>
+    
+<div class="modal fade" id="update_auction_modal" tabindex="-1" role="dialog" aria-labelledby="update_auction_modal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1 class="modal-title" id="myModalLabel">
+            Loading...
+        </h1>
+      </div>
+      
+      <div class="modal-body">
+        This should take just a second...
+      </div>
+      
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block admin_content %}
