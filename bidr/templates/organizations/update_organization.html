@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block extended_head %}
+    <style type="text/css">
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            cursor: inherit;
+            display: block;
+        }
+        input[readonly] {
+            background-color: transparent !important;
+            cursor: text !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+            <div class="form-group">
+                {% render_field form.name required=true class+="form-control" %}
+                <p class="help-block text-danger">{{ form.name.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.email class+="form-control" %}
+                <p class="help-block text-danger">{{ form.password.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.phone_number class+="form-control" %}
+                <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
+            </div>
+            <div class="form-group">
+                {% render_field form.website class+="form-control" %}
+                <p class="help-block text-danger">{{ form.website.errors }}</p>
+             </div>
+            {% csrf_token %}
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-lg-12 text-center">
+            <button class="btn btn-xl" form="update_organization" type="submit">
+                Update
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

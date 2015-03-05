@@ -3,26 +3,31 @@
 {% load currency %}
 
 {% block auction_inner %}
+    <div class="row auction_action_button">
+        <div class="col-xs-12 text-right">
+            <a class="btn btn-default" onclick="confirm_start()">Start Auction</a>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Item Name</th>
-                        <th>Minimum Bid</th>
-                        <th class="add_object" data-toggle="modal" data-target="#create_item">+ Add New</th>
+                        <th class="text-right">Minimum Bid</th>
+                        <th class="add_object"><a data-toggle="modal" data-target="#create_item_modal">+ Add New</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
-                    <tr id="item_{{ item.id }}">
-                        <td>
+                    <tr id="item_{{ item.id }}" data-object-id="{{ item.id }}" class="draggable_item">
+                        <td class="text-left">
                             {{ item.name }}
                         </td>
-                        <td>
+                        <td class="text-right">
                             {{ item.min_price|currency }}
                         </td>
-                        <td class="delete">
+                        <td class="delete text-right">
                             <a onclick="delete_item({{ item.id }})">Delete</a>
                         </td>
                     </tr>
@@ -30,35 +35,48 @@
                 </tbody>
             </table>
         </div>
-        <!-- <div class="col-md-6">
-            <table class="table table-hover">
+        <div class="col-md-6">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Collection Name</th>
-                        <th>Minimum Bid</th>
-                        <th class="add_object">+ Add New</th>
+                        <th class="text-right">Minimum Bid</th>
+                        <th class="add_object"><a data-toggle="modal" data-target="#create_item_collection_modal">+ Add New</a></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for itemcollection in item_collections %}
-                    <tr>
-                        <td>
+                    <tr id="itemcollection_{{ itemcollection.id }}" data-object-id="{{ itemcollection.id }}" class="item_destination">
+                        <td class="text-left">
                             {{ itemcollection.name }}
                         </td>
-                        <td>
+                        <td class="text-right">
                             {{ itemcollection.min_price|currency }}
                         </td>
-                        <td style="color: red;">
-                            Delete
+                        <td class="delete text-right">
+                            <a onclick="delete_item_collection({{ itemcollection.id }})">Delete</a>
                         </td>
                     </tr>
+                        {% for item in itemcollection.ordered_items %}
+                            <tr class="itemcollectionitem draggable_item" id="itemcollection_{{ itemcollection.id }}" data-object-id="{{ item.id }}" data-object-collection-id="{{ itemcollection.id }}">
+                                <td class="text-left" style="padding-left: 40px;">
+                                    {{ item.name }}
+                                </td>
+                                <td class="text-right">
+                                    {{ item.min_price|currency }}
+                                </td>
+                                <td class="remove text-right">
+                                    <a onclick="remove_item_from_collection({{ itemcollection.id }}, {{ item.id }})">Remove</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>
-        </div> -->
+        </div>
     </div>
     
-    <div class="modal fade" id="create_item" tabindex="-1" role="dialog" aria-labelledby="create_item" aria-hidden="true">
+    <div class="modal fade" id="create_item_modal" tabindex="-1" role="dialog" aria-labelledby="create_item" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -72,26 +90,91 @@
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="create_item_collection_modal" tabindex="-1" role="dialog" aria-labelledby="create_item_collection" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h1 class="modal-title" id="create_item_collection">Create Item Collection</h1>
+                </div>
+                <div class="modal-body text-left embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="{% url 'create_item_collection' slug=org_slug auction_id=auction.id %}"></iframe>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extended_scripts %}
 {{ block.super }}
+    <script type="text/javascript" src="//code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#plan_stage").addClass("active");
+            
+            $(".draggable_item").draggable({
+                helper: "clone",
+                cursor: "grabbing",
+                cursorAt: {top: 10, left: 15},
+            });
+            
+            $(".item_destination" ).droppable({
+                drop: function(event, ui) {
+                    var item_id = ui.draggable.data("object-id");
+                    var new_itemcollection_id = $(this).data("object-id");
+                    var old_itemcollection_id = ui.draggable.data("object-collection-id");
+                
+                    ajaxPost("{% url 'add_item_to_collection' slug=org_slug auction_id=auction.id %}", {"item_id": item_id, "new_itemcollection_id": new_itemcollection_id, "old_itemcollection_id": old_itemcollection_id}, function(response_context) {
+                        location.reload();
+                    });
+                }
+            });
         });
         
-        $('#create_item').on('hidden.bs.modal', function () {
+        $('#create_item_modal, #create_item_collection_modal').on('hidden.bs.modal', function () {
             location.reload();
         });
         
         function delete_item(item_id) {
-            $("#item_" + item_id + " a").attr("disabled", "disabled");
-            $("#item_" + item_id + " a").css("color", "gray");
-            $("#item_" + item_id + " a").css("cursor", "default");
-            ajaxPost("{% url 'delete_item' slug=org_slug auction_id=auction.id %}", {"item_id": item_id}, function(response_context) {
-                $("#item_" + item_id).remove();
+            var response = confirm('Are you sure you want to delete this item?');
+            if (response) {
+                $("#item_" + item_id + " a").attr("disabled", "disabled");
+                $("#item_" + item_id).addClass("disabled_link");
+                ajaxPost("{% url 'delete_item' slug=org_slug auction_id=auction.id %}", {"item_id": item_id}, function(response_context) {
+                    $("#item_" + item_id).remove();
+                });
+            } else {
+                return false;
+            }
+        }
+
+        function delete_item_collection(itemcollection_id) {
+            var response = confirm('Are you sure you want to delete this collection of items? The individual items will not be deleted.');
+            if (response) {
+                $("#itemcollection_" + itemcollection_id + " a").attr("disabled", "disabled");
+                $("#itemcollection_" + itemcollection_id).addClass("disabled_link");
+                ajaxPost("{% url 'delete_item_collection' slug=org_slug auction_id=auction.id %}", {"itemcollection_id": itemcollection_id}, function(response_context) {
+                    location.reload();
+                });
+            } else {
+                return false;
+            }
+        }
+        
+        function remove_item_from_collection(itemcollection_id, item_id) {
+            $("#itemcollectionitem_" + item_id + " a").attr("disabled", "disabled");
+            $("#itemcollection_" + itemcollection_id).addClass("disabled_link");
+            ajaxPost("{% url 'remove_item_from_collection' slug=org_slug auction_id=auction.id %}", {"itemcollection_id": itemcollection_id, "item_id": item_id}, function(response_context) {
+                location.reload();
             });
+        }
+
+        function confirm_start() {
+            if (confirm('Are you sure you want to start this Auction? You will not be able to add or modify items once the auction has begun.')) {
+                window.location.href = "{% url 'start_auction' slug=org_slug auction_id=auction.id %}";
+            }
         }
     </script>
 {% endblock %}

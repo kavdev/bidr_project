@@ -1,11 +1,30 @@
 @import "variables.less";
 @import "mixins.less";
 
+@footerheight: 90px;
+
 // Global Components
+
+html, body {
+    height: 100%;
+}
 
 body {
 	overflow-x: hidden;
 	.body-font;
+}
+
+.page-wrap {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -@footerheight; 
+}
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+.site-footer, .page-wrap:after {
+    height: @footerheight; 
 }
 
 .text-muted {
@@ -65,7 +84,12 @@ h1, h2, h3, h4, h5, h6 {
     ul {
         list-style-type: none;
         padding-bottom: 20px;
+        padding-left: 0px !important;
     }
+}
+
+.page_title {
+    margin-bottom: 60px;
 }
 
 /* Restyled Primary Buttons */
@@ -88,6 +112,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Custom Navigation Bar */
 
 .navbar-default {
+    border-radius: 0;
 	background-color: @gray-darkest;
 	border-color: transparent;
 	.navbar-brand {
@@ -222,7 +247,7 @@ header {
 /* Global Section Styles */
 
 section {
-    padding: 100px 0;
+    padding: 60px 0;
     h2.section-heading {
 		font-size: 40px;
 		margin-top: 0;
@@ -240,8 +265,12 @@ section {
 
 @media(min-width:768px) {
 	section {
-		padding: 150px 0;
+		padding: 60px 0;
 	}
+}
+
+.index_section {
+    padding: 160px 0;
 }
 
 /* About Section */
@@ -398,9 +427,11 @@ ul.errorlist {
 
 .add_object {
     text-align: right;
-    font-weight: normal;
-    color: @brand-primary;
-    cursor: pointer;
+    
+    a {
+        font-weight: normal;
+        cursor: pointer;   
+    }
 }
 
 .delete {
@@ -411,6 +442,42 @@ ul.errorlist {
 }
 
 @brand-grey: rgb(153, 153, 153);
+@brand-grey-light: rgb(183, 183, 183);
+
+.itemcollectionitem {
+    color: @brand-grey;
+}
+
+.item_destination {
+    background-color: rgb(249, 249, 249);
+}
+
+.remove {
+    a {
+        color: gray;
+        cursor: pointer;
+    }
+}
+
+.disabled_link {
+    a {
+        color: gray;
+        cursor: default;
+    }
+    
+    a:hover {
+        text-decoration: none;
+    }
+}
+
+.draggable_item {
+    cursor: grab;
+    z-index: 1000;
+}
+
+.auction_action_button {
+    margin-bottom: 30px;
+}
 
 /* Stage Tracker */
 #stage_tracker {
@@ -429,6 +496,11 @@ ul.errorlist {
     
     li.active {
         background-color: @brand-primary;
+        color: white;
+    }
+    
+    li.inactive {
+        background-color: @brand-grey-light;
         color: white;
     }
 }

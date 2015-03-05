@@ -3,6 +3,11 @@
 
 
 {% block auction_inner %}
+    <div class="row auction_action_button">
+        <div class="col-xs-12 text-right">
+            <a class="btn btn-default" onClick="confirm_end()">End Auction</a>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -16,7 +21,7 @@
         {% for item in auction.bidables.all %}
             <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
                 <td>
-                    <img src="{{ item.get_image_url }}" alt="Item Picture" height="100px">  
+                    <img src="{{ item.image_url }}" alt="Item Picture" height="100px">  
                 </td>
                 <td>
                     {{ item.name }}
@@ -47,7 +52,7 @@
       <div class="modal-body">
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ abstractitem.get_image_url }}" alt="Item Picture" height="250px">
+                <img src="{{ abstractitem.image_url }}" alt="Item Picture" height="250px">
             </div>
             <div class="col-md-8">
                 <h4>{{ abstractitem.description }}</h4>
@@ -98,7 +103,14 @@
 {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#manage_stage").addClass("active");
+            $("#plan_stage").addClass("inactive");
+            $("#observe_stage").addClass("active");
         });
+        
+    function confirm_end() {
+        if (confirm('Are you sure you want to end the Auction?')) {
+            window.location.href = "{% url 'end_auction' slug=org_slug auction_id=auction.id %}";
+        }
+    }
     </script>
 {% endblock %}

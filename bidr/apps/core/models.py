@@ -53,7 +53,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
     """Enterprise Groups Management Tool User Model"""
 
     name = CharField(max_length=30, blank=True, verbose_name='Full Name')
-    email = EmailField(blank=True, unique=True, verbose_name='Email Address')
+    email = EmailField(unique=True, verbose_name='Email Address')
     phone_number = PhoneNumberField(verbose_name='Phone Number')
     date_joined = DateTimeField(default=timezone.now)
 
@@ -78,3 +78,6 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
         """Sends an email to this user."""
 
         send_mail(subject, message, from_email, [self.email])
+
+    def get_auctions_participated_in(self):
+        return self.auction_set.all()

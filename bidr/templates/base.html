@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" type="text/css" />
         <link rel="stylesheet" href="{% get_static_prefix %}{% compile 'less/agency.less' %}" type="text/css" />
         
-        <link href='http://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
         <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
         <link href='//fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
         <link href='//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
@@ -24,10 +24,13 @@
     </head>
 
     <body id="page-top" class="index">
+        <div class="page-wrap">
         {% block header %}{% endblock %}
         {% block content %}{% endblock %}
+        </div>
+        
         {% block footer %}
-        <footer>
+        <footer class="site-footer">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
@@ -56,7 +59,6 @@
         <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
         <script type="text/javascript" src="{% static 'js/classie.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/agency.js' %}"></script>
         <script type="text/javascript" src="{% static 'django_ajax/js/jquery.ajax.min.js' %}"></script>
         {% block extended_scripts %}{% endblock %}

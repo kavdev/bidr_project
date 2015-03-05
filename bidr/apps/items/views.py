@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 
 from ..auctions.models import Auction
-from ..items.models import Item
+from ..items.models import Item, ItemCollection
 
 
 class ItemCreateView(CreateView):
@@ -28,3 +28,19 @@ class ItemCreateView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('create_item', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})
+
+
+class ItemCollectionCreateView(CreateView):
+    template_name = "items/create_item_collection.html"
+    model = ItemCollection
+    fields = ["name", "description"]
+
+    def form_valid(self, form):
+        self.object = form.save()
+        auction_instance = Auction.objects.get(id=self.kwargs['auction_id'])
+        auction_instance.bidables.add(self.object)
+        auction_instance.save()
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy('create_item_collection', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})

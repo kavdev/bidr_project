@@ -7,12 +7,12 @@
 
 """
 
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse_lazy
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView, UpdateView
 
-from .models import Organization
 from .forms import OrganizationCreateForm
+from .models import Organization
 
 
 class OrganizationListView(TemplateView):
@@ -34,6 +34,14 @@ class OrganizationCreateView(CreateView):
         kwargs = super(OrganizationCreateView, self).get_form_kwargs()
         kwargs["request"] = self.request
         return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
+    
+class OrganizationUpdateView(UpdateView):
+    template_name = "organizations/update_organization.html"
+    model = Organization
+    
 
     def get_success_url(self):
         return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
