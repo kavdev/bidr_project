@@ -5,14 +5,14 @@
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
 
 """
-
+from django_ajax.decorators import ajax
+from django.shortcuts import redirect
 from django.views.decorators.http import require_POST
 
-from django_ajax.decorators import ajax
-
-from ..auctions.models import Auction
+from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
 from .models import Item, ItemCollection
+from bidr.apps.organizations.models import Organization
 
 
 @ajax
@@ -24,6 +24,14 @@ def claim_item(request, slug, auction_id):
     item_instance = Item.objects.get(id=item_id)
     bid_instance = Bid.objects.get(id=bid_id)
     item_instance.claim(bid_instance)
+
+    auction_instance = Auction.objects.get(id=auction_id)
+    unclaimed_items = auction_instance.bidables.filter(claimed=False).exclude(bids=None)
+
+    if not unclaimed_items:
+        auction_instance.stage = STAGES.index("Report")
+        auction_instance.save()
+        return redirect('auction_report', slug, auction_id)
 
 
 @ajax
