@@ -35,7 +35,10 @@ class AddAuctionParticipantView(generics.UpdateAPIView):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         return response.Response(
-            data={"participant_added": "The participant was either added or was already signed up for the auction."},
+            data={"participant_added": "The participant was either added or was already signed up for the auction.", 
+                  "name": instance.name,
+                  "id": instance.id,
+                  "stage": instance.stage},
             status=status.HTTP_200_OK,
         )
 
