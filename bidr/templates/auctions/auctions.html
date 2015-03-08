@@ -3,7 +3,7 @@
 {% block navbar_fixed %}{% endblock %}
 
 {% block admin_content %}
-    <h1 class="page_title text-left">{{ org_name }} <a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></h1>
+    <h1 class="page_title text-left">{{ org_name }} <a data-toggle="modal" data-target="#update_org_modal"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></h1>
     <div class="row object_list">
         <ul>
             <h2>Active Auctions</h2>
@@ -15,4 +15,23 @@
         </ul>
     </div>
     <a href="{% url 'create_auction' slug=org_slug %}"><button type="button" class="btn btn-xl">Create Auction</button></a>
+    
+    
+    
+<div class="modal fade" id="update_org_modal" tabindex="-1" role="dialog" aria-labelledby="update_org_modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h1 class="modal-title" id="create_item">Update Organization</h1>
+            </div>
+            
+            <div class="modal-body text-left embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="{% url 'update_organization' slug=org_slug %}"></iframe>
+            </div>
+            
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 {% endblock %}
