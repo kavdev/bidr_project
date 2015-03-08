@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from bidr.apps.auctions.models import Auction
 
+from ..items.serializers import GetItemModelSerializer
+
 
 class AddAuctionParticipantSerializer(serializers.ModelSerializer):
     user_email = serializers.EmailField(write_only=True, required=True, allow_blank=False)
@@ -34,3 +36,11 @@ class GetAuctionModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Auction
         fields = ['name', 'stage', 'id']
+
+
+class GetAuctionBidablesSerializer(serializers.ModelSerializer):
+    bidables = GetItemModelSerializer(many=True)
+
+    class Meta:
+        model = Auction
+        fields = ['bidables']

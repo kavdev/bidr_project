@@ -10,10 +10,13 @@ from django.core.mail import send_mail
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
+
 
 from ..core.models import BidrUser
 from .models import Bid
-from .serializers import BidSerializer
+from .serializers import BidSerializer, GetBidModelSerializer
 
 
 class BidViewSet(ModelViewSet):
@@ -35,3 +38,15 @@ class BidViewSet(ModelViewSet):
                   message="Oh No! You've been outbid by {user} with a bid of {bid}".format(user=instance.user, bid=instance.amount),
                   from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
                   recipient_list=emails)
+
+
+class GetBidModelView(RetrieveAPIView):
+    """
+    Use this endpoint to get an auction model.
+    """
+    queryset = Bid.objects.all()
+    serializer_class = GetBidModelSerializer
+
+    permission_classes = (
+        IsAuthenticated,
+    )

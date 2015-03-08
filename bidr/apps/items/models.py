@@ -45,12 +45,16 @@ class AbstractItem(PolymorphicModel):
 
         highest_amount = self.bids.all().aggregate(Max('amount'))["amount__max"]
         return self.bids.get(amount=highest_amount)
+    
+    @property
+    def min_price(self):
+        raise NotImplementedError("Subclasses should implement this!")
 
 
 class Item(AbstractItem):
     """ An auction item."""
 
-    min_price = DecimalField(max_digits=7, decimal_places=2, default=0)
+    minimum_price = DecimalField(max_digits=7, decimal_places=2, default=0)
     picture = ImageField(null=True, blank=True)
 
     tags = TaggableManager()
@@ -61,6 +65,10 @@ class Item(AbstractItem):
             return self.picture.url
         else:
             return static('img/no_image.png')
+
+    @property
+    def min_price(self):
+        return self.minimum_price
 
 
 class ItemCollection(AbstractItem):

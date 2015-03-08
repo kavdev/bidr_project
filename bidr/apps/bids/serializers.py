@@ -8,7 +8,7 @@
 
 from django.db.models import Max
 
-from rest_framework.serializers import HyperlinkedModelSerializer, ValidationError
+from rest_framework.serializers import HyperlinkedModelSerializer, ValidationError, ModelSerializer
 
 from .models import Bid
 
@@ -27,3 +27,9 @@ class BidSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Bid
         fields = ('amount', 'user')
+
+
+class GetBidModelSerializer(ModelSerializer):
+    class Meta:
+        model = Bid
+        fields = ['amount', 'user', 'timestamp']
