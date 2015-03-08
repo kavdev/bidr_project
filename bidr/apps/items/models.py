@@ -45,7 +45,7 @@ class AbstractItem(PolymorphicModel):
 
         highest_amount = self.bids.all().aggregate(Max('amount'))["amount__max"]
         return self.bids.get(amount=highest_amount)
-    
+
     @property
     def min_price(self):
         raise NotImplementedError("Subclasses should implement this!")
@@ -87,7 +87,7 @@ class ItemCollection(AbstractItem):
 
     @property
     def min_price(self):
-        return self.items.aggregate(Sum('min_price'))["min_price__sum"]
+        return self.items.aggregate(Sum('minimum_price'))["minimum_price__sum"]
 
     @property
     def ordered_items(self):
