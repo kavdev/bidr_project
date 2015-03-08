@@ -7,6 +7,7 @@ from ..bids.serializers import GetBidModelSerializer
 class GetItemModelSerializer(serializers.ModelSerializer):
     claimed_bid = GetBidModelSerializer()
     highest_bid = GetBidModelSerializer()
+    bids = GetBidModelSerializer(many=True)
 
     class Meta:
         model = AbstractItem

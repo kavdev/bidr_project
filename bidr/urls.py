@@ -28,6 +28,7 @@ from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateVi
 from .apps.auctions.api import AddAuctionParticipantView, GetAuctionModelView, GetAuctionBidablesView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.core.api import GetBidrUserParticipatedAuctionsView
+from .apps.bids.api import CreateBidView
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView
 from .apps.items.api import GetItemModelView
@@ -40,7 +41,7 @@ from .apps.core.utils import user_is_type, UserType
 admin.autodiscover()
 
 bid_router = DefaultRouter()
-bid_router.register(r'bids', BidViewSet)
+# bid_router.register(r'bids', BidViewSet)
 
 bidruser_router = DefaultRouter()
 bidruser_router.register(r'users', BidrUserViewSet)
@@ -69,6 +70,7 @@ urlpatterns += [
     url(r'^api/auctions/(?P<pk>\d+)/get-auction-data/', GetAuctionModelView.as_view()),
     url(r'^api/items/(?P<pk>\d+)/get-item-data/', GetItemModelView.as_view()),
     url(r'^api/auctions/(?P<pk>\d+)/get-auction-bidables/', GetAuctionBidablesView.as_view()),
+    url(r'^api/bids/create-bid/$', CreateBidView.as_view()),
 ]
 
 # Organizations

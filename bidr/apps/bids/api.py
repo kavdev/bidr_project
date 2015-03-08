@@ -10,13 +10,16 @@ from django.core.mail import send_mail
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from rest_framework.serializers import ValidationError
 
 
 from ..core.models import BidrUser
 from .models import Bid
-from .serializers import BidSerializer, GetBidModelSerializer
+from .serializers import BidSerializer, GetBidModelSerializer, CreateBidSerializer
 
 
 class BidViewSet(ModelViewSet):
@@ -42,7 +45,7 @@ class BidViewSet(ModelViewSet):
 
 class GetBidModelView(RetrieveAPIView):
     """
-    Use this endpoint to get an auction model.
+    Use this endpoint to get a bid.
     """
     queryset = Bid.objects.all()
     serializer_class = GetBidModelSerializer
@@ -50,3 +53,26 @@ class GetBidModelView(RetrieveAPIView):
     permission_classes = (
         IsAuthenticated,
     )
+
+
+class CreateBidView(CreateAPIView):
+    """
+    Use this endpoint to create a bid.
+    """
+    serializer_class = CreateBidSerializer
+    permission_classes = (
+        IsAuthenticated,
+    )
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        try:
+            self.perform_create(serializer)
+        except ValidationError as exc:
+            return Response(
+                data={"bid_too_low": exc.args[0]},
+                status=HTTP_400_BAD_REQUEST,
+            )
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
