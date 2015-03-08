@@ -25,11 +25,12 @@ from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet
 
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
-from .apps.auctions.api import AddAuctionParticipantView, GetAuctionModelView
+from .apps.auctions.api import AddAuctionParticipantView, GetAuctionModelView, GetAuctionBidablesView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.core.api import GetBidrUserParticipatedAuctionsView
-from .apps.organizations.views import OrganizationListView, OrganizationCreateView
+from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView
+from .apps.items.api import GetItemModelView
 
 from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection
 
@@ -62,19 +63,19 @@ urlpatterns = [
 urlpatterns += [
     url(r'^api/', include(bid_router.urls)),
     url(r'^api/auth/', include(api_auth_urls)),
-#    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-#    url(r'^api/token-auth/$', views.obtain_auth_token),
     url(r'^api/', include(bidruser_router.urls)),
     url(r'^api/auctions/(?P<pk>\d+)/add-participant/', AddAuctionParticipantView.as_view()),
-    url(r'^api/bidruser/(?P<pk>\d+)/get-auctions-participating-in/', GetBidrUserParticipatedAuctionsView.as_view()),
-    url(r'^api/auctions/(?P<pk>\d+)/get=auction-data/', GetAuctionModelView.as_view())
+    url(r'^api/users/(?P<pk>\d+)/get-auctions-participating-in/', GetBidrUserParticipatedAuctionsView.as_view()),
+    url(r'^api/auctions/(?P<pk>\d+)/get-auction-data/', GetAuctionModelView.as_view()),
+    url(r'^api/items/(?P<pk>\d+)/get-item-data/', GetItemModelView.as_view()),
+    url(r'^api/auctions/(?P<pk>\d+)/get-auction-bidables/', GetAuctionBidablesView.as_view()),
 ]
 
 # Organizations
 urlpatterns += [
     url(r'^organizations/$', login_required(OrganizationListView.as_view()), name="organizations"),
     url(r'^organizations/create/$', login_required(OrganizationCreateView.as_view()), name="create_organization"),
-#     url(r'^organizations/update/(?P<slug>[\w-]+)/$', login_required(OrganizationUpdateView.as_view()), name="update_organization"),
+    url(r'^organizations/update/(?P<slug>[\w-]+)/$', login_required(OrganizationUpdateView.as_view()), name="update_organization"),
 ]
 
 # Auctions
