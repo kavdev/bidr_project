@@ -1,12 +1,20 @@
+"""
+.. module:: bidr.apps.auctions.serializers
+   :synopsis: Bidr Silent Auction System Auction API Serializers.
+
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
+
+"""
+
 from django.contrib.auth import get_user_model
-from bidr.apps.auctions.models import Auction
 
-from rest_framework.serializers import HyperlinkedModelSerializer, EmailField, ValidationError
+from rest_framework.serializers import ModelSerializer, EmailField, ValidationError
 
+from ..auctions.models import Auction
 from ..items.serializers import ItemSerializer
 
 
-class AddAuctionParticipantSerializer(HyperlinkedModelSerializer):
+class AddAuctionParticipantSerializer(ModelSerializer):
     user_email = EmailField(write_only=True, required=True, allow_blank=False)
 
     def update(self, instance, validated_data):
@@ -18,7 +26,7 @@ class AddAuctionParticipantSerializer(HyperlinkedModelSerializer):
                 instance.save()
             else:
                 if not validated_data.get('optional_password'):
-                    message = 'This auction requires a password.'
+                    message = 'This auction requires an auction password.'
                 else:
                     message = 'The password you entered is incorrect.'
 
@@ -33,13 +41,13 @@ class AddAuctionParticipantSerializer(HyperlinkedModelSerializer):
         fields = ['optional_password', 'user_email']
 
 
-class AuctionSerializer(HyperlinkedModelSerializer):
+class AuctionSerializer(ModelSerializer):
     class Meta:
         model = Auction
         fields = ['name', 'stage', 'id']
 
 
-class AuctionItemSerializer(HyperlinkedModelSerializer):
+class AuctionItemSerializer(ModelSerializer):
     bidables = ItemSerializer(many=True)
 
     class Meta:

@@ -8,15 +8,16 @@
 
 """
 
+from django.core.urlresolvers import reverse_lazy
+from django.shortcuts import redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
-from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import redirect
+from django.utils import timezone
 
+from ..auctions.models import STAGES
 from ..organizations.models import Organization
 from .models import Auction
-from bidr.apps.auctions.models import STAGES
 
 
 class AuctionView(ListView):
@@ -117,6 +118,7 @@ class AuctionReportView(AuctionMixin, DetailView):
 
 def start_auction(request, slug, auction_id):
     auc_instance = Auction.objects.get(id=auction_id)
+    auc_instance.start_time = timezone.now()
     auc_instance.stage = STAGES.index("Observe")
     auc_instance.save()
     return redirect('auction_observe', slug, auction_id)

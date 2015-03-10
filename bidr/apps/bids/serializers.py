@@ -6,20 +6,20 @@
 
 """
 
-from rest_framework.serializers import HyperlinkedModelSerializer, ValidationError, IntegerField
+from rest_framework.serializers import ModelSerializer, ValidationError, IntegerField
 
 from .models import Bid
 from ..core.templatetags.currency import currency
 from ..items.models import AbstractItem
 
 
-class BidSerializer(HyperlinkedModelSerializer):
+class BidSerializer(ModelSerializer):
     class Meta:
         model = Bid
         fields = ['amount', 'user', 'timestamp']
 
 
-class CreateBidSerializer(HyperlinkedModelSerializer):
+class CreateBidSerializer(ModelSerializer):
     item_id = IntegerField(write_only=True, required=True)
 
     def create(self, validated_data):
@@ -28,7 +28,7 @@ class CreateBidSerializer(HyperlinkedModelSerializer):
         if item.highest_bid.amount < validated_data['amount']:
             del validated_data['item_id']
 
-            instance = HyperlinkedModelSerializer.create(self, validated_data)
+            instance = ModelSerializer.create(self, validated_data)
             item.bids.add(instance)
             item.save()
 
