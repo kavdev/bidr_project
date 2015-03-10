@@ -1,3 +1,11 @@
+"""
+.. module:: bidr.apps.items.api
+   :synopsis: Bidr Silent Auction System Item API Endpoints.
+
+.. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+
+"""
+
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 

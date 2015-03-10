@@ -1,6 +1,6 @@
 """
-.. module:: bidr.apps.bids.models
-   :synopsis: Bidr Silent Auction System Bid Models.
+.. module:: bidr.apps.organizations.models
+   :synopsis: Bidr Silent Auction System Organization Models.
 
 .. moduleauthor:: Jirbert Dilanchian <Jirbert@gmail.com>
 
