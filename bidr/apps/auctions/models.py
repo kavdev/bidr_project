@@ -36,6 +36,7 @@ class Auction(Model):
 
     name = CharField(max_length=60, verbose_name="Name")
     description = TextField(verbose_name="Description")
+    start_time = DateTimeField(null=True, blank=True, verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
