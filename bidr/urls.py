@@ -18,10 +18,8 @@ from django.views.generic.base import RedirectView, TemplateView
 from django.views.defaults import permission_denied, page_not_found
 
 from rest_framework.routers import DefaultRouter
-# from rest_framework.authtoken import views
 from djoser import urls as api_auth_urls
 
-from .apps.bids.api import BidViewSet
 from .apps.core.api import BidrUserViewSet
 
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction

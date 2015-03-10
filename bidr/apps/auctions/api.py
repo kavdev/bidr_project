@@ -1,3 +1,10 @@
+"""
+.. module:: bidr.apps.auctions.api
+   :synopsis: Bidr Silent Auction System Auction API Endpoints.
+
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
+
+"""
 
 from rest_framework.generics import UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -5,8 +12,8 @@ from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
-from .serializers import AddAuctionParticipantSerializer, AuctionSerializer, AuctionItemSerializer
 from .models import Auction
+from .serializers import AddAuctionParticipantSerializer, AuctionSerializer, AuctionItemSerializer
 
 
 class AddAuctionParticipantView(UpdateAPIView):
