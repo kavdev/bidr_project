@@ -20,8 +20,6 @@ from django.views.defaults import permission_denied, page_not_found
 from rest_framework.routers import DefaultRouter
 from djoser import urls as api_auth_urls
 
-from .apps.core.api import BidrUserViewSet
-
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
 from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.views import IndexView, LoginView, logout, handler500
