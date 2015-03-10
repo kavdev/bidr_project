@@ -15,4 +15,4 @@ class ItemCreateForm(ModelForm):
 
     class Meta:
         model = Item
-        fields = ["name", "description", "min_price", "picture"]
+        fields = ["name", "description", "minimum_price", "picture"]

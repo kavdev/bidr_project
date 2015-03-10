@@ -17,10 +17,11 @@ from ..items.models import Item, ItemCollection
 class ItemCreateView(CreateView):
     template_name = "items/create_item.html"
     model = Item
-    fields = ["name", "description", "min_price", "picture"]
+    fields = ["name", "description", "minimum_price", "picture"]
 
     def form_valid(self, form):
         self.object = form.save()
+        print("here")
         auction_instance = Auction.objects.get(id=self.kwargs['auction_id'])
         auction_instance.bidables.add(self.object)
         auction_instance.save()
