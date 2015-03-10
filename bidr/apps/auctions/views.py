@@ -15,9 +15,9 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from django.utils import timezone
 
+from ..auctions.models import STAGES
 from ..organizations.models import Organization
 from .models import Auction
-from bidr.apps.auctions.models import STAGES
 
 
 class AuctionView(ListView):
