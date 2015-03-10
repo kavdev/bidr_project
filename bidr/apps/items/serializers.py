@@ -1,13 +1,13 @@
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 
 from .models import AbstractItem
-from ..bids.serializers import GetBidModelSerializer
+from ..bids.serializers import BidSerializer
 
 
-class GetItemModelSerializer(serializers.ModelSerializer):
-    claimed_bid = GetBidModelSerializer()
-    highest_bid = GetBidModelSerializer()
-    bids = GetBidModelSerializer(many=True)
+class ItemSerializer(ModelSerializer):
+    claimed_bid = BidSerializer()
+    highest_bid = BidSerializer()
+    bids = BidSerializer(many=True)
 
     class Meta:
         model = AbstractItem

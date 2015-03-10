@@ -11,7 +11,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models import BidrUser
-from ..auctions.serializers import GetAuctionModelSerializer
+from ..auctions.serializers import AuctionSerializer
 
 
 class BidrUserSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,7 +21,7 @@ class BidrUserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class GetBidrUserParticipatedAuctionsSerializer(serializers.ModelSerializer):
-    participants = GetAuctionModelSerializer(many=True)
+    participants = AuctionSerializer(many=True)
 
     class Meta:
         model = BidrUser
