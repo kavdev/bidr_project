@@ -19,7 +19,7 @@ from rest_framework.serializers import ValidationError
 
 from ..core.models import BidrUser
 from .models import Bid
-from .serializers import BidSerializer, GetBidModelSerializer, CreateBidSerializer
+from .serializers import BidSerializer, CreateBidSerializer
 
 
 class BidViewSet(ModelViewSet):
@@ -43,19 +43,19 @@ class BidViewSet(ModelViewSet):
                   recipient_list=emails)
 
 
-class GetBidModelView(RetrieveAPIView):
+class RetrieveBidAPIView(RetrieveAPIView):
     """
     Use this endpoint to get a bid.
     """
     queryset = Bid.objects.all()
-    serializer_class = GetBidModelSerializer
+    serializer_class = BidSerializer
 
     permission_classes = (
         IsAuthenticated,
     )
 
 
-class CreateBidView(CreateAPIView):
+class CreateBidAPIView(CreateAPIView):
     """
     Use this endpoint to create a bid.
     """
@@ -71,7 +71,8 @@ class CreateBidView(CreateAPIView):
             self.perform_create(serializer)
         except ValidationError as exc:
             return Response(
-                data={"bid_too_low": exc.args[0]},
+                data={"current_highest_bid": serializer.data["item"].highest_bid.amount,
+                      "exception_message": str(exc)},
                 status=HTTP_400_BAD_REQUEST,
             )
         headers = self.get_success_headers(serializer.data)

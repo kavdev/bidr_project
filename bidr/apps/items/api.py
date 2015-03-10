@@ -1,16 +1,17 @@
-from rest_framework import generics, permissions
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from .models import AbstractItem
-from .serializers import GetItemModelSerializer
+from .serializers import ItemSerializer
 
 
-class GetItemModelView(generics.RetrieveAPIView):
+class RetrieveItemAPIView(RetrieveAPIView):
     """
     Use this endpoint to get a list of all the auctions a user has signed up for.
     """
     queryset = AbstractItem.objects.all()
-    serializer_class = GetItemModelSerializer
+    serializer_class = ItemSerializer
 
     permission_classes = (
-        permissions.IsAuthenticated,
+        IsAuthenticated,
     )

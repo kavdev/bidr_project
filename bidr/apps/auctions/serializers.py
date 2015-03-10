@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
 from bidr.apps.auctions.models import Auction
 
-from ..items.serializers import GetItemModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, EmailField, ValidationError
+
+from ..items.serializers import ItemSerializer
 
 
-class AddAuctionParticipantSerializer(serializers.ModelSerializer):
-    user_email = serializers.EmailField(write_only=True, required=True, allow_blank=False)
+class AddAuctionParticipantSerializer(HyperlinkedModelSerializer):
+    user_email = EmailField(write_only=True, required=True, allow_blank=False)
 
     def update(self, instance, validated_data):
         user = get_user_model().objects.get(email=validated_data['user_email'])
@@ -21,7 +22,7 @@ class AddAuctionParticipantSerializer(serializers.ModelSerializer):
                 else:
                     message = 'The password you entered is incorrect.'
 
-                raise serializers.ValidationError(message)
+                raise ValidationError(message)
         else:
             instance.participants.add(user)
             instance.save()
@@ -32,14 +33,14 @@ class AddAuctionParticipantSerializer(serializers.ModelSerializer):
         fields = ['optional_password', 'user_email']
 
 
-class GetAuctionModelSerializer(serializers.ModelSerializer):
+class AuctionSerializer(HyperlinkedModelSerializer):
     class Meta:
         model = Auction
         fields = ['name', 'stage', 'id']
 
 
-class GetAuctionBidablesSerializer(serializers.ModelSerializer):
-    bidables = GetItemModelSerializer(many=True)
+class AuctionItemSerializer(HyperlinkedModelSerializer):
+    bidables = ItemSerializer(many=True)
 
     class Meta:
         model = Auction
