@@ -15,8 +15,9 @@ from django.core.cache import cache
 from django.utils.decorators import available_attrs
 from django.utils.encoding import force_str
 from django.shortcuts import resolve_url
-from bidr.apps.organizations.models import Organization
-from bidr.apps.auctions.models import Auction
+
+from ..organizations.models import Organization
+from ..apps.auctions.models import Auction
 
 
 class UserType(object):
@@ -62,7 +63,7 @@ def user_type_test(user_type, user, org_slug, auction_id=None):
 
     """
 
-    # Cache must be per studio
+    # Cache must be per organization (and, optionally, per auction)
     cache_org_slug = org_slug
     cache_auction_id = auction_id
 
