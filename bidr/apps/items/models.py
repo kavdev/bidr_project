@@ -87,7 +87,7 @@ class ItemCollection(AbstractItem):
         
     @property    
     def image_urls(self):
-        return [x._image_url for x in self.items.all()[:4]]
+        return [x._image_url() for x in self.items.all()[:4]]
 
 
 

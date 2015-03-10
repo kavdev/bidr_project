@@ -21,6 +21,7 @@ class ItemCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
+        print("here")
         auction_instance = Auction.objects.get(id=self.kwargs['auction_id'])
         auction_instance.bidables.add(self.object)
         auction_instance.save()
