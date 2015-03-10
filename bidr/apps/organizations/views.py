@@ -37,11 +37,11 @@ class OrganizationCreateView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
-    
+
+
 class OrganizationUpdateView(UpdateView):
     template_name = "organizations/update_organization.html"
     model = Organization
-    
 
     def get_success_url(self):
         return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
