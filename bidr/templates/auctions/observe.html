@@ -21,7 +21,9 @@
         {% for item in auction.bidables.all %}
             <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
                 <td>
-                    <img src="{{ item.image_url }}" alt="Item Picture" height="100px">  
+                    {% for pictureurl in item.image_urls %}
+                        <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
+                    {% endfor %}
                 </td>
                 <td>
                     {{ item.name }}
@@ -49,46 +51,55 @@
             {{ abstractitem.name }}
         </h1>
       </div>
+      
       <div class="modal-body">
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ abstractitem.image_url }}" alt="Item Picture" height="250px">
+                {% for pictureurl in abstractitem.image_urls %}
+                        <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
+                {% endfor %}
             </div>
             <div class="col-md-8">
                 <h4>{{ abstractitem.description }}</h4>
             </div>
         </div>
         
-        <br />
-        <p><h3>Bid History</h3></p>
-        <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <p><h3>Bid History</h3></p>
+            </div>
+        </div>
         
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>User Email</th>
-                    <th>Time</th>
-                    <th>Bid</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for bid in abstractitem.bids.all %}
-                <tr>
-                    <td>
-                        {{ bid.user }} 
-                    </td>
-                    <td>
-                        {{ bid.timestamp }}
-                    </td>
-                    
-                    <td>
-                        {{ bid.amount|currency }}
-                    </td>
-                </tr>
-                </a>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Email</th>
+                            <th>Time</th>
+                            <th>Bid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for bid in abstractitem.bids.all %}
+                        <tr>
+                            <td>
+                                {{ bid.user }} 
+                            </td>
+                            <td>
+                                {{ bid.timestamp }}
+                            </td>
+                            
+                            <td>
+                                {{ bid.amount|currency }}
+                            </td>
+                        </tr>
+                        </a>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         </div>
       <div class="modal-footer">
       </div>

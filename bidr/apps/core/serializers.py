@@ -8,24 +8,21 @@
 
 from django.contrib.auth import get_user_model
 
-from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer, RelatedField
+from rest_framework.serializers import ModelSerializer
 
 from .models import BidrUser
-
-
-class BidrUserSerializer(HyperlinkedModelSerializer):
-    class Meta:
-        model = BidrUser
-        fields = ('id', 'name', 'email', 'phone_number', 'is_superuser')
+from ..auctions.serializers import AuctionSerializer
 
 
 class GetBidrUserParticipatedAuctionsSerializer(ModelSerializer):
+    participants = AuctionSerializer(many=True)
+
     class Meta:
         model = BidrUser
         fields = ['participants']
 
 
-class RegisterBidrUserSerializer(HyperlinkedModelSerializer):
+class RegisterBidrUserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ['name', 'email', 'phone_number', 'password']

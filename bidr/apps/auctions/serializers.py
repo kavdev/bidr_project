@@ -1,10 +1,21 @@
+"""
+.. module:: bidr.apps.auctions.serializers
+   :synopsis: Bidr Silent Auction System Auction API Serializers.
+
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
+
+"""
+
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
-from bidr.apps.auctions.models import Auction
+
+from rest_framework.serializers import ModelSerializer, EmailField, ValidationError
+
+from ..auctions.models import Auction
+from ..items.serializers import ItemSerializer
 
 
-class AddAuctionParticipantSerializer(serializers.ModelSerializer):
-    user_email = serializers.EmailField(write_only=True, required=True, allow_blank=False)
+class AddAuctionParticipantSerializer(ModelSerializer):
+    user_email = EmailField(write_only=True, required=True, allow_blank=False)
 
     def update(self, instance, validated_data):
         user = get_user_model().objects.get(email=validated_data['user_email'])
@@ -15,11 +26,11 @@ class AddAuctionParticipantSerializer(serializers.ModelSerializer):
                 instance.save()
             else:
                 if not validated_data.get('optional_password'):
-                    message = 'This auction requires a password.'
+                    message = 'This auction requires an auction password.'
                 else:
                     message = 'The password you entered is incorrect.'
 
-                raise serializers.ValidationError(message)
+                raise ValidationError(message)
         else:
             instance.participants.add(user)
             instance.save()
@@ -30,7 +41,15 @@ class AddAuctionParticipantSerializer(serializers.ModelSerializer):
         fields = ['optional_password', 'user_email']
 
 
-class GetAuctionModelSerializer(serializers.ModelSerializer):
+class AuctionSerializer(ModelSerializer):
     class Meta:
         model = Auction
         fields = ['name', 'stage', 'id']
+
+
+class AuctionItemSerializer(ModelSerializer):
+    bidables = ItemSerializer(many=True)
+
+    class Meta:
+        model = Auction
+        fields = ['bidables']

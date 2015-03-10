@@ -18,18 +18,16 @@ from django.views.generic.base import RedirectView, TemplateView
 from django.views.defaults import permission_denied, page_not_found
 
 from rest_framework.routers import DefaultRouter
-# from rest_framework.authtoken import views
 from djoser import urls as api_auth_urls
 
-from .apps.bids.api import BidViewSet
-from .apps.core.api import BidrUserViewSet
-
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
-from .apps.auctions.api import AddAuctionParticipantView, GetAuctionModelView
+from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.views import IndexView, LoginView, logout, handler500
-from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView
+from .apps.core.api import GetBidrUserParticipatedAuctionsView
+from .apps.bids.api import CreateBidAPIView
+from .apps.items.api import RetrieveItemAPIView
 
 from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection
 
@@ -37,12 +35,6 @@ from .apps.core.utils import user_is_type, UserType
 
 
 admin.autodiscover()
-
-bid_router = DefaultRouter()
-bid_router.register(r'bids', BidViewSet)
-
-bidruser_router = DefaultRouter()
-bidruser_router.register(r'users', BidrUserViewSet)
 
 logger = logging.getLogger(__name__)
 
@@ -53,21 +45,20 @@ urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url=staticfiles('img/favicon.ico')), name='favicon'),
     url(r'^robots\.txt$', RedirectView.as_view(url=staticfiles('robots.txt')), name='robots'),
     url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
-    url(r'^admin/$', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
+    url(r'^admin/', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^login/$', LoginView.as_view(), name='admin_login'),
     url(r'^logout/$', logout, name='admin_logout'),
 ]
 
 # API
 urlpatterns += [
-    url(r'^api/', include(bid_router.urls)),
     url(r'^api/auth/', include(api_auth_urls)),
-#    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
-#    url(r'^api/token-auth/$', views.obtain_auth_token),
-    url(r'^api/', include(bidruser_router.urls)),
-    url(r'^api/auctions/(?P<pk>\d+)/add-participant/', AddAuctionParticipantView.as_view()),
-    url(r'^api/bidruser/(?P<pk>\d+)/get-auctions-participating-in/', GetBidrUserParticipatedAuctionsView.as_view()),
-    url(r'^api/auctions/(?P<pk>\d+)/get=auction-data/', GetAuctionModelView.as_view())
+    url(r'^api/users/(?P<pk>\d+)/auctions/$', GetBidrUserParticipatedAuctionsView.as_view()),
+    url(r'^api/auctions/(?P<pk>\d+)/participants/add/$', AddAuctionParticipantView.as_view()),
+    url(r'^api/auctions/(?P<pk>\d+)/$', RetrieveAuctionAPIView.as_view()),
+    url(r'^api/auctions/(?P<pk>\d+)/items/$', RetrieveAuctionItemView.as_view()),
+    url(r'^api/items/(?P<pk>\d+)/$', RetrieveItemAPIView.as_view()),
+    url(r'^api/bids/create/$', CreateBidAPIView.as_view()),
 ]
 
 # Organizations

@@ -12,7 +12,6 @@ from django.views.decorators.http import require_POST
 from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
 from .models import Item, ItemCollection
-from bidr.apps.organizations.models import Organization
 
 
 @ajax

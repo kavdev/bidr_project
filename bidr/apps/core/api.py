@@ -10,26 +10,21 @@ import logging
 
 from django.contrib.auth import get_user_model
 
-from rest_framework import status, generics, permissions
+from rest_framework.generics import RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 
 from .models import BidrUser
-from .serializers import BidrUserSerializer, RegisterBidrUserSerializer, GetBidrUserParticipatedAuctionsSerializer
+from .serializers import RegisterBidrUserSerializer, GetBidrUserParticipatedAuctionsSerializer
 
 logger = logging.getLogger(__name__)
 
 
-class BidrUserViewSet(ModelViewSet):
-    """API endpoint that allows bids to be viewed or edited."""
-
-    queryset = BidrUser.objects.all()
-    serializer_class = BidrUserSerializer
-
-
-class GetBidrUserParticipatedAuctionsView(generics.RetrieveAPIView):
+class GetBidrUserParticipatedAuctionsView(RetrieveAPIView):
     """
     Use this endpoint to get a list of all the auctions a user has signed up for.
     """
@@ -37,7 +32,7 @@ class GetBidrUserParticipatedAuctionsView(generics.RetrieveAPIView):
     serializer_class = GetBidrUserParticipatedAuctionsSerializer
 
     permission_classes = (
-        permissions.IsAuthenticated,
+        IsAuthenticated,
     )
 
 
@@ -46,21 +41,14 @@ class RegisterBidrUser(APIView):
 
     def post(self, request):
         """Registration code inspired by http://stackoverflow.com/a/19337404."""
-        logger.warning("here0")
         logger.warning(request.data)
         serializer = RegisterBidrUserSerializer(data=request.data)
-        logger.warning("here1")
         valid_fields = [field.name for field in get_user_model()._meta.fields]
-        logger.warning("here2")
 
         if serializer.is_valid(raise_exception=True):
-            logger.warning("here3")
             user_data = {field: data for (field, data) in request.data.items() if field in valid_fields}
-            logger.warning("here4")
             user = get_user_model().objects.create_user(**user_data)
-            logger.warning("here5")
             token = Token.objects.create(user=user)
-            logger.warning("here6")
-            return Response({'token': token.key}, status=status.HTTP_201_CREATED)
+            return Response({'token': token.key}, status=HTTP_201_CREATED)
         else:
-            return Response(serializer._errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer._errors, status=HTTP_400_BAD_REQUEST)

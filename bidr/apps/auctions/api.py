@@ -1,10 +1,22 @@
-from rest_framework import generics, permissions, serializers, response, status
+"""
+.. module:: bidr.apps.auctions.api
+   :synopsis: Bidr Silent Auction System Auction API Endpoints.
 
-from .serializers import AddAuctionParticipantSerializer, GetAuctionModelSerializer
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
+
+"""
+
+from rest_framework.generics import UpdateAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.serializers import ValidationError
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
+
 from .models import Auction
+from .serializers import AddAuctionParticipantSerializer, AuctionSerializer, AuctionItemSerializer
 
 
-class AddAuctionParticipantView(generics.UpdateAPIView):
+class AddAuctionParticipantView(UpdateAPIView):
     """
     Use this endpoint to add a user to an auction.
     """
@@ -12,10 +24,9 @@ class AddAuctionParticipantView(generics.UpdateAPIView):
     serializer_class = AddAuctionParticipantSerializer
 
     permission_classes = (
-        permissions.IsAuthenticated,
+        IsAuthenticated,
     )
 
-    # override update to change Response
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
@@ -23,30 +34,45 @@ class AddAuctionParticipantView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         try:
             self.perform_update(serializer)
-        except serializers.ValidationError as exc:
+        except ValidationError as exc:
             if exc.args[0] == 'This auction requires a password.':
-                return response.Response(
+                return Response(
                     data={"password_required": "This auction requires a password."},
-                    status=status.HTTP_400_BAD_REQUEST,
+                    status=HTTP_400_BAD_REQUEST,
                 )
             else:
-                return response.Response(
+                return Response(
                     data={"password_incorrect": "The password you entered is incorrect."},
-                    status=status.HTTP_400_BAD_REQUEST,
+                    status=HTTP_400_BAD_REQUEST,
                 )
-        return response.Response(
-            data={"participant_added": "The participant was either added or was already signed up for the auction."},
-            status=status.HTTP_200_OK,
+        return Response(
+            data={"participant_added": "The participant was either added or was already signed up for the auction.",
+                  "name": instance.name,
+                  "id": instance.id,
+                  "stage": instance.stage},
+            status=HTTP_200_OK,
         )
 
 
-class GetAuctionModelView(generics.RetrieveAPIView):
+class RetrieveAuctionAPIView(RetrieveAPIView):
     """
-    Use this endpoint to get a list of all the auctions a user has signed up for.
+    Use this endpoint to get an auction model.
     """
     queryset = Auction.objects.all()
-    serializer_class = GetAuctionModelSerializer
+    serializer_class = AuctionSerializer
 
     permission_classes = (
-        permissions.IsAuthenticated,
+        IsAuthenticated,
+    )
+
+
+class RetrieveAuctionItemView(RetrieveAPIView):
+    """
+    Use this endpoint to get an auction model.
+    """
+    queryset = Auction.objects.all()
+    serializer_class = AuctionItemSerializer
+
+    permission_classes = (
+        IsAuthenticated,
     )
