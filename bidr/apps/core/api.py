@@ -19,16 +19,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 
 from .models import BidrUser
-from .serializers import BidrUserSerializer, RegisterBidrUserSerializer, GetBidrUserParticipatedAuctionsSerializer
+from .serializers import RegisterBidrUserSerializer, GetBidrUserParticipatedAuctionsSerializer
 
 logger = logging.getLogger(__name__)
-
-
-class BidrUserViewSet(ModelViewSet):
-    """API endpoint that allows bids to be viewed or edited."""
-
-    queryset = BidrUser.objects.all()
-    serializer_class = BidrUserSerializer
 
 
 class GetBidrUserParticipatedAuctionsView(RetrieveAPIView):
