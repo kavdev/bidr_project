@@ -1,8 +1,8 @@
 """
-.. module:: bidr.apps.core.api
+.. module:: bidr.apps.bids.api
    :synopsis: Bidr Silent Auction System Bid API Endpoints.
 
-.. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
 
 """
 

@@ -1,5 +1,5 @@
 """
-.. module:: bidr.apps.organization.views
+.. module:: bidr.apps.organizations.views
    :synopsis: Bidr Silent Auction System Organization Views.
 
 .. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>

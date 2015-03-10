@@ -1,3 +1,11 @@
+"""
+.. module:: bidr.apps.items.serializers
+   :synopsis: Bidr Silent Auction System Items Serializers.
+
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
+
+"""
+
 from rest_framework.serializers import ModelSerializer
 
 from .models import AbstractItem
