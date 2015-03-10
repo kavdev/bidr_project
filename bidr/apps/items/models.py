@@ -36,7 +36,7 @@ class AbstractItem(PolymorphicModel):
         return self.name
 
     @property
-    def image_url(self):
+    def image_urls(self):
         raise NotImplementedError("Subclasses should implement this!")
 
     @property
@@ -59,12 +59,16 @@ class Item(AbstractItem):
 
     tags = TaggableManager()
 
-    @property
-    def image_url(self):
+
+    def _image_url(self):
         if self.picture:
             return self.picture.url
         else:
             return static('img/no_image.png')
+    
+    @property    
+    def image_urls(self):
+        return [self._image_url()]
 
     @property
     def min_price(self):
@@ -80,10 +84,12 @@ class ItemCollection(AbstractItem):
         for item in self.items.all():
             item.claim(bid)
         super(ItemCollection, self).claim(bid)
+        
+    @property    
+    def image_urls(self):
+        return [x._image_url for x in self.items.all()[:4]]
 
-    @property
-    def image_url(self):
-        return static('img/no_image.png')
+
 
     @property
     def min_price(self):
