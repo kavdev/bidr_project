@@ -17,7 +17,7 @@ from django.utils.encoding import force_str
 from django.shortcuts import resolve_url
 
 from ..organizations.models import Organization
-from ..apps.auctions.models import Auction
+from ..auctions.models import Auction
 
 
 class UserType(object):
