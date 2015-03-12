@@ -112,6 +112,26 @@
         </div>
     {% endfor %}
     
+    {% for itemcollection in item_collections %}
+        {% for item in itemcollection.ordered_items %}
+            <div class="modal fade" id="update_item_modal_{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="update_item" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h1 class="modal-title" id="update_item">Update Item</h1>
+                        </div>
+                        
+                        <div class="modal-body text-left embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="{% url 'update_item' slug=org_slug auction_id=auction.id pk=item.id %}"></iframe>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
     <div class="modal fade" id="create_item_collection_modal" tabindex="-1" role="dialog" aria-labelledby="create_item_collection" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
