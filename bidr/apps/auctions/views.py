@@ -30,9 +30,9 @@ class AuctionView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionView, self).get_context_data(**kwargs)
-        context["upcoming_auctions"] = Auction.objects.filter(stage=STAGES.index("Plan"))
-        context["current_auctions"] = Auction.objects.filter(stage=STAGES.index("Observe"))
-        context["complete_auctions"] = Auction.objects.filter(stage__gte=STAGES.index("Claim"))
+        context["upcoming_auctions"] = Auction.objects.filter(stage=STAGES.index("Plan")).orderby("start_time")
+        context["current_auctions"] = Auction.objects.filter(stage=STAGES.index("Observe")).orderby("start_time")
+        context["complete_auctions"] = Auction.objects.filter(stage__gte=STAGES.index("Claim")).orderby("start_time")
         context["org_slug"] = self.kwargs['slug']
         context["org_name"] = Organization.objects.get(slug=self.kwargs['slug']).name
         context["is_owner"] = Organization.objects.filter(slug=self.kwargs['slug'], owner=self.request.user).exists()
