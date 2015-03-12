@@ -11,11 +11,13 @@
                     <div class="col-md-6 col-md-offset-3">
                         <p class="help-block text-danger">{{ form.non_field_errors }}</p>
                         <div class="form-group">
-                            {% render_field form.name placeholder="Collection Name *" required=true class+="form-control" %}
+                            <label for="id_name">Collection Name *</label>
+                            {% render_field form.name placeholder="Collection Name" required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.name.errors }}</p>
                         </div>
                         <div class="form-group">
-                            {% render_field form.description placeholder="Description *" required=true class+="form-control" %}
+                            <label for="id_description">Description *</label>
+                            {% render_field form.description placeholder="Description" required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.description.errors }}</p>
                         </div>
                         {% csrf_token %}

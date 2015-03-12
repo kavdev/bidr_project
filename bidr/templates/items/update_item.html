@@ -41,23 +41,32 @@
                             {% render_field form.description required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.description.errors }}</p>
                         </div>
-                         <div class="form-group">
+                        <div class="form-group">
                             <label for="id_minimum_price">Minimum Bid</label>
-                            {% render_field form.minimum_price class+="form-control" %}
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                {% render_field form.minimum_price class+="form-control" %}
+                            </div>
                             <p class="help-block text-danger">{{ form.minimum_price.errors }}</p>
                         </div>
                         <div class="form-group">
                             <label for="id_picture">Picture</label>
+                            {% if form.instance.picture %}
+                                <br /><div class="text-center"><img src="{{ form.instance.picture.url }}" alt="Item picture thumbnail" class="img-rounded" height="100px" /></div><br />
+                            {% endif %}
                             <div class="input-group">
-                                <input type="text" class="form-control" id="filename_placeholder" placeholder="Select an item image." readonly />
-                                {{ form.picture }}
-                                <img src="" alt="Item picture thumbnail" class="img-rounded">
+                                <input type="text" class="form-control" id="filename_placeholder" {% if form.instance.picture %}placeholder="{{ form.instance.picture.path }}"{% else %}placeholder="Select an item image."{% endif %} readonly />
                                 <span class="input-group-btn">
                                     <span class="btn btn-default btn-file">
                                         Browse&hellip; <input id="id_picture" name="picture" type="file" />
                                     </span>
                                 </span>
                             </div>
+                            {% if form.instance.picture %}
+                                <br />
+                                <input id="picture-clear_id" name="picture-clear" type="checkbox">
+                                <label for="picture-clear_id">Clear Picure</label>
+                            {% endif %}
                             <p class="help-block text-danger">{{ form.picture.errors }}</p>
                         </div>
                         {% csrf_token %}

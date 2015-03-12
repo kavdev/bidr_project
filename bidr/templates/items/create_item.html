@@ -33,18 +33,25 @@
                     <div class="col-md-6 col-md-offset-3">
                         <p class="help-block text-danger">{{ form.non_field_errors }}</p>
                         <div class="form-group">
-                            {% render_field form.name placeholder="Item Name *" required=true class+="form-control" %}
+                            <label for="id_name">Item Name *</label>
+                            {% render_field form.name placeholder="Item Name" required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.name.errors }}</p>
                         </div>
                         <div class="form-group">
-                            {% render_field form.description placeholder="Description *" required=true class+="form-control" %}
+                            <label for="id_description">Description *</label>
+                            {% render_field form.description placeholder="Description" required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.description.errors }}</p>
                         </div>
                          <div class="form-group">
-                            {% render_field form.minimum_price placeholder="Minimum Bid" class+="form-control" %}
+                            <label for="id_minimum_price">Minimum Bid</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                {% render_field form.minimum_price placeholder="Minimum Bid" class+="form-control" %}
+                            </div>
                             <p class="help-block text-danger">{{ form.minimum_price.errors }}</p>
                         </div>
                         <div class="form-group">
+                            <label for="id_picture">Picture</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="filename_placeholder" placeholder="Select an item image." readonly />
                                 <span class="input-group-btn">

@@ -21,7 +21,6 @@ class ItemCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        print("here")
         auction_instance = Auction.objects.get(id=self.kwargs['auction_id'])
         auction_instance.bidables.add(self.object)
         auction_instance.save()
@@ -57,8 +56,8 @@ class ItemCollectionCreateView(CreateView):
 
 
 class ItemCollectionUpdateView(UpdateView):
-    template_name = "items/update_itemcollection.html"
-    model = Item
+    template_name = "items/update_item_collection.html"
+    model = ItemCollection
     fields = ['name', 'description']
 
     def get_success_url(self):
