@@ -71,8 +71,8 @@ class CreateBidAPIView(CreateAPIView):
             self.perform_create(serializer)
         except ValidationError as exc:
             return Response(
-                data={"current_highest_bid": serializer.data["item"].highest_bid.amount,
-                      "exception_message": str(exc)},
+                data={"current_highest_bid": exc.detail[0],
+                      "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[0]},
                 status=HTTP_400_BAD_REQUEST,
             )
         headers = self.get_success_headers(serializer.data)

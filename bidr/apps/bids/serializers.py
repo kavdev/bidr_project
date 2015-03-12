@@ -34,7 +34,7 @@ class CreateBidSerializer(ModelSerializer):
 
             return instance
         else:
-            raise ValidationError("Your bid must be greater than the current highest bid of " + currency(item.highest_bid.amount))
+            raise ValidationError(currency(item.highest_bid.amount))
 
     class Meta:
         model = Bid
