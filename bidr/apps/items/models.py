@@ -32,6 +32,13 @@ class AbstractItem(PolymorphicModel):
         self.claimed_bid = bid
         self.save()
 
+    def get_second_highest_bid(self):
+        bid_list = self.bids.all().order_by("-amount")
+        if bid_list.count() > 1:
+            return bid_list[1]
+        else:
+            return None
+
     def __str__(self):
         return self.name
 
