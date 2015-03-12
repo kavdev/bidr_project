@@ -434,10 +434,38 @@ ul.errorlist {
     }
 }
 
+.edit {
+    a {
+        color: rgb(236, 151, 31);
+        cursor: pointer;
+        padding-right: 5px;
+    }
+    
+    a:hover {
+        color: darken(rgb(236, 151, 31), 10%);
+    }
+        
+}
+
 .delete {
     a {
         color: red;
         cursor: pointer;
+    }
+    
+    a:hover {
+        color: darken(red, 10%);
+    }
+}
+
+.remove {
+    a {
+        color: gray;
+        cursor: pointer;
+    }
+
+    a:hover {
+        color: darken(grey, 10%);
     }
 }
 
@@ -450,13 +478,6 @@ ul.errorlist {
 
 .item_destination {
     background-color: rgb(249, 249, 249);
-}
-
-.remove {
-    a {
-        color: gray;
-        cursor: pointer;
-    }
 }
 
 .disabled_link {

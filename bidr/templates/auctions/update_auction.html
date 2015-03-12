@@ -1,28 +1,6 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
-{% block extended_head %}
-    <style type="text/css">
-        .btn-file {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            cursor: inherit;
-            display: block;
-        }
-        input[readonly] {
-            background-color: transparent !important;
-            cursor: text !important;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
 <div class="container">
     <div class="row">
@@ -32,6 +10,7 @@
                     <div class="col-md-6 col-md-offset-3">
                     <p class="help-block text-danger">{{ form.non_field_errors }}</p>
                     <div class="form-group">
+                    <label for="id_name">Auction Name *</label>
                         {% render_field form.name required=true class+="form-control" %}
                         <p class="help-block text-danger">{{ form.name.errors }}</p>
                     </div>
@@ -40,8 +19,11 @@
                         <p class="help-block text-danger">{{ form.description.errors }}</p>
                     </div>
                     <div class="form-group">
-                        {% render_field form.end_time title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
-                        <p class="help-block text-danger">{{ form.end_time.errors }}</p>
+                        <div class='input-group date' id='end_time_datepicker'>
+                            {% render_field form.end_time title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
+                            <p class="help-block text-danger">{{ form.end_time.errors }}</p>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         {% render_field form.optional_password class+="form-control" %}
@@ -61,3 +43,14 @@
 {% endblock %}
 
 {% block footer %}{% endblock %}
+
+{% block extended_scripts %}
+{{ block.super }}
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#end_time_datepicker').datetimepicker({
+            format: 'YYYY-MM-DD hh:mm:ss'
+        });
+    });
+    </script>
+{% endblock %}
