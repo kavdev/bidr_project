@@ -19,7 +19,9 @@
                 {% for item in auction.get_sold_items %}
                     <tr>
                         <td>
-                            <img src="{{ item._image_url }}" alt="Item Picture" height="100px">
+                            {% for image_url in item.image_urls %}
+                                <img src="{{ image_url }}" alt="Item Picture" height="100px">
+                            {% endfor %}
                         </td>
                         <td>
                             {{ item.name }}
