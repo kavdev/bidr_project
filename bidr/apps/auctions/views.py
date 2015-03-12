@@ -11,13 +11,15 @@
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.list import ListView
 from django.utils import timezone
+from django.contrib.auth import get_user_model
 
 from ..auctions.models import STAGES
 from ..organizations.models import Organization
 from .models import Auction
+from .forms import ManagerForm
 
 
 class AuctionView(ListView):
@@ -60,6 +62,28 @@ class AuctionUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('update_auction', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
+
+
+class AuctionManageView(FormView):
+    template_name = "auctions/managers.html"
+    form_class = ManagerForm
+
+    def form_valid(self, form):
+        manager_email = form.cleaned_data["manager_email"]
+        manager_instance = get_user_model().objects.get(email=manager_email)
+        auction_instance = Auction.objects.get(id=self.kwargs['auction_id'])
+        auction_instance.managers.add(manager_instance)
+        auction_instance.save()
+        return super(AuctionManageView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AuctionManageView, self).get_context_data(**kwargs)
+        context["org_slug"] = self.kwargs['slug']
+        context["auction"] = Auction.objects.get(id=self.kwargs['auction_id'])
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('auction_managers', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})
 
 
 class AuctionMixin(object):
