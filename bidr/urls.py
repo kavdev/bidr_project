@@ -30,6 +30,7 @@ from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
 
 from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection
+from .apps.auctions.ajax import is_one_collection_empty
 
 from .apps.core.utils import user_is_type, UserType
 
@@ -75,6 +76,7 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/update/(?P<auction_id>\d+)/$', login_required(user_is_type(UserType.MANAGER)(AuctionUpdateView.as_view())), name='update_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(user_is_type(UserType.MANAGER)(AuctionPlanView.as_view())), name='auction_plan'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/start/$', login_required(user_is_type(UserType.MANAGER)(start_auction)), name='start_auction'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/hasemptycollection/$', login_required(user_is_type(UserType.MANAGER)(is_one_collection_empty)), name='is_one_collection_empty'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/observe/$', login_required(user_is_type(UserType.MANAGER)(AuctionObserveView.as_view())), name='auction_observe'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/end/$', login_required(user_is_type(UserType.MANAGER)(end_auction)), name='end_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(user_is_type(UserType.MANAGER)(AuctionClaimView.as_view())), name='auction_claim'),
