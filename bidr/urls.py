@@ -20,10 +20,11 @@ from django.views.defaults import permission_denied, page_not_found
 from djoser import urls as api_auth_urls
 
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionManageView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
-from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
-from .apps.items.views import ItemCreateView, ItemCollectionCreateView
+from .apps.items.views import ItemCreateView, ItemCollectionCreateView, ItemUpdateView, ItemCollectionUpdateView
+
+from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
@@ -44,7 +45,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
     url(r'^favicon\.ico$', RedirectView.as_view(url=staticfiles('img/favicon.ico')), name='favicon'),
     url(r'^robots\.txt$', RedirectView.as_view(url=staticfiles('robots.txt')), name='robots'),
-    url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
+    url(r'^zoidberg/', include(admin.site.urls)),  # admin site urls, masked
     url(r'^admin/', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^login/$', LoginView.as_view(), name='admin_login'),
     url(r'^logout/$', logout, name='admin_logout'),
@@ -78,7 +79,6 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/managers/remove$', login_required(user_is_type(UserType.MANAGER)(remove_manager)), name='remove_manager'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/hasemptycollection/$', login_required(user_is_type(UserType.MANAGER)(is_one_collection_empty)), name='is_one_collection_empty'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/start/$', login_required(user_is_type(UserType.MANAGER)(start_auction)), name='start_auction'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/hasemptycollection/$', login_required(user_is_type(UserType.MANAGER)(is_one_collection_empty)), name='is_one_collection_empty'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/observe/$', login_required(user_is_type(UserType.MANAGER)(AuctionObserveView.as_view())), name='auction_observe'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/end/$', login_required(user_is_type(UserType.MANAGER)(end_auction)), name='end_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(user_is_type(UserType.MANAGER)(AuctionClaimView.as_view())), name='auction_claim'),
@@ -88,10 +88,12 @@ urlpatterns += [
 # Items remove_manager
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemUpdateView.as_view())), name='update_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCollectionCreateView.as_view())), name='create_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/add-item/$', login_required(user_is_type(UserType.MANAGER)(add_item_to_collection)), name='add_item_to_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/remove-item/$', login_required(user_is_type(UserType.MANAGER)(remove_item_from_collection)), name='remove_item_from_collection'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemCollectionUpdateView.as_view())), name='update_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item_collection)), name='delete_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
 ]
