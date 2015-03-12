@@ -25,7 +25,7 @@ class CreateBidSerializer(ModelSerializer):
     def create(self, validated_data):
         item = AbstractItem.objects.get(id=validated_data['item_id'])
 
-        if item.highest_bid.amount < validated_data['amount']:
+        if not item.highest_bid or item.highest_bid.amount < validated_data['amount']:
             del validated_data['item_id']
 
             instance = ModelSerializer.create(self, validated_data)

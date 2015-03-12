@@ -21,8 +21,8 @@
         {% for item in auction.bidables.all %}
             <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
                 <td>
-                    {% for pictureurl in item.image_urls %}
-                        <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
+                    {% for image_url in item.image_urls %}
+                        <img src="{{ image_url }}" alt="Item Picture" height="100px">
                     {% endfor %}
                 </td>
                 <td>
