@@ -20,10 +20,11 @@ from django.views.defaults import permission_denied, page_not_found
 from djoser import urls as api_auth_urls
 
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
-from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
-from .apps.items.views import ItemCreateView, ItemCollectionCreateView
+from .apps.items.views import ItemCreateView, ItemCollectionCreateView, ItemUpdateView, ItemCollectionUpdateView
+
+from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
@@ -83,10 +84,12 @@ urlpatterns += [
 # Items
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemUpdateView.as_view())), name='update_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCollectionCreateView.as_view())), name='create_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/add-item/$', login_required(user_is_type(UserType.MANAGER)(add_item_to_collection)), name='add_item_to_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/remove-item/$', login_required(user_is_type(UserType.MANAGER)(remove_item_from_collection)), name='remove_item_from_collection'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemCollectionUpdateView.as_view())), name='update_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item_collection)), name='delete_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
 ]

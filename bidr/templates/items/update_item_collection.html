@@ -1,6 +1,28 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
+{% block extended_head %}
+    <style type="text/css">
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            cursor: inherit;
+            display: block;
+        }
+        input[readonly] {
+            background-color: transparent !important;
+            cursor: text !important;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
