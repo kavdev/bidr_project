@@ -7,10 +7,24 @@
     <div class="row object_list">
         <ul>
             <h2>Active Auctions</h2>
-            {% for auction in auction_list %}
+            {% for auction in active_auctions %}
             <li><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">{{ auction.name }}</a></h4></li>
             {% empty %}
-            <li><h1>You don't have any auctions.</h1></li>
+            <li><h4>You don't have any active auctions.</h4></li>
+            {% endfor %}
+            <li>&nbsp;</li>
+            <h2>Upcoming Auctions</h2>
+            {% for auction in upcoming_auctions %}
+            <li><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">{{ auction.name }}</a></h4></li>
+            {% empty %}
+            <li><h4>You don't have any upcoming auctions.</h4></li>
+            {% endfor %}
+            <li>&nbsp;</li>
+            <h2>Complete Auctions</h2>
+            {% for auction in complete_auctions %}
+            <li><h4><a href="{% url 'auction_plan' slug=org_slug auction_id=auction.id %}">{{ auction.name }}</a></h4></li>
+            {% empty %}
+            <li><h4>You don't have any auctions.</h4></li>
             {% endfor %}
         </ul>
     </div>

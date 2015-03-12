@@ -10,9 +10,9 @@
 
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
+from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView
-from django.views.generic.list import ListView
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 
@@ -22,7 +22,7 @@ from .models import Auction
 from .forms import ManagerForm
 
 
-class AuctionView(ListView):
+class AuctionView(TemplateView):
     template_name = "auctions/auctions.html"
 
     def get_queryset(self):
@@ -30,6 +30,9 @@ class AuctionView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionView, self).get_context_data(**kwargs)
+        context["upcoming_auctions"] = Auction.objects.filter(stage=STAGES.index("Plan"))
+        context["current_auctions"] = Auction.objects.filter(stage=STAGES.index("Observe"))
+        context["complete_auctions"] = Auction.objects.filter(stage__gte=STAGES.index("Claim"))
         context["org_slug"] = self.kwargs['slug']
         context["org_name"] = Organization.objects.get(slug=self.kwargs['slug']).name
         context["is_owner"] = Organization.objects.filter(slug=self.kwargs['slug'], owner=self.request.user).exists()
