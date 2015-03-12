@@ -17,7 +17,6 @@ from django.contrib.staticfiles.templatetags.staticfiles import static as static
 from django.views.generic.base import RedirectView, TemplateView
 from django.views.defaults import permission_denied, page_not_found
 
-from rest_framework.routers import DefaultRouter
 from djoser import urls as api_auth_urls
 
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
@@ -44,7 +43,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='home'),
     url(r'^favicon\.ico$', RedirectView.as_view(url=staticfiles('img/favicon.ico')), name='favicon'),
     url(r'^robots\.txt$', RedirectView.as_view(url=staticfiles('robots.txt')), name='robots'),
-    url(r'^flugzeug/', include(admin.site.urls)),  # admin site urls, masked
+    url(r'^zoidberg/', include(admin.site.urls)),  # admin site urls, masked
     url(r'^admin/', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^login/$', LoginView.as_view(), name='admin_login'),
     url(r'^logout/$', logout, name='admin_logout'),
