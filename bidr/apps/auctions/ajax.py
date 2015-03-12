@@ -1,9 +1,18 @@
 
+from django.contrib.auth import get_user_model
+from django_ajax.decorators import ajax
+from django.views.decorators.http import require_POST
+
+from ..auctions.models import Auction
+
 
 @ajax
 @require_POST
-def delete_manager(request, slug, auction_id):
-    item_id = request.POST["item_id"]
+def remove_manager(request, slug, auction_id):
+    manager_id = request.POST["manager_id"]
 
-    item_instance = Item.objects.get(id=item_id)
-    item_instance.delete()
+    manager_instance = get_user_model().objects.get(id=manager_id)
+
+    auction_instance = Auction.objects.get(id=auction_id)
+    auction_instance.managers.remove(manager_instance)
+    auction_instance.save()

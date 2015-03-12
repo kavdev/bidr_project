@@ -1,27 +1,6 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
-{% block extended_head %}
-    <style type="text/css">
-        .btn-file {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            cursor: inherit;
-            display: block;
-        }
-        input[readonly] {
-            background-color: transparent !important;
-            cursor: text !important;
-        }
-    </style>
-{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -36,8 +15,8 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in auction.managers %}
-                <tr id="manager_{{ user.email }}">
+                {% for user in auction.managers.all %}
+                <tr id="manager_{{ user.id }}">
                     <td class="text-left">
                         {{ user.fullname }}
                     </td>
@@ -45,7 +24,7 @@
                         {{ user.email }}
                     </td>
                     <td class="delete text-right">
-                        <a onclick="delete_manager({{ user.email }})">Remove</a>
+                        <a onclick="delete_manager({{ user.id }})">Remove</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -75,17 +54,19 @@
 
 {% block extended_scripts %}
 {{ block.super }}
-    function delete_manager(manager_email) {
+<script type="text/javascript">
+    function delete_manager(manager_id) {
         var response = confirm('Are you sure you want to delete this item?');
         if (response) {
-            $("#manager_" + manager_email + " a").attr("disabled", "disabled");
-            $("#manager_" + manager_email).addClass("disabled_link");
-            ajaxPost("{% url 'delete_manager' slug=org_slug auction_id=auction.id %}", {"manager_email": manager_email}, function(response_context) {
-                $("#manager_" + manager_email).remove();
+            $("#manager_" + manager_id + " a").attr("disabled", "disabled");
+            $("#manager_" + manager_id).addClass("disabled_link");
+            ajaxPost("{% url 'remove_manager' slug=org_slug auction_id=auction.id %}", {"manager_id": manager_id}, function(response_context) {
+                $("#manager_" + manager_id).remove();
             });
         } else {
             return false;
         }
     }
+</script>
 {% endblock %}
 {% block footer %}{% endblock %}

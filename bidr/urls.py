@@ -17,10 +17,9 @@ from django.contrib.staticfiles.templatetags.staticfiles import static as static
 from django.views.generic.base import RedirectView, TemplateView
 from django.views.defaults import permission_denied, page_not_found
 
-from rest_framework.routers import DefaultRouter
 from djoser import urls as api_auth_urls
 
-from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
+from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionManageView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
 from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
@@ -29,6 +28,7 @@ from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
 
+from .apps.auctions.ajax import remove_manager
 from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection
 
 from .apps.core.utils import user_is_type, UserType
@@ -74,6 +74,8 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/create/$', login_required(user_is_type(UserType.MANAGER)(AuctionCreateView.as_view())), name='create_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/update/(?P<auction_id>\d+)/$', login_required(user_is_type(UserType.MANAGER)(AuctionUpdateView.as_view())), name='update_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(user_is_type(UserType.MANAGER)(AuctionPlanView.as_view())), name='auction_plan'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/managers/$', login_required(user_is_type(UserType.MANAGER)(AuctionManageView.as_view())), name='auction_managers'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/managers/remove$', login_required(user_is_type(UserType.MANAGER)(remove_manager)), name='remove_manager'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/start/$', login_required(user_is_type(UserType.MANAGER)(start_auction)), name='start_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/observe/$', login_required(user_is_type(UserType.MANAGER)(AuctionObserveView.as_view())), name='auction_observe'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/end/$', login_required(user_is_type(UserType.MANAGER)(end_auction)), name='end_auction'),
@@ -81,7 +83,7 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/report/$', login_required(user_is_type(UserType.MANAGER)(AuctionReportView.as_view())), name='auction_report'),
 ]
 
-# Items
+# Items remove_manager
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
