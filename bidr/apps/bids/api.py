@@ -68,7 +68,7 @@ class CreateBidAPIView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         try:
-            self.perform_create(serializer)
+            instance = self.perform_create(serializer)
         except ValidationError as exc:
             return Response(
                 data={"current_highest_bid": exc.detail[0],
@@ -76,4 +76,21 @@ class CreateBidAPIView(CreateAPIView):
                 status=HTTP_400_BAD_REQUEST,
             )
         headers = self.get_success_headers(serializer.data)
+
+        emails = []
+        bid_item_queryset = instance.bids
+        bid_item = bid_item_queryset.all()[0]
+        outbid_bid = bid_item.get_second_highest_bid()
+
+        if outbid_bid:
+            emails.append(outbid_bid.user.email)
+
+            send_mail(subject="Bidr: You've been outbid!",
+                message="Oh No! You've been outbid on the item '{item}' with a bid of ${bid}".format(item=bid_item.name, bid=instance.amount),
+                from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
+                recipient_list=emails)
+
         return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
