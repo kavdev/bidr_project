@@ -66,7 +66,7 @@ class Item(AbstractItem):
 
     tags = TaggableManager()
 
-    def image_url(self):
+    def _image_url(self):
         if self.picture:
             return self.picture.url
         else:
