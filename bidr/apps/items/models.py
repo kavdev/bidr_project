@@ -51,6 +51,8 @@ class AbstractItem(PolymorphicModel):
         """ This only works because no bid can have the same amount."""
 
         highest_amount = self.bids.all().aggregate(Max('amount'))["amount__max"]
+        if not highest_amount:
+            return None
         return self.bids.get(amount=highest_amount)
 
     @property
