@@ -22,10 +22,14 @@ def remove_manager(request, slug, auction_id):
 def is_one_collection_empty(request, slug, auction_id):
     auc_instance = Auction.objects.get(id=auction_id)
     itemcollections = auc_instance.bidables.filter(polymorphic_ctype__name="item collection").order_by("name")
+    singleitems = auc_instance.bidables.filter(polymorphic_ctype__name="items").order_by("name")
     is_empty = False
     for item_collection in itemcollections:
         if not item_collection.items.all():
             is_empty = True
+
+    if not singleitems.all():
+        is_empty = True
 
     if is_empty:
         return {"success": True}
