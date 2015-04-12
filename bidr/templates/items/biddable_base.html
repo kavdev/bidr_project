@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block extended_head %}
+    <style type="text/css">
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            cursor: inherit;
+            display: block;
+        }
+        input[readonly] {
+            background-color: transparent !important;
+            cursor: text !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        {% block messages %}
+            {% if messages %}
+                <div class="row">
+                    <div class="col-xs-12 column">
+                        {% for message in messages %}
+                        <div class="row clearfix">
+                            <div class="alert {% if message.tags %}alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}{% endif %} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                {% autoescape off %}{{ message }}{% endautoescape %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                {% block form %}{% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extended_scripts %}
+{{ block.super }}
+<script type="text/javascript">
+    $(document).on('change', '.btn-file :file', function() {
+        var input = $(this);
+        var filename = input.val();
+        input.trigger('fileselect', filename);
+    });
+
+    $(document).ready( function() {
+        $('.btn-file :file').on('fileselect', function(event, filename) {
+            $("#filename_placeholder").val(filename);
+        });
+    });
+</script>
+{% endblock %}
