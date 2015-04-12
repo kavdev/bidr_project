@@ -3,9 +3,9 @@
 
 {% block auction_stages %}
     <h1 class="page_title text-center">{{ auction.name }}
-        <a title="Edit Auction Info" data-toggle="modal" data-target="#update_auction_modal"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
-        <a title="Add/Remove Auction Managers" data-toggle="modal" data-target="#managers_modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-        </h1>
+        <a title="Edit Auction Info" class="management_button" data-toggle="modal" data-target="#update_auction_modal"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+        <a title="Add/Remove Auction Managers" class="management_button" data-toggle="modal" data-target="#managers_modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+    </h1>
     <div class="row" id="stages">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="stage_tracker">
             <ol>
