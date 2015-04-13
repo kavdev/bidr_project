@@ -18,7 +18,7 @@
                 {% for user in auction.managers.all %}
                 <tr id="manager_{{ user.id }}">
                     <td class="text-left">
-                        {{ user.fullname }}
+                        {{ user.get_full_name }}
                     </td>
                     <td class="text-right">
                         {{ user.email }}
@@ -35,7 +35,7 @@
                     <div class="col-md-6 col-md-offset-3">
                     <p class="help-block text-danger">{{ form.non_field_errors }}</p>
                     <div class="form-group">
-                        {% render_field form.manager_email required=true class+="form-control" %}
+                        {% render_field form.manager_email placeholder="User email address" required=true class+="form-control" %}
                         <p class="help-block text-danger">{{ form.manager_email.errors }}</p>
                     </div>
                     {% csrf_token %}
