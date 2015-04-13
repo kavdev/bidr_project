@@ -29,11 +29,10 @@ from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
 
-from .apps.auctions.ajax import remove_manager, is_one_collection_empty
-from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection
+from .apps.auctions.ajax import remove_manager, can_start_auction
+from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection, PopulateBidables
 
 from .apps.core.utils import user_is_type, UserType
-
 
 admin.autodiscover()
 
@@ -77,15 +76,16 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/plan/$', login_required(user_is_type(UserType.MANAGER)(AuctionPlanView.as_view())), name='auction_plan'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/managers/$', login_required(user_is_type(UserType.MANAGER)(AuctionManageView.as_view())), name='auction_managers'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/managers/remove$', login_required(user_is_type(UserType.MANAGER)(remove_manager)), name='remove_manager'),
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/hasemptycollection/$', login_required(user_is_type(UserType.MANAGER)(is_one_collection_empty)), name='is_one_collection_empty'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/preflight-check/$', login_required(user_is_type(UserType.MANAGER)(can_start_auction)), name='preflight_check'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/start/$', login_required(user_is_type(UserType.MANAGER)(start_auction)), name='start_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/observe/$', login_required(user_is_type(UserType.MANAGER)(AuctionObserveView.as_view())), name='auction_observe'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/observe/populate/$', login_required(user_is_type(UserType.MANAGER)(PopulateBidables.as_view())), name='populate_bidables'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/end/$', login_required(user_is_type(UserType.MANAGER)(end_auction)), name='end_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(user_is_type(UserType.MANAGER)(AuctionClaimView.as_view())), name='auction_claim'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/report/$', login_required(user_is_type(UserType.MANAGER)(AuctionReportView.as_view())), name='auction_report'),
 ]
 
-# Items remove_manager
+# Items
 urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemUpdateView.as_view())), name='update_item'),

@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 
 from ..auctions.models import STAGES
+from ..items.ajax import PopulateBidables
 from ..organizations.models import Organization
 from .models import Auction
 from .forms import ManagerForm
@@ -122,6 +123,12 @@ class AuctionPlanView(AuctionMixin, DetailView):
 class AuctionObserveView(AuctionMixin, DetailView):
     template_name = "auctions/observe.html"
     stage = STAGES.index("Observe")
+
+    def get_context_data(self, **kwargs):
+        context = super(AuctionObserveView, self).get_context_data(**kwargs)
+        context["datatables_class"] = PopulateBidables
+        context["kwargs"] = self.kwargs
+        return context
 
 
 class AuctionClaimView(AuctionMixin, DetailView):

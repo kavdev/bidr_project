@@ -1,6 +1,28 @@
 {% extends 'auctions/auction_base.html' %}
-{% load currency %}
 
+{% load currency %}
+{% load datatables %}
+{% load staticfiles %}
+
+{% block extended_head %}
+    {{ block.super }}
+    <link href="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #datatable_processing {
+            top: 160px;
+            height: 118px;
+        }
+        
+        .paginate_button a {
+            border-radius: 0 !important;
+        }
+        
+        .paginate_button.active a {
+            background-color: rgb(64, 200, 112);
+            border-color: rgb(64, 200, 112);
+        }
+    </style>
+{% endblock %}
 
 {% block auction_inner %}
     <div class="row auction_action_button">
@@ -8,106 +30,84 @@
             <a class="btn btn-default" onClick="confirm_end()">End Auction</a>
         </div>
     </div>
-    <table class="table table-hover">
-        <thead>
+    <table class="table table-hover" id="datatable">
+        {% comment %}
+            <tr data- data->
+        {% endcomment %}
+
+        <tfoot>
             <tr>
-                <th>Item Picture</th>
-                <th>Item Name</th>
-                <th>Description</th>
-                <th>Current Highest Bid</th>
+                <th></th>
             </tr>
-        </thead>
-        <tbody>
-        {% for item in auction.bidables.all %}
-            <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}">
-                <td>
-                    {% for image_url in item.image_urls %}
-                        <img src="{{ image_url }}" alt="Item Picture" height="100px">
-                    {% endfor %}
-                </td>
-                <td>
-                    {{ item.name }}
-                </td>
-                
-                <td>
-                    {{ item.description }}
-                </td>
-                <td>
-                    {{ item.highest_bid.amount|currency }}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+        </tfoot>
     </table>
     
     {% for abstractitem in auction.bidables.all %}
-
-<div class="modal fade" id="item_modal_{{abstractitem.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{abstractitem.id}}" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h1 class="modal-title" id="myModalLabel">
-            {{ abstractitem.name }}
-        </h1>
-      </div>
-      
-      <div class="modal-body">
-        <div class="row">
-            <div class="col-md-4">
-                {% for pictureurl in abstractitem.image_urls %}
-                        <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
-                {% endfor %}
-            </div>
-            <div class="col-md-8">
-                <h4>{{ abstractitem.description }}</h4>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-xs-12">
-                <p><h3>Bid History</h3></p>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-xs-12">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>User Email</th>
-                            <th>Time</th>
-                            <th>Bid</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for bid in abstractitem.bids.all %}
-                        <tr>
-                            <td>
-                                {{ bid.user }} 
-                            </td>
-                            <td>
-                                {{ bid.timestamp }}
-                            </td>
-                            
-                            <td>
-                                {{ bid.amount|currency }}
-                            </td>
-                        </tr>
-                        </a>
+        <div class="modal fade" id="item_modal_{{abstractitem.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{abstractitem.id}}" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h1 class="modal-title" id="myModalLabel">
+                    {{ abstractitem.name }}
+                </h1>
+              </div>
+              
+              <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        {% for pictureurl in abstractitem.image_urls %}
+                                <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
                         {% endfor %}
-                    </tbody>
-                </table>
+                    </div>
+                    <div class="col-md-8">
+                        <h4>{{ abstractitem.description }}</h4>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><h3>Bid History</h3></p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User Email</th>
+                                    <th>Time</th>
+                                    <th>Bid</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for bid in abstractitem.bids.all %}
+                                <tr>
+                                    <td>
+                                        {{ bid.user }} 
+                                    </td>
+                                    <td>
+                                        {{ bid.timestamp }}
+                                    </td>
+                                    
+                                    <td>
+                                        {{ bid.amount|currency }}
+                                    </td>
+                                </tr>
+                                </a>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+              <div class="modal-footer">
+              </div>
             </div>
+          </div>
         </div>
-        </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
-</div>
-
-{% endfor %}
+    {% endfor %}
 {% endblock %}
 
 {% block extended_scripts %}
@@ -118,10 +118,18 @@
             $("#observe_stage").addClass("active");
         });
         
-    function confirm_end() {
-        if (confirm('Are you sure you want to end the Auction?')) {
-            window.location.href = "{% url 'end_auction' slug=org_slug auction_id=auction.id %}";
+        function confirm_end() {
+            if (confirm('Are you sure you want to end this auction?')) {
+                window.location.href = "{% url 'end_auction' slug=org_slug auction_id=auction.id %}";
+            }
         }
-    }
+    </script>
+    {% datatables_script %}
+    <script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#datatable_length, #datatable_info").addClass("col-xs-6 text-left");
+            $("#datatable_filter, #datatable_paginate").addClass("col-xs-6 text-right");
+        });
     </script>
 {% endblock %}

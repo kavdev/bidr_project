@@ -1,6 +1,13 @@
-from django_ajax.decorators import ajax
-from django.views.decorators.http import require_POST
+"""
+.. module:: bidr.apps.auctions.ajax
+   :synopsis: Bidr Silent Auction System Auction AJAX Methods.
+
+"""
+
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_POST
+
+from django_ajax.decorators import ajax
 
 from ..auctions.models import Auction
 
@@ -19,19 +26,23 @@ def remove_manager(request, slug, auction_id):
 
 @ajax
 @require_POST
-def is_one_collection_empty(request, slug, auction_id):
-    auc_instance = Auction.objects.get(id=auction_id)
-    itemcollections = auc_instance.bidables.filter(polymorphic_ctype__name="item collection").order_by("name")
-    singleitems = auc_instance.bidables.filter(polymorphic_ctype__name="items").order_by("name")
-    is_empty = False
+def can_start_auction(request, slug, auction_id):
+    auction_instance = Auction.objects.get(id=auction_id)
+    itemcollections = auction_instance.bidables.filter(polymorphic_ctype__name="item collection")
+    items = auction_instance.bidables.filter(polymorphic_ctype__name="items")
+
+    good_to_go = True
+    message = ""
+
+    # Are any of the collections empty?
     for item_collection in itemcollections:
         if not item_collection.items.all():
-            is_empty = True
+            good_to_go = False
+            message = "The auction cannot start with an empty item collection."
 
-    if not singleitems.all():
-        is_empty = True
+    # Are there any items
+    if not items:
+        good_to_go = False
+        message = "The auction cannot start without any items."
 
-    if is_empty:
-        return {"success": True}
-    else:
-        return {"success": False}
+    return {"success": good_to_go, "message": message}
