@@ -40,7 +40,7 @@ class AuctionView(TemplateView):
 class AuctionCreateView(CreateView):
     template_name = "auctions/create_auction.html"
     model = Auction
-    fields = ['name', 'description', 'end_time', 'optional_password']
+    fields = ['name', 'description', 'end_time', 'start_time', 'optional_password']
 
     def get_success_url(self):
         return reverse_lazy('auction_plan', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
@@ -56,7 +56,7 @@ class AuctionCreateView(CreateView):
 class AuctionUpdateView(UpdateView):
     template_name = "auctions/update_auction.html"
     model = Auction
-    fields = ['name', 'description', 'end_time', 'optional_password']
+    fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
 
     def get_object(self, queryset=None):
         return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
