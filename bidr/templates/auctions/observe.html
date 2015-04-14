@@ -76,22 +76,26 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>Name</th>
                                     <th>User Email</th>
                                     <th>Time</th>
                                     <th>Bid</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for bid in abstractitem.bids.all %}
+                            {% for bid in abstractitem.get_bids_by_amount %}
                                 <tr>
-                                    <td>
+                                    <td class="text-left">
+                                        {{ bid.user.get_full_name }} 
+                                    </td>
+                                    <td class="text-left">
                                         {{ bid.user }} 
                                     </td>
-                                    <td>
+                                    <td class="text-left">
                                         {{ bid.time_delta }}
                                     </td>
                                     
-                                    <td>
+                                    <td class="text-left">
                                         {{ bid.amount|currency }}
                                     </td>
                                 </tr>

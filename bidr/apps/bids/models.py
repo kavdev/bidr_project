@@ -12,6 +12,7 @@ from django.db.models.fields.related import ForeignKey
 from django.conf import settings
 from datetime import datetime, timedelta
 from time import strftime
+import math
 
 
 class Bid(Model):
@@ -29,14 +30,19 @@ class Bid(Model):
         elapsed = now - self.timestamp
 
         if now - timedelta(hours=1) < now - elapsed:
-            testdatetime = now - elapsed
-            stringtime = testdatetime.strftime("%M")
-            return stringtime + " minutes ago"
+            minago = math.ceil(elapsed.seconds / 60)
+            return str(minago) + " minutes ago"
         elif now - timedelta(hours=2) < now - elapsed:
             return "1 hour ago"
         elif now - timedelta(hours=3) < now - elapsed:
             return "2 hours ago"
+        elif now - timedelta(hours=4) < now - elapsed:
+            return "3 hours ago"
+        elif now - timedelta(hours=5) < now - elapsed and now - timedelta(hours=12) < now - elapsed:
+            testdatetime = self.timestamp
+            stringtime = testdatetime.strftime("%I:%M %p")
+            return stringtime
         else:
             testdatetime = self.timestamp
-            stringtime = testdatetime.strftime("%I:%M %Y-%m-%d ")
+            stringtime = testdatetime.strftime("%Y-%m-%d  %I:%M %p")
             return stringtime
