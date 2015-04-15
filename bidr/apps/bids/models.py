@@ -38,7 +38,7 @@ class Bid(Model):
             return "2 hours ago"
         elif now - timedelta(hours=4) < now - elapsed:
             return "3 hours ago"
-        elif now - timedelta(hours=5) < now - elapsed and now - timedelta(hours=12) < now - elapsed:
+        elif now - timedelta(hours=5) < now - elapsed and now.date.day:
             testdatetime = self.timestamp
             stringtime = testdatetime.strftime("%I:%M %p")
             return stringtime
