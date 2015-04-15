@@ -146,4 +146,13 @@
         </section>
 {% endblock %}
 
-{% block extended_scripts %}<script type="text/javascript" src="{% static 'js/cbpAnimatedHeader.js' %}"></script>{% endblock %}
+{% block extended_scripts %}
+<script type="text/javascript" src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
+{% if not form.is_valid %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#register").scrollIntoView();
+        });
+    </script>
+{% endif %}
+{% endblock %}

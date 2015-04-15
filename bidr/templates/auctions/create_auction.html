@@ -17,6 +17,13 @@
                 <p class="help-block text-danger">{{ form.description.errors }}</p>
             </div>
             <div class="form-group">
+                <div class='input-group date' id='start_time_datepicker'>
+                    {% render_field form.start_time placeholder="Start Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.start_time.errors }}</p>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class='input-group date' id='end_time_datepicker'>
                     {% render_field form.end_time placeholder="End Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
                     <p class="help-block text-danger">{{ form.end_time.errors }}</p>
@@ -39,6 +46,14 @@
 
 {% block extended_scripts %}
 {{ block.super }}
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#start_time_datepicker').datetimepicker({
+            format: 'YYYY-MM-DD hh:mm:ss'
+        });
+    });
+    </script>
+    
     <script type="text/javascript">
     $(document).ready(function() {
         $('#end_time_datepicker').datetimepicker({

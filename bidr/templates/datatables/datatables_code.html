@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript">
+    var {{ datatable_name }};
+
+    // initialize the dataTable
+    $(document).ready(function() {
+    	{{ datatable_name }} = $("#{{ datatable_name }}").dataTable({% autoescape off %}{{ datatable_options }}{% endautoescape %});
+    });
+</script>

@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 
 from ..auctions.models import STAGES
+from ..items.ajax import PopulateBidables
 from ..organizations.models import Organization
 from .models import Auction
 from .forms import ManagerForm
@@ -39,7 +40,7 @@ class AuctionView(TemplateView):
 class AuctionCreateView(CreateView):
     template_name = "auctions/create_auction.html"
     model = Auction
-    fields = ['name', 'description', 'end_time', 'optional_password']
+    fields = ['name', 'description', 'end_time', 'start_time', 'optional_password']
 
     def get_success_url(self):
         return reverse_lazy('auction_plan', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.object.id})
@@ -55,7 +56,7 @@ class AuctionCreateView(CreateView):
 class AuctionUpdateView(UpdateView):
     template_name = "auctions/update_auction.html"
     model = Auction
-    fields = ['name', 'description', 'end_time', 'optional_password']
+    fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
 
     def get_object(self, queryset=None):
         return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
@@ -123,6 +124,12 @@ class AuctionObserveView(AuctionMixin, DetailView):
     template_name = "auctions/observe.html"
     stage = STAGES.index("Observe")
 
+    def get_context_data(self, **kwargs):
+        context = super(AuctionObserveView, self).get_context_data(**kwargs)
+        context["datatables_class"] = PopulateBidables
+        context["kwargs"] = self.kwargs
+        return context
+
 
 class AuctionClaimView(AuctionMixin, DetailView):
     template_name = "auctions/claim.html"
@@ -131,7 +138,6 @@ class AuctionClaimView(AuctionMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(AuctionClaimView, self).get_context_data(**kwargs)
         context["unclaimed_items"] = self.object.bidables.filter(claimed=False).exclude(bids=None)
-
         return context
 
 

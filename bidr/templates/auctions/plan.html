@@ -231,9 +231,9 @@
         }
 
         function confirm_start() {
-            ajaxPost("{% url 'is_one_collection_empty' slug=org_slug auction_id=auction.id %}", {}, function(response_context) {
-                if (response_context["success"]) {
-                    alert('All collections must have at least one item in them.');
+            ajaxPost("{% url 'preflight_check' slug=org_slug auction_id=auction.id %}", {}, function(response_context) {
+                if (response_context["success"] === false) {
+                    alert(response_context["message"]);
                 }
                 else if (confirm('Are you sure you want to start this Auction? You will not be able to add or modify items once the auction has begun.')) {
                     window.location.href = "{% url 'start_auction' slug=org_slug auction_id=auction.id %}";

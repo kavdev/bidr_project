@@ -82,7 +82,7 @@ class CreateBidAPIView(CreateAPIView):
         bid_item = bid_item_queryset.all()[0]
         outbid_bid = bid_item.get_second_highest_bid()
 
-        if outbid_bid:
+        if outbid_bid and outbid_bid.user.email != instance.user.email:
             emails.append(outbid_bid.user.email)
 
             send_mail(subject="Bidr: You've been outbid!",

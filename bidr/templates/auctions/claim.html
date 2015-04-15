@@ -3,10 +3,11 @@
 {% load currency %}
 
 {% block navbar_fixed %}{% endblock %}
-
+{% block manage_modal_buttons %}{% endblock %}
+{% block manage_modal %}{% endblock %}
 {% block auction_inner %}
     
-        <table class="table table-hover">
+        <table class="table table-hover" onload="check_no_bid()">
         <thead>
             <tr>
                 <th>Item Picture</th>
@@ -41,8 +42,84 @@
                     </td>
                 </tr>
             {% endfor %}
-        </tbody>
+        </tbody>    
     </table>   
+    {% for item in unclaimed_items %}
+        <div class="modal fade" id="item_modal_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{item.id}}" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h1 class="modal-title" id="myModalLabel">
+                    {{ item.name }}
+                </h1>
+              </div>
+              
+              <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        {% for pictureurl in item.image_urls %}
+                                <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-8">
+                        <h4>{{ item.description }}</h4>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p><h3>Bid History</h3></p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>User Email</th>
+                                    <th>Time</th>
+                                    <th>Bid</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for bid in item.get_bids_by_amount %}
+                                <tr>
+                                    <td class="text-left">
+                                        {{ bid.user.get_full_name }} 
+                                    </td>
+                                    <td class="text-left">
+                                        {{ bid.user }} 
+                                    </td>
+                                    <td class="text-left">
+                                        {{ bid.time_delta }}
+                                    </td>
+                                    
+                                    <td class="text-left">
+                                        {{ bid.amount|currency }}
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-default" type="button" onclick="remove_bid({{ item.id }}, {{ bid.id }})">
+                                            Remove bid 
+                                        </button>
+                                        item.
+                                    </td>
+                                </tr>
+                                </a>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
 {% endblock %}
 {% block extended_scripts %}
 {{ block.super }}
@@ -57,6 +134,22 @@
             else {
                 return false;
             }
+        }
+        function remove_bid(item_id, bid_id) {
+            var response = confirm('Are you sure you want to remove the highest bid?');
+            if (response) {
+                ajaxPost("{% url 'remove_bid' slug=org_slug auction_id=auction.id %}", {"item_id": item_id, "bid_id": bid_id}, function(response_context) {
+                    $("#bid_" + bid_id).remove();
+                });    
+            }
+        }
+        function check_no_bid(){
+//             console.log("Console in check no bid outside")
+//             print("Print in check no bid outside")
+//             ajaxPost("{% url 'claim_item' slug=org_slug auction_id=auction.id %}", function(response_context) {
+//                 console.log("Console in check no bid")
+//                 print("Print in check no bid")
+//                 });
         }
     </script>
     <script type="text/javascript">
