@@ -3,8 +3,10 @@
 
 {% block auction_stages %}
     <h1 class="page_title text-center">{{ auction.name }}
+    {% block manage_modal_buttons %}
         <a title="Edit Auction Info" class="management_button" data-toggle="modal" data-target="#update_auction_modal"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
         <a title="Add/Remove Auction Managers" class="management_button" data-toggle="modal" data-target="#managers_modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
+    {% endblock %}
     </h1>
     <div class="row" id="stages">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="stage_tracker">
@@ -17,7 +19,7 @@
         </div>
     </div>
 
-
+{% block manage_modal %}
 <div class="modal fade" id="update_auction_modal" tabindex="-1" role="dialog" aria-labelledby="update_auction" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -51,6 +53,7 @@
             </div>
         </div>
     </div>
+    {% endblock %}
 {% endblock %}
 
 {% block admin_content %}
