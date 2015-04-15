@@ -25,7 +25,7 @@ class Organization(Model):
 
     name = CharField(max_length=100, verbose_name="Name")
     slug = SlugField(max_length=120, verbose_name="Slug")
-    email = EmailField(unique=True, verbose_name='Email Address', null=True, blank=True)
+    email = EmailField(verbose_name='Email Address', null=True, blank=True)
     phone_number = PhoneNumberField(verbose_name='Phone Number', null=True, blank=True)
     website = URLField(verbose_name="Website", null=True, blank=True)
     owner = ForeignKey(settings.AUTH_USER_MODEL, related_name="owner", verbose_name="Owner")

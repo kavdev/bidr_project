@@ -15,14 +15,14 @@
             </div>
             <div class="form-group">
                 {% render_field form.email placeholder="Organization Email Address" class+="form-control" %}
-                <p class="help-block text-danger">{{ form.password.errors }}</p>
+                <p class="help-block text-danger">{{ form.email.errors }}</p>
             </div>
             <div class="form-group">
                 {% render_field form.phone_number placeholder="Organization Phone Number" class+="form-control" %}
                 <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
             </div>
             <div class="form-group">
-                {% render_field form.website placeholder="Organization Website" class+="form-control" %}
+                {% render_field form.website type=text placeholder="Organization Website" class+="form-control" %}
                 <p class="help-block text-danger">{{ form.website.errors }}</p>
              </div>
             {% csrf_token %}
