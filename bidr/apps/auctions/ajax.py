@@ -29,7 +29,7 @@ def remove_manager(request, slug, auction_id):
 def can_start_auction(request, slug, auction_id):
     auction_instance = Auction.objects.get(id=auction_id)
     itemcollections = auction_instance.bidables.filter(polymorphic_ctype__name="item collection")
-    items = auction_instance.bidables.filter(polymorphic_ctype__name="items")
+    items = auction_instance.bidables.filter(polymorphic_ctype__name="item")
 
     good_to_go = True
     message = ""
@@ -41,7 +41,7 @@ def can_start_auction(request, slug, auction_id):
             message = "The auction cannot start with an empty item collection."
 
     # Are there any items
-    if not items:
+    if not items.exists():
         good_to_go = False
         message = "The auction cannot start without any items."
 

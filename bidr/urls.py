@@ -3,6 +3,7 @@
    :synopsis: Bidr Silent Auction System URLs.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
 
 """
 
@@ -30,7 +31,7 @@ from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
 
 from .apps.auctions.ajax import remove_manager, can_start_auction
-from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection, PopulateBidables
+from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection, PopulateBidables, remove_bid #, check_no_bid
 
 from .apps.core.utils import user_is_type, UserType
 
@@ -96,7 +97,10 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemCollectionUpdateView.as_view())), name='update_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item_collection)), name='delete_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/remove-highest-bid/$', login_required(user_is_type(UserType.MANAGER)(remove_bid)), name='remove_bid'),
+#    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/check-no-bid/$', login_required(user_is_type(UserType.MANAGER)(check_no_bid)), name='check_no_bid'),
 ]
+
 
 # Hooks to intentionally raise errors
 urlpatterns += [

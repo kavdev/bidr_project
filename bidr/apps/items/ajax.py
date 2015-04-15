@@ -3,6 +3,7 @@
    :synopsis: Bidr Silent Auction System Item AJAX Methods.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
 
 """
 
@@ -19,6 +20,7 @@ from ..bids.models import Bid
 from ..core.templatetags.currency import currency
 from ..datatables.ajax import BidrDatatablesPopulateView
 from .models import AbstractItem, Item, ItemCollection
+from django.core.context_processors import request
 
 
 @ajax
@@ -38,6 +40,24 @@ def claim_item(request, slug, auction_id):
         auction_instance.stage = STAGES.index("Report")
         auction_instance.save()
         return redirect('auction_report', slug, auction_id)
+
+
+# def check_no_bid(request, slug, auction_id):
+#     auction_instance = Auction.objects.get(id=auction_id)
+#     unclaimed_items = auction_instance.bidables.filter(claimed=False).exclude(bids=None)
+# 
+#     if not unclaimed_items:
+#         auction_instance.stage = STAGES.index("Report")
+#         auction_instance.save()
+#         return redirect('auction_report', slug, auction_id)
+
+
+@ajax
+@require_POST
+def remove_bid(request, slug, auction_id):
+    bid_id = request.POST["bid_id"]
+    bid_instance = Bid.objects.get(id=bid_id)
+    bid_instance.delete()
 
 
 @ajax
