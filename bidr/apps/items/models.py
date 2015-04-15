@@ -42,6 +42,9 @@ class AbstractItem(PolymorphicModel):
     def __str__(self):
         return self.name
 
+    def get_bids_by_amount(self):
+        return self.bids.all().order_by("-amount")
+
     @property
     def image_urls(self):
         raise NotImplementedError("Subclasses should implement this!")
