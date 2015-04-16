@@ -148,10 +148,10 @@
 
 {% block extended_scripts %}
 <script type="text/javascript" src="{% static 'js/cbpAnimatedHeader.js' %}"></script>
-{% if not form.is_valid %}
+{% if form.errors %}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#register").scrollIntoView();
+            $("#register")[0].scrollIntoView();
         });
     </script>
 {% endif %}
