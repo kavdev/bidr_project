@@ -152,7 +152,8 @@ class PopulateBidables(BidrDatatablesPopulateView):
         return "hyperlinked_row"
 
     def get_row_data_attributes(self, row):
-        return {"data-toggle": "modal", "data-target": "#item_modal_" + str(row.id)}
+        self.kwargs.update({"pk": row.id})
+        return {"data-toggle": "modal", "data-target": "#item_modal_" + str(row.id), "href": reverse('bid_modal', kwargs=self.kwargs)}
 
     def render_column(self, row, column):
         if column == 'claimed':

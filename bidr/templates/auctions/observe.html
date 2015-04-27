@@ -46,68 +46,20 @@
         <div class="modal fade" id="item_modal_{{abstractitem.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{abstractitem.id}}" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div class="modal-header">
                 <h1 class="modal-title" id="myModalLabel">
-                    {{ abstractitem.name }}
+                    Loading...
                 </h1>
-              </div>
+            </div>
+            <div class="modal-body">
+                This should take just a second...
+            </div>
               
-              <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        {% for pictureurl in abstractitem.image_urls %}
-                                <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
-                        {% endfor %}
-                    </div>
-                    <div class="col-md-8">
-                        <h4>{{ abstractitem.description }}</h4>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p><h3>Bid History</h3></p>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-12">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>User Email</th>
-                                    <th>Time</th>
-                                    <th>Bid</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for bid in abstractitem.get_bids_by_amount %}
-                                <tr>
-                                    <td class="text-left">
-                                        {{ bid.user.get_full_name }} 
-                                    </td>
-                                    <td class="text-left">
-                                        {{ bid.user }} 
-                                    </td>
-                                    <td class="text-left">
-                                        {{ bid.time_delta }}
-                                    </td>
-                                    
-                                    <td class="text-left">
-                                        {{ bid.amount|currency }}
-                                    </td>
-                                </tr>
-                                </a>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                </div>
-              <div class="modal-footer">
-              </div>
+            <div class="modal-footer">
+            </div>
+            
             </div>
           </div>
         </div>
