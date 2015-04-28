@@ -1,0 +1,42 @@
+{% extends "client_base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block extended_head %}
+    <style class="text/css">
+        body {
+            background-color: @bidrgreen;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <img id="bidr_bird_splash" src="{% static 'img/bidr_bird_only.svg' %}" height="100px" alt="Bidr" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <form name="login_form" method="POST" action="{% url 'admin_login' %}" id="login_form">
+                <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+                <div class="form-group">
+                    {% render_field form.username type="email" placeholder="someone@example.com" required=true class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.username.errors }}</p>
+                </div>
+                <div class="form-group">
+                    {% render_field form.password type="password" placeholder="Password" required=true class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.password.errors }}</p>
+                </div>
+                {% if request.GET.next %}<input type="hidden" name="next" id="id_next" value="{{ request.GET.next }}" />{% endif %}
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <button type="submit" form="login_form" class="btn btn-default splash-button">Log in</button>
+        </div>
+    </div>
+{% endblock %}

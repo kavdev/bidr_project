@@ -20,6 +20,8 @@ from django.views.defaults import permission_denied, page_not_found
 
 from djoser import urls as api_auth_urls
 
+from .apps.client import urls as client_urls
+
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionManageView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
@@ -49,6 +51,11 @@ urlpatterns = [
     url(r'^admin/', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^login/$', LoginView.as_view(), name='admin_login'),
     url(r'^logout/$', logout, name='admin_logout'),
+]
+
+# Client
+urlpatterns += [
+    url(r'^client/', include(client_urls, namespace="client"))
 ]
 
 # API

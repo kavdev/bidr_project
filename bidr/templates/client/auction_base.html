@@ -1,0 +1,23 @@
+{% extends "client_base.html" %}
+
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+
+{% block header %}
+    <div class="row" id="header">
+        <div class="col-xs-4">
+            {% block header_left %}{% endblock %}
+        </div>
+        <div class="col-xs-4 text-center">
+            <img src="{% static 'img/bidr_bird_only.svg' %}" height="40px" alt="Bidr" />
+        </div>
+        <div class="col-xs-4">
+            {% block header_right %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% block auction_content %}{% endblock %}
+{% endblock %}
