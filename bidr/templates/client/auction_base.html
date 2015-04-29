@@ -16,8 +16,8 @@
         <div class="col-xs-4 text-center">
             <img src="{% static 'img/bidr_bird_only.svg' %}" height="40px" alt="Bidr" />
         </div>
-        <div class="col-xs-4">
-            {% block header_right %}{% endblock %}
+        <div class="col-xs-4 text-right">
+            <a class="client-logout" href="{% url 'logout' %}">Log Out</a>
         </div>
     </div>
 {% endblock %}

@@ -1,5 +1,7 @@
 {% extends "client/auction_base.html" %}
 
+{% block header_left %}<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>{% endblock %}
+
 {% block auction_content %}
 <div class="row">
     <div class="col-xs-12">
@@ -106,7 +108,6 @@
         $(document).ready(function () {
             var owl = $("#carousel_container").owlCarousel({
                 items: 1,
-                autoHeight: true,
                 startPosition: 1
             });
             
@@ -119,9 +120,13 @@
             });
         });
         
+        $(window).resize(function () {
+            $(".owl-stage").css("min-height", $(window).height() - 95 + "px");
+        });
+        
         function slide_owl(slide_id) {
             var owl = $("#carousel_container");
-            owl.trigger("to.owl.carousel", [slide_id, 300]);
+            owl.trigger("to.owl.carousel", [slide_id, 100]);
         }
     </script>    
 {% endblock %}
