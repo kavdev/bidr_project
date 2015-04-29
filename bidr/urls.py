@@ -26,7 +26,6 @@ from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateVi
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView, ItemUpdateView, ItemCollectionUpdateView, ItemModalView
-from .apps.client.views import ItemListView, ItemDetailView
 
 from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.api import GetBidrUserParticipatedAuctionsView
@@ -58,8 +57,6 @@ urlpatterns = [
 # Client
 urlpatterns += [
     url(r'^client/', include(client_urls, namespace="client")),
-    url(r'^client/auctions/(?P<auction_id>\d+)/list/$', login_required(ItemListView.as_view()), name='client_item_list'),
-    url(r'^client/auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/$', login_required(ItemDetailView.as_view()), name='client_item_detail'),
 ]
 
 # API

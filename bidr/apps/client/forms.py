@@ -13,6 +13,7 @@ from django.forms.models import ModelForm
 
 from ..auctions.models import Auction
 from ..bids.models import Bid
+from ..core.templatetags.currency import currency
 
 
 class AddAuctionForm(ModelForm):
@@ -39,7 +40,17 @@ class AddAuctionForm(ModelForm):
         return self.cleaned_data
 
 
-class ItemBidForm(ModelForm):
+class AddBidForm(ModelForm):
+
+    def __init__(self, item_instance, *args, **kwargs):
+        super(AddBidForm, self).__init__(*args, **kwargs)
+        self.item_instance = item_instance
+
+    def clean_amount(self):
+        if self.item_instance.highest_bid and self.cleaned_data['amount'] <= self.item_instance.highest_bid.amount:
+            raise ValidationError("New bid must be greater than " + str(currency(self.item_instance.highest_bid.amount)))
+        else:
+            return self.cleaned_data['amount']
 
     class Meta:
         model = Bid

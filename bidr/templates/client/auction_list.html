@@ -1,6 +1,6 @@
 {% extends "client/auction_base.html" %}
 
-{% block header_left %}<a href="{% url 'client:add_auction' %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>{% endblock %}
+{% block header_left %}<a href="{% url 'client:add_auction' %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Add</a>{% endblock %}
 
 {% block auction_content %}
 <div class="row">
@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         {% for auction in upcoming_auctions %}
-                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                        <tr class="hyperlinked_row" data-href="{% url 'client:item_list' auction_id=auction.id %}">
                             <td>{{ auction }}</td>
                         </tr>
                         {% empty %}
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         {% for auction in current_auctions %}
-                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                        <tr class="hyperlinked_row" data-href="{% url 'client:item_list' auction_id=auction.id %}">
                             <td>{{ auction }}</td>
                         </tr>
                         {% empty %}
@@ -80,7 +80,7 @@
                     </thead>
                     <tbody>
                         {% for auction in complete_auctions %}
-                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                        <tr class="hyperlinked_row" data-href="{% url 'client:item_list' auction_id=auction.id %}">
                             <td>{{ auction }}</td>
                         </tr>
                         {% empty %}

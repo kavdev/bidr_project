@@ -6,28 +6,19 @@
 {% block header_left %}<a href="{% url 'client:home' %}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</a>{% endblock %}
 
 {% block auction_content %}
-<h3 class="page_title text-center">
-    {{ auction_name }}
-</h3>
-
-<h4 class="text-left">
-    My Bids
-</h4>
-    
-    <table class="table table-hover">
+    <h4 class="page_title text-center">{{ auction.name }}</h4>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Item Picture</th>
-                <th>Item Name</th>
-                <th>Current Bid</th>
+                <th colspan=3>My Bids</th>
             </tr>
         </thead>
         <tbody>
         {% for item in my_bids %}
-            <tr class="hyperlinked_row" data-href="{% url 'client_item_detail' auction_id=auction_id pk=item.id %}">
+            <tr class="hyperlinked_row" data-href="{% url 'client:item_detail' auction_id=auction_id pk=item.id %}">
                 <td>
                     {% for image_url in item.image_urls %}
-                        <img src="{{ image_url }}" alt="Item Picture" height="50px">
+                        <img src="{{ image_url }}" alt="Item Picture" width="50px" height="50px">
                     {% endfor %}
                 </td>
                 <td>
@@ -41,25 +32,18 @@
         </tbody>
     </table>
     
-<br>
-<h4 class="text-left">
-    Other Bids
-</h4>
-    
-    <table class="table table-hover">
+    <table class="table table-Other">
         <thead>
             <tr>
-                <th>Item Picture</th>
-                <th>Item Name</th>
-                <th>Current Bid</th>
+                <th colspan=3>Other Bids</th>
             </tr>
         </thead>
         <tbody>
         {% for item in other_items %}
-            <tr class="hyperlinked_row" data-href="{% url 'client_item_detail' auction_id=auction_id pk=item.id %}">
+            <tr class="hyperlinked_row" data-href="{% url 'client:item_detail' auction_id=auction_id pk=item.id %}">
                 <td>
                     {% for image_url in item.image_urls %}
-                        <img src="{{ image_url }}" alt="Item Picture" height="50px">
+                        <img src="{{ image_url }}" alt="Item Picture" width="50px" height="50px">
                     {% endfor %}
                 </td>
                 <td>
@@ -80,7 +64,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function($) {
         $(".hyperlinked_row").click(function() {
-            window.document.location = $(this).data("href");
+            location = $(this).data("href");
         });
     });
 </script>

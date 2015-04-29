@@ -1,0 +1,55 @@
+{% extends "client/auction_base.html" %}
+
+{% load currency %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block header_left %}<a href="{% url 'client:item_list' auction_id=auction.id %}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</a>{% endblock %}
+
+{% block auction_content %}
+<div class="row text-center">
+    <div class="col-xs-12">
+        <h4>{{ object.name }}</h4>
+    </div>
+    <div class="col-xs-12">
+        <img src="{{ object.image_urls.0 }}" alt="Item Picture" height="140px">
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-xs-12">
+        <h5>Current Bid: {{ object.highest_bid.amount|currency }}</h5>
+        <form name="add_bid_form" method="POST" id="add_bid_form">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                    <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            {% render_field form.amount placeholder=object.minumum_bid required=true class+="form-control" %}
+                        </div>
+                        <p class="help-block text-danger">{{ form.amount.errors }}</p>
+                    </div>
+                    {% csrf_token %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <button type="submit" form="add_bid_form" class="btn btn-default bid-button">Place Bid</button>
+                </div>
+            </div>
+        </form>
+        <p>{{ object.description }}</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extended_scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#id_amount").val({{ object.highest_bid.amount }} + 0.01);
+        });
+    
+    </script>
+{% endblock %}
