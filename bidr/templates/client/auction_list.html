@@ -1,6 +1,6 @@
 {% extends "client/auction_base.html" %}
 
-{% block header_left %}<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>{% endblock %}
+{% block header_left %}<a href="{% url 'client:add_auction' %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>{% endblock %}
 
 {% block auction_content %}
 <div class="row">
