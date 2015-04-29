@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% for item in unclaimed_items %}
-                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}" id="item_{{ item.id }}">
+                <tr class="hyperlinked_row" data-toggle="modal" data-target="#item_modal_{{item.id}}" href="{% url 'bid_modal' slug=org_slug auction_id=auction.id pk=item.id %}" id="item_{{ item.id }}">
                     <td>
                         {% for image_url in item.image_urls %}
                             <img src="{{ image_url }}" alt="Item Picture" height="100px">
@@ -48,74 +48,20 @@
         <div class="modal fade" id="item_modal_{{item.id}}" tabindex="-1" role="dialog" aria-labelledby="item_modal_{{item.id}}" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h1 class="modal-title" id="myModalLabel">
-                    {{ item.name }}
+            
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div class="modal-header">
+                <h1 class="modal-title" id="my_modal_label">
+                    Loading...
                 </h1>
-              </div>
+            </div>
+            <div class="modal-body">
+                This should take just a second...
+            </div>
               
-              <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        {% for pictureurl in item.image_urls %}
-                                <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
-                        {% endfor %}
-                    </div>
-                    <div class="col-md-8">
-                        <h4>{{ item.description }}</h4>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p><h3>Bid History</h3></p>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-xs-12">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>User Email</th>
-                                    <th>Time</th>
-                                    <th>Bid</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% for bid in item.get_bids_by_amount %}
-                                <tr>
-                                    <td class="text-left">
-                                        {{ bid.user.get_full_name }} 
-                                    </td>
-                                    <td class="text-left">
-                                        {{ bid.user }} 
-                                    </td>
-                                    <td class="text-left">
-                                        {{ bid.time_delta }}
-                                    </td>
-                                    
-                                    <td class="text-left">
-                                        {{ bid.amount|currency }}
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-default" type="button" onclick="remove_bid({{ item.id }}, {{ bid.id }})">
-                                            Remove bid 
-                                        </button>
-                                        item.
-                                    </td>
-                                </tr>
-                                </a>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                </div>
-              <div class="modal-footer">
-              </div>
+            <div class="modal-footer">
+            </div>
+            
             </div>
           </div>
         </div>

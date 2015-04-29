@@ -1,0 +1,26 @@
+{% extends "client/auction_base.html" %}
+
+{% block auction_content %}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="tabbable">
+            <ul class="nav nav-pills">
+                <li class="left">
+                    <a href="#1" data-toggle="tab">Upcoming</a>
+                </li>
+                <li class="center active">
+                    <a href="#1" data-toggle="tab">Current</a>
+                </li>
+                <li class="right">
+                    <a href="#1" data-toggle="tab">Complete</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="row auction-list">
+    <div class="col-xs-12 text-center">
+        (Auction list)
+    </div>
+</div>
+{% endblock %}

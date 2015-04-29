@@ -17,6 +17,8 @@ from django.utils import timezone
 from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.authtoken.models import Token
 
+from ..auctions.models import Auction
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -80,4 +82,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email])
 
     def get_auctions_participated_in(self):
-        return self.auction_set.all()
+        try:
+            return self.auction_set.all()
+        except AttributeError:
+            return Auction.objects.none()

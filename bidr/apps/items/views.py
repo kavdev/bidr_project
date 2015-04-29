@@ -13,6 +13,8 @@ from django.shortcuts import redirect
 
 from ..auctions.models import Auction
 from ..items.models import Item, ItemCollection
+from bidr.apps.items.models import AbstractItem
+from django.views.generic.detail import DetailView
 
 
 class ItemCreateView(CreateView):
@@ -79,3 +81,13 @@ class ItemCollectionUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('update_item_collection', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id'], 'pk': self.object.id})
+
+
+class ItemModalView(DetailView):
+    template_name = "items/item_modal.html"
+    model = AbstractItem
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemModalView, self).get_context_data(**kwargs)
+        context["org_slug"] = self.kwargs['slug']
+        return context
