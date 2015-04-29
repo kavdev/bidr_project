@@ -30,11 +30,9 @@
                     </thead>
                     <tbody>
                         {% for auction in upcoming_auctions %}
-                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
-                            <tr>
-                                <td>{{ auction }}</td>
-                            </tr>
-                        </a>
+                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                            <td>{{ auction }}</td>
+                        </tr>
                         {% empty %}
                         <tr>
                             <td>You have no upcoming auctions.</td>
@@ -57,11 +55,9 @@
                     </thead>
                     <tbody>
                         {% for auction in current_auctions %}
-                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
-                            <tr>
-                                <td>{{ auction }}</td>
-                            </tr>
-                        </a>
+                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                            <td>{{ auction }}</td>
+                        </tr>
                         {% empty %}
                         <tr>
                             <td>You have no current auctions.</td>
@@ -84,11 +80,9 @@
                     </thead>
                     <tbody>
                         {% for auction in complete_auctions %}
-                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
-                            <tr>
-                                <td>{{ auction }}</td>
-                            </tr>
-                        </a>
+                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                            <td>{{ auction }}</td>
+                        </tr>
                         {% empty %}
                         <tr>
                             <td>You have no complete auctions.</td>
@@ -122,6 +116,10 @@
         
         $(window).resize(function () {
             $(".owl-stage").css("min-height", $(window).height() - 95 + "px");
+        });
+        
+        $(".hyperlinked_row").click(function() {
+            location = $(this).data("href");
         });
         
         function slide_owl(slide_id) {

@@ -8,9 +8,7 @@
 
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import FormView
-from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import FormView
 
 from ..items.models import AbstractItem
 from ..auctions.models import Auction, STAGES
@@ -30,6 +28,13 @@ class AuctionListView(TemplateView):
     def get_queryset(self):
         return self.request.user.participants
 
+    def get_context_data(self, **kwargs):
+        context = super(AuctionListView, self).get_context_data(**kwargs)
+        context["upcoming_auctions"] = self.get_queryset().filter(stage=STAGES.index("Plan"))
+        context["current_auctions"] = self.get_queryset().filter(stage=STAGES.index("Observe"))
+        context["complete_auctions"] = self.get_queryset().filter(stage__gte=STAGES.index("Claim"))
+        return context
+
 
 class ItemListView(TemplateView):
     template_name = "client/auction_items.html"
@@ -46,13 +51,6 @@ class ItemListView(TemplateView):
 class ItemDetailView(FormView):
     template_name = "client/item_details.html"
     model = AbstractItem
-
-    def get_context_data(self, **kwargs):
-        context = super(ItemDetailView, self).get_context_data(**kwargs)
-        context["upcoming_auctions"] = self.get_queryset().filter(stage=STAGES.index("Plan"))
-        context["current_auctions"] = self.get_queryset().filter(stage=STAGES.index("Observe"))
-        context["complete_auctions"] = self.get_queryset().filter(stage__gte=STAGES.index("Claim"))
-        return context
 
 
 class AddAuctionView(FormView):

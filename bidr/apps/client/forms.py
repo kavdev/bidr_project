@@ -43,4 +43,4 @@ class ItemBidForm(ModelForm):
 
     class Meta:
         model = Bid
-        fields = ["bid_amount"]
+        fields = ["amount"]
