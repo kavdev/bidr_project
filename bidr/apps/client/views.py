@@ -9,6 +9,7 @@
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 
 from ..items.models import AbstractItem
 from ..auctions.models import Auction, STAGES
@@ -48,9 +49,13 @@ class ItemListView(TemplateView):
         return context
 
 
-class ItemDetailView(FormView):
+class ItemDetailView(DetailView):
     template_name = "client/item_details.html"
     model = AbstractItem
+
+    def get_context_data(self, **kwargs):
+        context = super(ItemDetailView, self).get_context_data(**kwargs)
+        return context
 
 
 class AddAuctionView(FormView):

@@ -4,20 +4,19 @@
 {% load staticfiles %}
 
 {% block auction_content %}
-<h1 class="page_title text-center">
+<h3 class="page_title text-center">
     {{ auction_name }}
-</h1>
+</h3>
 
-<h1 class="text-left">
+<h4 class="text-left">
     My Bids
-</h1>
+</h4>
     
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Item Picture</th>
                 <th>Item Name</th>
-                <th>Description</th>
                 <th>Current Bid</th>
             </tr>
         </thead>
@@ -26,15 +25,11 @@
             <tr class="hyperlinked_row" data-href="{% url 'client_item_detail' auction_id=auction_id pk=item.id %}">
                 <td>
                     {% for image_url in item.image_urls %}
-                        <img src="{{ image_url }}" alt="Item Picture" height="100px">
+                        <img src="{{ image_url }}" alt="Item Picture" height="50px">
                     {% endfor %}
                 </td>
                 <td>
                     {{ item.name }}
-                </td>
-                
-                <td>
-                    {{ item.description }}
                 </td>
                 <td>
                     {{ item.highest_bid.amount|currency }}
@@ -45,16 +40,15 @@
     </table>
     
 <br>
-<h1 class="text-left">
+<h4 class="text-left">
     Other Bids
-</h1>
+</h4>
     
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Item Picture</th>
                 <th>Item Name</th>
-                <th>Description</th>
                 <th>Current Bid</th>
             </tr>
         </thead>
@@ -63,15 +57,11 @@
             <tr class="hyperlinked_row" data-href="{% url 'client_item_detail' auction_id=auction_id pk=item.id %}">
                 <td>
                     {% for image_url in item.image_urls %}
-                        <img src="{{ image_url }}" alt="Item Picture" height="100px">
+                        <img src="{{ image_url }}" alt="Item Picture" height="50px">
                     {% endfor %}
                 </td>
                 <td>
                     {{ item.name }}
-                </td>
-                
-                <td>
-                    {{ item.description }}
                 </td>
                 <td>
                     {{ item.highest_bid.amount|currency }}
