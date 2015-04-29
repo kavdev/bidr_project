@@ -86,6 +86,10 @@
         $(document).ready(function () {
             $("#datatable_length, #datatable_info").addClass("col-xs-6 text-left");
             $("#datatable_filter, #datatable_paginate").addClass("col-xs-6 text-right");
+            setInterval(function () {
+                ajaxPost("{% url 'check_time' slug=org_slug auction_id=auction.id %}", {}, function(response_context) {
+                });
+            }, 15000);
         });
     </script>
 {% endblock %}
