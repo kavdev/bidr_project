@@ -27,7 +27,6 @@ class AuctionListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionListView, self).get_context_data(**kwargs)
-        print(self.get_queryset())
         context["upcoming_auctions"] = self.get_queryset().filter(stage=STAGES.index("Plan"))
         context["current_auctions"] = self.get_queryset().filter(stage=STAGES.index("Observe"))
         context["complete_auctions"] = self.get_queryset().filter(stage__gte=STAGES.index("Claim"))
