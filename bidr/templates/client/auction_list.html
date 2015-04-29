@@ -28,7 +28,7 @@
                     </thead>
                     <tbody>
                         {% for auction in upcoming_auctions %}
-                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
+                        <a href="{#{% url 'client_item_list' auction_id=auction.id %}#}">
                             <tr>
                                 <td>{{ auction }}</td>
                             </tr>
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         {% for auction in current_auctions %}
-                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
+                        <a href="{#{% url 'client_item_list' auction_id=auction.id %}#}">
                             <tr>
                                 <td>{{ auction }}</td>
                             </tr>
@@ -82,7 +82,7 @@
                     </thead>
                     <tbody>
                         {% for auction in complete_auctions %}
-                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
+                        <a href="{#{% url 'client_item_list' auction_id=auction.id %}#}">
                             <tr>
                                 <td>{{ auction }}</td>
                             </tr>
@@ -120,7 +120,7 @@
         });
         
         function slide_owl(slide_id) {
-            var owl = $("#carousel_container"); //.data('owlCarousel');
+            var owl = $("#carousel_container");
             owl.trigger("to.owl.carousel", [slide_id, 300]);
         }
     </script>    
