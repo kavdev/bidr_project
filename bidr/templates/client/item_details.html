@@ -3,6 +3,8 @@
 {% load staticfiles %}
 {% load widget_tweaks %}
 
+{% block header_left %}<a href="{% url 'client:home' %}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</a>{% endblock %}
+
 {% block auction_content %}
 <br>
 <div class="row text-center">

@@ -3,6 +3,8 @@
 {% load datatables %}
 {% load staticfiles %}
 
+{% block header_left %}<a href="{% url 'client:home' %}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</a>{% endblock %}
+
 {% block auction_content %}
 <h3 class="page_title text-center">
     {{ auction_name }}
