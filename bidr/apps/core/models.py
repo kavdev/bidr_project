@@ -80,9 +80,3 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
         """Sends an email to this user."""
 
         send_mail(subject, message, from_email, [self.email])
-
-    def get_auctions_participated_in(self):
-        try:
-            return self.auction_set.all()
-        except AttributeError:
-            return Auction.objects.none()
