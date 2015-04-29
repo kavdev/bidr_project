@@ -156,6 +156,14 @@ def start_auction(request, slug, auction_id):
 
 def end_auction(request, slug, auction_id):
     auc_instance = Auction.objects.get(id=auction_id)
-    auc_instance.stage = STAGES.index("Claim")
-    auc_instance.save()
-    return redirect('auction_claim', slug, auction_id)
+    
+    unclaimed_items = auc_instance.bidables.filter(claimed=False).exclude(bids=None)
+    
+    if not unclaimed_items:
+        auc_instance.stage = STAGES.index("Report")
+        auc_instance.save()
+        return redirect('auction_report', slug, auction_id)
+    else:
+        auc_instance.stage = STAGES.index("Claim")
+        auc_instance.save()
+        return redirect('auction_claim', slug, auction_id)
