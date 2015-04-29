@@ -11,7 +11,6 @@ from django.db.models.fields import DecimalField, DateTimeField
 from django.db.models.fields.related import ForeignKey
 from django.conf import settings
 from datetime import datetime, timedelta
-from time import strftime
 import math
 
 
