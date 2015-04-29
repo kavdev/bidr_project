@@ -1,0 +1,96 @@
+{% extends "client/auction_base.html" %}
+{% load currency %}
+{% load datatables %}
+{% load staticfiles %}
+
+{% block auction_content %}
+<h1 class="page_title text-center">
+    {{ auction_name }}
+</h1>
+
+<h1 class="text-left">
+    My Bids
+</h1>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Item Picture</th>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Current Bid</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in my_bids %}
+            <tr class="hyperlinked_row" data-href="{% url 'client_item_detail' auction_id=auction_id pk=item.id %}">
+                <td>
+                    {% for image_url in item.image_urls %}
+                        <img src="{{ image_url }}" alt="Item Picture" height="100px">
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ item.name }}
+                </td>
+                
+                <td>
+                    {{ item.description }}
+                </td>
+                <td>
+                    {{ item.highest_bid.amount|currency }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+<br>
+<h1 class="text-left">
+    Other Bids
+</h1>
+    
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Item Picture</th>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Current Bid</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in other_items %}
+            <tr class="hyperlinked_row" data-href="{% url 'client_item_detail' auction_id=auction_id pk=item.id %}">
+                <td>
+                    {% for image_url in item.image_urls %}
+                        <img src="{{ image_url }}" alt="Item Picture" height="100px">
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ item.name }}
+                </td>
+                
+                <td>
+                    {{ item.description }}
+                </td>
+                <td>
+                    {{ item.highest_bid.amount|currency }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block extended_scripts %}
+{{ block.super }}
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".hyperlinked_row").click(function() {
+            window.document.location = $(this).data("href");
+        });
+    });
+</script>
+{% endblock %}
+

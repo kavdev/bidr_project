@@ -1,0 +1,34 @@
+{% extends "client/auction_base.html" %}
+{% load currency %}
+{% load datatables %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block auction_content %}
+
+<div class="row text-center">
+    <div class="col-md-12">
+        <h1>{{ object.name }}</h1>
+    </div>
+    <br>
+    <div class="col-md-12">
+        {% for pictureurl in object.image_urls %}
+                <img src="{{ pictureurl }}" alt="Item Picture" height="300px">
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-12">
+        <p><h3>Current Bid: {{ bid.amount|currency }}</h3></p>
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-xs-12">
+        <div class="col-md-12">
+            <h4>{{ object.description }}</h4>
+        </div>
+    </div>
+</div>
+{% endblock %}
