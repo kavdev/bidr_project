@@ -3,13 +3,16 @@
    :synopsis: Bidr Silent Auction System Forms.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Jarred Stelfox
 
 """
 
 from django.core.exceptions import ValidationError
-from django.forms.models import ModelForm
-from ..auctions.models import Auction
 from django.forms.fields import IntegerField
+from django.forms.models import ModelForm
+
+from ..auctions.models import Auction
+from ..bids.models import Bid
 
 
 class AddAuctionForm(ModelForm):
@@ -34,3 +37,10 @@ class AddAuctionForm(ModelForm):
             raise ValidationError(message)
 
         return self.cleaned_data
+
+
+class ItemBidForm(ModelForm):
+
+    class Meta:
+        model = Bid
+        fields = ["bid_amount"]

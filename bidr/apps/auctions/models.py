@@ -50,6 +50,18 @@ class Auction(Model):
 
     managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="auction_managers", verbose_name="Managers", blank=True)
 
+    def get_my_bids(self, user_id):
+        my_bids = []
+        [my_bids.extend(item.bids.filter(user=user_id)) for item in self.bidables.all()]
+        my_items = []
+        [my_items.append(bid.bids.all()[0]) for bid in my_bids]
+        return list(set(my_items))
+
+    def get_other_items(self, user_id):
+        my_bids = self.get_my_bids(user_id)
+        my_other_items = set(self.bidables.all()) - set(my_bids)
+        return list(my_other_items)
+
     def get_sold_items(self):
         return self.bidables.filter(claimed=True)
 
