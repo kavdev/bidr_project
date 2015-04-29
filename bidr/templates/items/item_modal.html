@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+ <div class="modal-content">
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+        &times;
+    </button>
+    <h1 class="modal-title" id="my_modal_label">
+        {{ object.name }}
+    </h1>
+</div>
+  
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-4">
+            {% for pictureurl in object.image_urls %}
+                    <img src="{{ pictureurl }}" alt="Item Picture" height="100px">
+            {% endfor %}
+        </div>
+        <div class="col-md-8">
+            <h4>{{ object.description }}</h4>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <p><h3>Bid History</h3></p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>User Email</th>
+                        <th>Time</th>
+                        <th>Bid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bid in object.get_bids_by_amount %}
+                        <tr>
+                            <td class="text-left">
+                                {{ bid.user.get_full_name }} 
+                            </td>
+                            <td class="text-left">
+                                {{ bid.user }} 
+                            </td>
+                            <td class="text-left">
+                                {{ bid.time_delta }}
+                            </td>
+                            
+                            <td class="text-left">
+                                {{ bid.amount }}
+                            </td>
+                            <td>
+                                <button class="btn btn-default" type="button" onclick="remove_bid({{ object.id }}, {{ bid.id }})">
+                                    Remove bid 
+                                </button>
+                            </td>
+                        </tr>
+                        </a>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}

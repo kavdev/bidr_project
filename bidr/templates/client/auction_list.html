@@ -1,0 +1,130 @@
+{% extends "client/auction_base.html" %}
+
+{% block header_left %}<a href="{% url 'client:add_auction' %}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>{% endblock %}
+
+{% block auction_content %}
+<div class="row">
+    <div class="col-xs-12">
+        <ul class="nav nav-pills center">
+            <li class="pill left">
+                <a id data-toggle="tab" onclick="slide_owl(0);">Upcoming</a>
+            </li>
+            <li class="pill center active">
+                <a data-toggle="tab" onclick="slide_owl(1);">Current</a>
+            </li>
+            <li class="pill right">
+                <a data-toggle="tab" onclick="slide_owl(2);">Complete</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="carousel_container">
+    <div class="item">
+        <div id="upcoming_auctions" class="row auction-list item">
+            <div class="col-xs-12 text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Upcoming Auctions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auction in upcoming_auctions %}
+                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                            <td>{{ auction }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td>You have no upcoming auctions.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="item">
+        <div id="current_auctions" class="row auction-list item">
+            <div class="col-xs-12 text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Current Auctions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auction in current_auctions %}
+                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                            <td>{{ auction }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td>You have no current auctions.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="item">
+        <div id="complete_auctions" class="row auction-list">
+            <div class="col-xs-12 text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Complete Auctions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auction in complete_auctions %}
+                        <tr class="hyperlinked_row" data-href="{% url 'client_item_list' auction_id=auction.id %}">
+                            <td>{{ auction }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td>You have no complete auctions.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extended_scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var owl = $("#carousel_container").owlCarousel({
+                items: 1,
+                startPosition: 1
+            });
+            
+            owl.on('changed.owl.carousel', function(event) {
+                var index = event.item.index;
+                var map = ["left", "center", "right"]
+                var classname = map[index]
+                $(".pill").removeClass("active");
+                $(".pill." + classname).addClass("active");
+            });
+        });
+        
+        $(window).resize(function () {
+            $(".owl-stage").css("min-height", $(window).height() - 95 + "px");
+        });
+        
+        $(".hyperlinked_row").click(function() {
+            location = $(this).data("href");
+        });
+        
+        function slide_owl(slide_id) {
+            var owl = $("#carousel_container");
+            owl.trigger("to.owl.carousel", [slide_id, 100]);
+        }
+    </script>    
+{% endblock %}

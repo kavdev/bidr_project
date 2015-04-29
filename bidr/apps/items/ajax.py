@@ -42,16 +42,6 @@ def claim_item(request, slug, auction_id):
         return redirect('auction_report', slug, auction_id)
 
 
-# def check_no_bid(request, slug, auction_id):
-#     auction_instance = Auction.objects.get(id=auction_id)
-#     unclaimed_items = auction_instance.bidables.filter(claimed=False).exclude(bids=None)
-# 
-#     if not unclaimed_items:
-#         auction_instance.stage = STAGES.index("Report")
-#         auction_instance.save()
-#         return redirect('auction_report', slug, auction_id)
-
-
 @ajax
 @require_POST
 def remove_bid(request, slug, auction_id):
@@ -152,7 +142,8 @@ class PopulateBidables(BidrDatatablesPopulateView):
         return "hyperlinked_row"
 
     def get_row_data_attributes(self, row):
-        return {"data-toggle": "modal", "data-target": "#item_modal_" + str(row.id)}
+        self.kwargs.update({"pk": row.id})
+        return {"data-toggle": "modal", "data-target": "#item_modal_" + str(row.id), "href": reverse('bid_modal', kwargs=self.kwargs)}
 
     def render_column(self, row, column):
         if column == 'claimed':

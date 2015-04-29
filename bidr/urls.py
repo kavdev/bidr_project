@@ -20,20 +20,24 @@ from django.views.defaults import permission_denied, page_not_found
 
 from djoser import urls as api_auth_urls
 
+from .apps.client import urls as client_urls
+
 from .apps.auctions.views import AuctionView, AuctionCreateView, AuctionUpdateView, AuctionPlanView, AuctionManageView, AuctionObserveView, AuctionClaimView, AuctionReportView, start_auction, end_auction
 from .apps.core.views import IndexView, LoginView, logout, handler500
 from .apps.organizations.views import OrganizationListView, OrganizationCreateView, OrganizationUpdateView
-from .apps.items.views import ItemCreateView, ItemCollectionCreateView, ItemUpdateView, ItemCollectionUpdateView
+from .apps.items.views import ItemCreateView, ItemCollectionCreateView, ItemUpdateView, ItemCollectionUpdateView, ItemModalView
+from .apps.client.views import ItemListView, ItemDetailView
 
 from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
 from .apps.core.api import GetBidrUserParticipatedAuctionsView
 from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
 
-from .apps.auctions.ajax import remove_manager, can_start_auction
-from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection, PopulateBidables, remove_bid #, check_no_bid
+from .apps.auctions.ajax import remove_manager, can_start_auction, check_time
+from .apps.items.ajax import claim_item, delete_item, add_item_to_collection, remove_item_from_collection, delete_item_collection, PopulateBidables, remove_bid
 
 from .apps.core.utils import user_is_type, UserType
+
 
 admin.autodiscover()
 
@@ -49,6 +53,13 @@ urlpatterns = [
     url(r'^admin/', TemplateView.as_view(template_name="honeypot.html"), name="contact"),  # admin site urls, honeypot
     url(r'^login/$', LoginView.as_view(), name='admin_login'),
     url(r'^logout/$', logout, name='admin_logout'),
+]
+
+# Client
+urlpatterns += [
+    url(r'^client/', include(client_urls, namespace="client")),
+    url(r'^client/auctions/(?P<auction_id>\d+)/list/$', login_required(ItemListView.as_view()), name='client_item_list'),
+    url(r'^client/auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/$', login_required(ItemDetailView.as_view()), name='client_item_detail'),
 ]
 
 # API
@@ -84,10 +95,12 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/end/$', login_required(user_is_type(UserType.MANAGER)(end_auction)), name='end_auction'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/$', login_required(user_is_type(UserType.MANAGER)(AuctionClaimView.as_view())), name='auction_claim'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/report/$', login_required(user_is_type(UserType.MANAGER)(AuctionReportView.as_view())), name='auction_report'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/check-time/$', login_required(user_is_type(UserType.MANAGER)(check_time)), name='check_time'),
 ]
 
 # Items
 urlpatterns += [
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/bid-modal$', login_required(user_is_type(UserType.MANAGER)(ItemModalView.as_view())), name='bid_modal'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemUpdateView.as_view())), name='update_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
@@ -98,7 +111,6 @@ urlpatterns += [
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/itemcollections/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item_collection)), name='delete_item_collection'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/claim-item/$', login_required(user_is_type(UserType.MANAGER)(claim_item)), name='claim_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/remove-highest-bid/$', login_required(user_is_type(UserType.MANAGER)(remove_bid)), name='remove_bid'),
-#    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/claim/check-no-bid/$', login_required(user_is_type(UserType.MANAGER)(check_no_bid)), name='check_no_bid'),
 ]
 
 
