@@ -3,6 +3,10 @@
 {% load staticfiles %}
 {% load widget_tweaks %}
 
+{% block extended_head %}
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+{% endblock %}
+
 
 {% block header %}
     <div class="row" id="header">
@@ -12,12 +16,17 @@
         <div class="col-xs-4 text-center">
             <img src="{% static 'img/bidr_bird_only.svg' %}" height="40px" alt="Bidr" />
         </div>
-        <div class="col-xs-4">
-            {% block header_right %}{% endblock %}
+        <div class="col-xs-4 text-right">
+            <a class="client-logout" href="{% url 'admin_logout' %}">Log Out</a>
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
     {% block auction_content %}{% endblock %}
+{% endblock %}
+
+{% block extended_scripts %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>   
 {% endblock %}

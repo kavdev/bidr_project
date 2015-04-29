@@ -15,6 +15,7 @@ from django.db.models.fields import CharField, TextField, DateTimeField, Positiv
 
 from ..items.models import AbstractItem
 from .managers import ManageableAuctionManager
+from builtins import property
 
 
 class AuctionUserInfo(Model):

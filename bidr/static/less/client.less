@@ -1,6 +1,12 @@
 @bidrgreen: rgb(60, 199, 97);
 @brand-danger: rgb(231, 76, 60);
 
+@headerheight: 40px;
+
+body, html {
+    height: 100%;
+}
+
 body {
     background-color: white;
     font-family: "Montserrat";
@@ -8,10 +14,15 @@ body {
 }
 
 #header {
-    height: 40px;
+    height: @headerheight;
     background-color: @bidrgreen;
+    line-height: @headerheight;
+    color: white;
 }
 
+.client-logout, .client-logout:hover, .client-logout:focus, .client-logout:active {
+    color: white;
+}
 
 /* LOGIN */
 #bidr_bird_splash {
@@ -48,6 +59,11 @@ body {
 
 /* NAV PILLS */
 
+.nav-pills.center {
+    display: flex;
+    justify-content: center;
+}
+
 .nav-pills > li > a {
     margin-top: 20px;
 }
@@ -66,16 +82,17 @@ body {
 
 .nav-pills > li > a {
     color: @bidrgreen;
-    border: 1px solid @bidrgreen; //rgb(51, 122, 183);
-    padding: 10px 14px;
+    border: 1px solid @bidrgreen;
+    padding: 6px 14px;
 }
 
 .nav-pills > li > a:hover, .nav-pills > li.active > a:hover, 
 .nav-pills > li > a:focus, .nav-pills > li.active > a:focus, 
 .nav-pills > li > a:active, .nav-pills > li.active > active, 
 .nav-pills > li.active > a {
-    background-color: @bidrgreen; //rgb(51, 122, 183);
+    background-color: @bidrgreen;
     color: white;
+    cursor: pointer;
 }
 
 .nav-pills > li + li {

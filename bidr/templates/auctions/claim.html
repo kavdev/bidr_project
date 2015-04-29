@@ -7,7 +7,7 @@
 {% block manage_modal %}{% endblock %}
 {% block auction_inner %}
     
-        <table class="table table-hover" onload="check_no_bid()">
+        <table class="table table-hover">
         <thead>
             <tr>
                 <th>Item Picture</th>
@@ -88,14 +88,6 @@
                     $("#bid_" + bid_id).remove();
                 });    
             }
-        }
-        function check_no_bid(){
-//             console.log("Console in check no bid outside")
-//             print("Print in check no bid outside")
-//             ajaxPost("{% url 'claim_item' slug=org_slug auction_id=auction.id %}", function(response_context) {
-//                 console.log("Console in check no bid")
-//                 print("Print in check no bid")
-//                 });
         }
     </script>
     <script type="text/javascript">

@@ -10,6 +10,9 @@ from django.views.decorators.http import require_POST
 from django_ajax.decorators import ajax
 
 from ..auctions.models import Auction
+from ..auctions.views import end_auction
+from django.core.context_processors import request
+from _datetime import datetime
 
 
 @ajax
@@ -46,3 +49,14 @@ def can_start_auction(request, slug, auction_id):
         message = "The auction cannot start without any items."
 
     return {"success": good_to_go, "message": message}
+
+
+@ajax
+@require_POST
+def check_time(request, slug, auction_id):
+    current_time = datetime.now()
+    auc_instance = Auction.objects.get(id=auction_id)
+    print("Current time " + str(current_time))
+    print("End Time " + str(auc_instance.end_time))
+    if current_time > auc_instance.end_time:
+        return end_auction(request, slug, auction_id)
