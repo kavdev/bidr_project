@@ -17,9 +17,9 @@
             <img id="bidr_bird_splash" src="{% static 'img/bidr_bird_only.svg' %}" height="100px" alt="Bidr" />
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-            <form name="login_form" method="POST" action="{% url 'admin_login' %}" id="login_form">
+    <form name="login_form" method="POST" action="{% url 'client:login' %}" id="login_form">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
                 <p class="help-block text-danger">{{ form.non_field_errors }}</p>
                 <div class="form-group">
                     {% render_field form.username type="email" placeholder="someone@example.com" required=true class+="form-control" %}
@@ -31,12 +31,12 @@
                 </div>
                 {% if request.GET.next %}<input type="hidden" name="next" id="id_next" value="{{ request.GET.next }}" />{% endif %}
                 {% csrf_token %}
-            </form>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12 text-center">
-            <button type="submit" form="login_form" class="btn btn-default splash-button">Log in</button>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <button type="submit" form="login_form" class="btn btn-default splash-button">Log in</button>
+            </div>
         </div>
-    </div>
+    </form>
 {% endblock %}
