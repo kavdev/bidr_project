@@ -30,7 +30,7 @@
                     </thead>
                     <tbody>
                         {% for auction in upcoming_auctions %}
-                        <a href="{#{% url 'client_item_list' auction_id=auction.id %}#}">
+                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
                             <tr>
                                 <td>{{ auction }}</td>
                             </tr>
@@ -57,7 +57,7 @@
                     </thead>
                     <tbody>
                         {% for auction in current_auctions %}
-                        <a href="{#{% url 'client_item_list' auction_id=auction.id %}#}">
+                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
                             <tr>
                                 <td>{{ auction }}</td>
                             </tr>
@@ -84,7 +84,7 @@
                     </thead>
                     <tbody>
                         {% for auction in complete_auctions %}
-                        <a href="{#{% url 'client_item_list' auction_id=auction.id %}#}">
+                        <a href="{% url 'client_item_list' auction_id=auction.id %}">
                             <tr>
                                 <td>{{ auction }}</td>
                             </tr>
