@@ -6,23 +6,29 @@
 
 """
 
-from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.edit import FormView
-from django.views.generic.list import ListView
+from django.views.generic.base import TemplateView
 
-from ..auctions.models import Auction
+from ..auctions.models import Auction, STAGES
+from ..core.views import LoginView as AdminLoginView
 
 
-class LoginView(FormView):
+class LoginView(AdminLoginView):
     template_name = "client/login.html"
-    form_class = AuthenticationForm
     success_url = reverse_lazy("client:home")
 
 
-class AuctionListView(ListView):
+class AuctionListView(TemplateView):
     template_name = "client/auction_list.html"
     model = Auction
 
     def get_queryset(self):
-        return self.request.user.get_auctions_participated_in()
+        return self.request.user.participants
+
+    def get_context_data(self, **kwargs):
+        context = super(AuctionListView, self).get_context_data(**kwargs)
+        print(self.get_queryset())
+        context["upcoming_auctions"] = self.get_queryset().filter(stage=STAGES.index("Plan"))
+        context["current_auctions"] = self.get_queryset().filter(stage=STAGES.index("Observe"))
+        context["complete_auctions"] = self.get_queryset().filter(stage__gte=STAGES.index("Claim"))
+        return context

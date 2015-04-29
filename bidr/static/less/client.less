@@ -48,6 +48,11 @@ body {
 
 /* NAV PILLS */
 
+.nav-pills.center {
+    display: flex;
+    justify-content: center;
+}
+
 .nav-pills > li > a {
     margin-top: 20px;
 }
@@ -66,16 +71,17 @@ body {
 
 .nav-pills > li > a {
     color: @bidrgreen;
-    border: 1px solid @bidrgreen; //rgb(51, 122, 183);
-    padding: 10px 14px;
+    border: 1px solid @bidrgreen;
+    padding: 6px 14px;
 }
 
 .nav-pills > li > a:hover, .nav-pills > li.active > a:hover, 
 .nav-pills > li > a:focus, .nav-pills > li.active > a:focus, 
 .nav-pills > li > a:active, .nav-pills > li.active > active, 
 .nav-pills > li.active > a {
-    background-color: @bidrgreen; //rgb(51, 122, 183);
+    background-color: @bidrgreen;
     color: white;
+    cursor: pointer;
 }
 
 .nav-pills > li + li {
