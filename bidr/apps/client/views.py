@@ -78,6 +78,7 @@ class ItemDetailView(FormView):
         kwargs = super(FormView, self).get_form_kwargs()
         auction_instance, item_instance = self.get_objects()
         kwargs["item_instance"] = item_instance
+        kwargs["auction_instance"] = auction_instance
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -89,7 +90,7 @@ class ItemDetailView(FormView):
 
     def get_success_url(self):
         auction_instance, item_instance = self.get_objects()
-        return reverse("item_list", kwargs={"auction_id": auction_instance.id})
+        return reverse("client:item_list", kwargs={"auction_id": auction_instance.id})
 
 
 class AddAuctionView(FormView):

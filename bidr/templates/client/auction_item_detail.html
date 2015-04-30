@@ -18,27 +18,29 @@
 
 <div class="row text-center">
     <div class="col-xs-12">
-        <h5>Current Bid: {{ object.highest_bid.amount|currency }}</h5>
-        <form name="add_bid_form" method="POST" id="add_bid_form">
-            <div class="row">
-                <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-                    <p class="help-block text-danger">{{ form.non_field_errors }}</p>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon">$</span>
-                            {% render_field form.amount placeholder=object.minumum_bid required=true class+="form-control" %}
+        <h5>{% if auction.stage == 0 %}Minimum Bid:{% elif auctin.stage == 1 %}Current Bid:{% else %}Highest Bid:{% endif %} {{ object.highest_bid.amount|currency }}</h5>
+        {% if auction.stage == 1 %}
+            <form name="add_bid_form" method="POST" id="add_bid_form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+                        <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">$</span>
+                                {% render_field form.amount placeholder=object.minumum_bid required=true class+="form-control" %}
+                            </div>
+                            <p class="help-block text-danger">{{ form.amount.errors }}</p>
                         </div>
-                        <p class="help-block text-danger">{{ form.amount.errors }}</p>
+                        {% csrf_token %}
                     </div>
-                    {% csrf_token %}
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <button type="submit" form="add_bid_form" class="btn btn-default bid-button">Place Bid</button>
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <button type="submit" form="add_bid_form" class="btn btn-default bid-button">Place Bid</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        {% endif %}
         <p>{{ object.description }}</p>
     </div>
 </div>
