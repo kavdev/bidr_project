@@ -7,12 +7,15 @@
 
 """
 
+import datetime
+
 from django.core.exceptions import ValidationError
 from django.forms.fields import IntegerField
 from django.forms.models import ModelForm
 
 from ..auctions.models import Auction
 from ..bids.models import Bid
+from ..core.templatetags.currency import currency
 
 
 class AddAuctionForm(ModelForm):
@@ -39,7 +42,22 @@ class AddAuctionForm(ModelForm):
         return self.cleaned_data
 
 
-class ItemBidForm(ModelForm):
+class AddBidForm(ModelForm):
+
+    def __init__(self, item_instance, auction_instance, *args, **kwargs):
+        super(AddBidForm, self).__init__(*args, **kwargs)
+        self.auction_instance = auction_instance
+        self.item_instance = item_instance
+
+    def clean(self):
+        if datetime.datetime.now() > self.auction_instance.end_time:
+            raise ValidationError("The auction has already ended. Unable to place bid.")
+
+    def clean_amount(self):
+        if self.item_instance.highest_bid and self.cleaned_data['amount'] <= self.item_instance.highest_bid.amount:
+            raise ValidationError("New bid must be greater than " + str(currency(self.item_instance.highest_bid.amount)))
+        else:
+            return self.cleaned_data['amount']
 
     class Meta:
         model = Bid
