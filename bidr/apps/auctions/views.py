@@ -8,6 +8,7 @@
 
 """
 
+from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
@@ -21,7 +22,6 @@ from ..items.ajax import PopulateBidables
 from ..organizations.models import Organization
 from .models import Auction
 from .forms import ManagerForm
-from datetime import datetime, timedelta
 
 
 class AuctionView(TemplateView):
@@ -51,6 +51,7 @@ class AuctionCreateView(CreateView):
         org_instance = Organization.objects.get(slug=self.kwargs['slug'])
         org_instance.auctions.add(self.object)
         org_instance.save()
+        messages.success(self.request, "The auction '{auction}' was successfully updated.".format(auction=str(self.object)))
         return redirect(self.get_success_url())
 
 
@@ -58,6 +59,10 @@ class AuctionUpdateView(UpdateView):
     template_name = "auctions/update_auction.html"
     model = Auction
     fields = ['name', 'description', 'start_time', 'end_time', 'optional_password']
+
+    def form_valid(self, form):
+        messages.success(self.request, "The auction '{auction}' was successfully updated.".format(auction=str(self.object)))
+        return super(AuctionUpdateView, self).form_valid(form)
 
     def get_object(self, queryset=None):
         return Auction.objects.get(id=self.kwargs['auction_id'], auctions__slug=self.kwargs['slug'])
