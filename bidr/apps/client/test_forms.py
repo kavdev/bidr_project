@@ -90,10 +90,10 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
-    def test_invalid_bid_matches(self):
+    def test_valid_bid_matches(self):
         data = {"amount": Decimal("12.00")}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
-        self.assertFalse(form.is_valid())
+        self.assertTrue(form.is_valid())
 
     def test_invalid_form_bid_below_minimum_price(self):
         data = {"amount": Decimal("2.00")}
@@ -121,6 +121,17 @@ class TestAddBidForm(TestCase):
         data = {"amount": Decimal("23.00")}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
+
+    def test_valid_form_second_bid_above_highest_bid_below_matches_increment(self):
+        user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
+
+        # Create an item with bids that has yet to be claimed.
+        self.bid1 = Bid.objects.create(user=user, amount=Decimal("22.00"))
+        self.item_instance.bids.add(self.bid1)
+
+        data = {"amount": Decimal("24.00")}
+        form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
+        self.assertTrue(form.is_valid())
 
     def test_invalid_form_auction_already_ended_stage(self):
         self.auction_instance.stage = STAGES.index("Report")
