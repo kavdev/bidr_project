@@ -24,7 +24,7 @@ class AbstractItem(PolymorphicModel):
     """ Abstract class for Items """
 
     name = CharField(max_length=60)
-    description = TextField(blank=True)
+    description = TextField(blank=True, max_length=80)
     claimed = BooleanField(default=False)
     claimed_bid = ForeignKey(Bid, null=True, blank=True, verbose_name="Claimed Bid")
     bids = ManyToManyField(Bid, blank=True, related_name="bids", verbose_name="Bids")
