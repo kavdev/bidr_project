@@ -14,16 +14,13 @@ from django.forms.fields import IntegerField
 from django.forms.models import ModelForm
 
 from ..auctions.models import Auction, STAGES
+from ..auctions.utils import _end_auction
 from ..bids.models import Bid
 from ..core.templatetags.currency import currency
 
 
 class AddAuctionForm(ModelForm):
     auction_id = IntegerField(min_value=0, required=True)
-
-    class Meta:
-        model = Auction
-        fields = ["auction_id", "optional_password"]
 
     def clean(self):
         try:
@@ -41,6 +38,10 @@ class AddAuctionForm(ModelForm):
 
         return self.cleaned_data
 
+    class Meta:
+        model = Auction
+        fields = ["auction_id", "optional_password"]
+
 
 class AddBidForm(ModelForm):
 
@@ -50,24 +51,22 @@ class AddBidForm(ModelForm):
         self.item_instance = item_instance
 
     def clean(self):
-        if datetime.datetime.now() > self.auction_instance.end_time:
-            # End the auction
-            unclaimed_items = self.auction_instance.bidables.filter(claimed=False).exclude(bids=None)
-
-            if not unclaimed_items:
-                self.auction_instance.stage = STAGES.index("Report")
-            else:
-                self.auction_instance.stage = STAGES.index("Claim")
-
-            self.auction_instance.save()
+        if datetime.datetime.now() > self.auction_instance.end_time or self.auction_instance.stage > STAGES.index("Observe"):
+            # End the auction if it hasn't ended already
+            _end_auction(self.auction_instance)
 
             raise ValidationError("The auction has already ended. Unable to place bid.")
 
     def clean_amount(self):
+        # Check if the bid is greater than the minimum price
+        if self.cleaned_data['amount'] <= self.item_instance.minimum_price:
+            raise ValidationError("New bid must be greater than " + str(currency(self.item_instance.minimum_price)))
+
+        # Check if the bid is greater than the current highest bid
         if self.item_instance.highest_bid and self.cleaned_data['amount'] <= self.item_instance.highest_bid.amount:
             raise ValidationError("New bid must be greater than " + str(currency(self.item_instance.highest_bid.amount)))
-        else:
-            return self.cleaned_data['amount']
+
+        return self.cleaned_data['amount']
 
     class Meta:
         model = Bid
