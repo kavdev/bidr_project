@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.staticfiles',
     'django_ajax',
+    'static_precompiler',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
