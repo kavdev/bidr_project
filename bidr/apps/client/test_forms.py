@@ -9,13 +9,13 @@
 from datetime import datetime, timedelta
 from decimal import Decimal
 
+from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
 
 from ..bids.models import Bid
 from ..auctions.models import Auction, STAGES
 from ..items.models import Item
 from .forms import AddAuctionForm, AddBidForm
-from django.contrib.auth import get_user_model
 
 
 class TestAddAuctionForm(TestCase):
