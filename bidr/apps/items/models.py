@@ -64,6 +64,10 @@ class AbstractItem(PolymorphicModel):
     def min_price(self):
         raise NotImplementedError("Subclasses should implement this!")
 
+    @property
+    def polymorphic_identifier(self):
+        return self.polymorphic_ctype.name
+
 
 class Item(AbstractItem):
     """ An auction item."""
