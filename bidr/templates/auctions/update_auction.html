@@ -2,6 +2,25 @@
 {% load widget_tweaks %}
 
 {% block content %}
+<div class="container-fluid">
+    {% block messages %}
+        {% if messages %}
+            <div class="row">
+                <div class="col-xs-12 column">
+                    {% for message in messages %}
+                    <div class="row clearfix">
+                        <div class="alert {% if message.tags %}alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}{% endif %} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {% autoescape off %}{{ message }}{% endautoescape %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -15,10 +34,12 @@
                         <p class="help-block text-danger">{{ form.name.errors }}</p>
                     </div>
                     <div class="form-group">
+                    <label for="id_name">Description *</label>
                         {% render_field form.description placeholder="Description *" required=true class+="form-control" %}
                         <p class="help-block text-danger">{{ form.description.errors }}</p>
                     </div>
                     <div class="form-group">
+                    <label for="id_name">Start Time *</label>
                         <div class='input-group date' id='start_time_datepicker'>
                             {% render_field form.start_time placeholder="Start Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.start_time.errors }}</p>
@@ -26,6 +47,7 @@
                         </div>
                     </div>
                     <div class="form-group">
+                    <label for="id_name">End Time *</label>
                         <div class='input-group date' id='end_time_datepicker'>
                             {% render_field form.end_time placeholder="End Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
                             <p class="help-block text-danger">{{ form.end_time.errors }}</p>
@@ -33,7 +55,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        {% render_field form.optional_password class+="form-control" %}
+                    <label for="id_name">Password (Optional)</label>
+                        {% render_field form.optional_password placeholder="Auction Password" class+="form-control" %}
                         <p class="help-block text-danger">{{ form.optional_password.errors }}</p>
                     </div>
                     {% csrf_token %}
