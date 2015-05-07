@@ -4,7 +4,8 @@ source = apps
 
 omit =
     apps/*/migrations/*,
-    apps/*__init__.py
+    apps/*__init__.py,
+    apps/*admin.py
 
 [html]
 directory = cover

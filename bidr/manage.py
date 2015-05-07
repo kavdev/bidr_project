@@ -7,7 +7,7 @@ from colorama import init as color_init
 from termcolor import colored
 from pathlib import Path
 
-TESTS_THRESHOLD = 40.00
+TESTS_THRESHOLD = 57.00
 
 
 def get_env_variable(name):
@@ -132,6 +132,8 @@ if __name__ == "__main__":
             sys.stderr.write("pep8 errors detected.\n")
             sys.stderr.write(colored(text="\nYOUR CHANGES HAVE INTRODUCED PEP8 ERRORS!\n\n", color="red", attrs=["bold"]))
             sys.exit(flake_result)
+        else:
+            print("None")
 
         # Announce success
-        sys.stdout.write(colored(text="\nTests completed successfully. Congrats!\n", color="green", attrs=["bold"]))
+        sys.stdout.write(colored(text="\nTests completed successfully with no errors. Congrats!\n", color="green", attrs=["bold"]))
