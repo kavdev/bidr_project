@@ -6,6 +6,7 @@
 
 """
 
+from django.contrib import messages
 from django.contrib.auth import get_user_model, authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.urlresolvers import reverse_lazy
@@ -20,7 +21,7 @@ from .forms import UserRegistrationForm
 class IndexView(RegistrationView):
     template_name = "core/index.html"
     form_class = UserRegistrationForm
-    success_url = reverse_lazy("organizations")
+    success_url = reverse_lazy("home")
 
     def register(self, request, **cleaned_data):
         """ Handles valid credentials"""
@@ -29,6 +30,8 @@ class IndexView(RegistrationView):
                                              email=cleaned_data["email"],
                                              phone_number=cleaned_data["phone_number"],
                                              password=cleaned_data["password"])
+
+        messages.success(self.request, "You have successfully created a Bidr account.")
 
 
 class LoginView(FormView):

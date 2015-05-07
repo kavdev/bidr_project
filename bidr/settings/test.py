@@ -28,30 +28,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'polymorphic',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.admin',
-    'django.contrib.staticfiles',
-    'django_ajax',
-    'static_precompiler',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
-    'taggit',
-    'bidr.apps.auctions',
-    'bidr.apps.core',
-    'bidr.apps.core.templatetags.CoreTemplatetagsConfig',
-    'bidr.apps.datatables',
-    'bidr.apps.datatables.templatetags.DatatablesTemplatetagsConfig',
-    'bidr.apps.bids',
-    'bidr.apps.items',
-    'bidr.apps.organizations',
-)
-
 DEBUG = False
 TEMPLATE_DEBUG = False
 logging.disable(logging.CRITICAL)
