@@ -86,6 +86,9 @@ if __name__ == "__main__":
 
     if 'production' not in get_env_variable("DJANGO_SETTINGS_MODULE"):
         activate_env()
+    else:
+        filepath = Path(__file__).resolve()
+        sys.path.append(str(filepath.parents[1]))
 
     try:
         from django.core.management import execute_from_command_line
@@ -95,7 +98,7 @@ if __name__ == "__main__":
 
     if testing:
         # Announce the test suite
-        sys.stdout.write(colored(text="Welcome to the ", color="magenta", attrs=["bold"]))
+        sys.stdout.write(colored(text="\nWelcome to the ", color="magenta", attrs=["bold"]))
         sys.stdout.write(colored(text="BIDR Silent Auction System", color="green", attrs=["bold"]))
         sys.stdout.write(colored(text=" test suite.\n\n", color="magenta", attrs=["bold"]))
 
