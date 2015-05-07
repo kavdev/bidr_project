@@ -11,7 +11,6 @@ from django_ajax.decorators import ajax
 
 from ..auctions.models import Auction
 from ..auctions.views import end_auction
-from django.core.context_processors import request
 from _datetime import datetime
 
 

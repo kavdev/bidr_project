@@ -1,7 +1,7 @@
 # This is the master development settings file that is intended as a template.
 # Use a separate local.py settings file while developing.
 
-from .base import *
+from .base import *  # noqa
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

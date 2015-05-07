@@ -7,6 +7,7 @@
 
 """
 
+from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
@@ -45,3 +46,7 @@ class OrganizationUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
+
+    def form_valid(self, form):
+        messages.success(self.request, "The Organization '{item}' was successfully updated.".format(item=str(self.object)))
+        return super(OrganizationUpdateView, self).form_valid(form)
