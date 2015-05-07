@@ -6,17 +6,18 @@
 .. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
 
 """
+
+from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.validators import MinValueValidator
 from django.db.models.fields import CharField, TextField, DecimalField, BooleanField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.db.models.aggregates import Max, Sum
-from django.contrib.staticfiles.templatetags.staticfiles import static
 
 from taggit.managers import TaggableManager
 from polymorphic import PolymorphicModel
 
 from ..bids.models import Bid
-from .validator import validate_minimum_price
 
 
 class AbstractItem(PolymorphicModel):
@@ -67,7 +68,7 @@ class AbstractItem(PolymorphicModel):
 class Item(AbstractItem):
     """ An auction item."""
 
-    minimum_price = DecimalField(max_digits=7, decimal_places=2, default=0, validators=[validate_minimum_price])
+    minimum_price = DecimalField(max_digits=7, decimal_places=2, default=0, validators=[MinValueValidator(min_value=0)])
     picture = ImageField(null=True, blank=True)
 
     tags = TaggableManager()
