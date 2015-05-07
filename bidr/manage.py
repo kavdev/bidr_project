@@ -134,4 +134,4 @@ if __name__ == "__main__":
             sys.exit(flake_result)
 
         # Announce success
-        sys.stdout.write(colored(text="\nTests completed successfully. Congrats!", color="green", attrs=["bold"]))
+        sys.stdout.write(colored(text="\nTests completed successfully. Congrats!\n", color="green", attrs=["bold"]))

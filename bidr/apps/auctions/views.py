@@ -21,7 +21,6 @@ from ..items.ajax import PopulateBidables
 from ..organizations.models import Organization
 from .models import Auction
 from .forms import ManagerForm
-from datetime import datetime, timedelta
 
 
 class AuctionView(TemplateView):
