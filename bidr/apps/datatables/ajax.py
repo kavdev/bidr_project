@@ -34,12 +34,12 @@ class BidrDatatablesPopulateView(BaseDatatableView):
         "order": [[2, "asc"]],
         "language": {
             "lengthMenu": 'Display <select>' +
-                '<option value="10">10</option>' +
-                '<option value="25">25</option>' +
-                '<option value="50">50</option>' +
-                '<option value="100">100</option>' +
-                '<option value="-1">All</option>' +
-                '</select> items:',
+                          '<option value="10">10</option>' +
+                          '<option value="25">25</option>' +
+                          '<option value="50">50</option>' +
+                          '<option value="100">100</option>' +
+                          '<option value="-1">All</option>' +
+                          '</select> items:',
             "search": "Filter items: ",
             "zeroRecords": "No items to display.",
             "processing": """<img src="{loading_gif}" alt=""  /> Processing...""".format(loading_gif=static('img/tiny_loading.gif'))
@@ -186,17 +186,17 @@ class BidrDatatablesPopulateView(BaseDatatableView):
                 params = shlex.split(search_parameters)
             except ValueError:
                 params = search_parameters.split(" ")
-            columnQ = Q()
-            paramQ = Q()
+            column_q = Q()
+            param_q = Q()
 
             for param in params:
                 if param != "":
                     for searchable_column in searchable_columns:
-                        columnQ |= Q(**{searchable_column + "__icontains": param})
+                        column_q |= Q(**{searchable_column + "__icontains": param})
 
-                    paramQ.add(columnQ, Q.AND)
-                    columnQ = Q()
-            if paramQ:
-                qs = qs.filter(paramQ)
+                    param_q.add(column_q, Q.AND)
+                    column_q = Q()
+            if param_q:
+                qs = qs.filter(param_q)
 
         return qs

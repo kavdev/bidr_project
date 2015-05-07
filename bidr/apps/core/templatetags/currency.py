@@ -3,6 +3,7 @@
     :synopsis: Bidr Silent Auction System Core Template Tags and Filters.
 
 .. moduleauthor:: Alexander Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
 
 """
 
@@ -28,6 +29,6 @@ def currency(value):
         if value >= 0:
             return '${amount}'.format(amount=value.quantize(Decimal('0.01')))
         else:
-            return '-${amount}'.format(abs(value).quantize(Decimal('0.01')))
+            return '-${amount}'.format(amount=abs(value).quantize(Decimal('0.01')))
     except AttributeError:
         return value

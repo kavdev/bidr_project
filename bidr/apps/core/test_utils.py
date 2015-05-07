@@ -20,7 +20,7 @@ from .utils import UserType, user_is_type, user_type_test
 
 class UserTypeTest(TestCase):
 
-    def setUp(self):
+    def setUp(self):  # noqa
         # Generate users
         self.user1 = get_user_model().objects.create_user(email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
         self.user2 = get_user_model().objects.create_user(email="testuser2@bidrapp.com", name="testuser2", phone_number="+13105550002", password="password")

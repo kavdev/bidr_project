@@ -19,8 +19,7 @@ from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
 from ..core.templatetags.currency import currency
 from ..datatables.ajax import BidrDatatablesPopulateView
-from .models import AbstractItem, Item, ItemCollection
-from django.core.context_processors import request
+from .models import Item, ItemCollection
 
 
 @ajax
