@@ -8,8 +8,6 @@
 from django.forms.forms import Form
 from django.forms.fields import EmailField
 from django.forms.models import ModelForm
-from django.core.exceptions import ValidationError
-
 
 from .validators import validate_user_exists
 

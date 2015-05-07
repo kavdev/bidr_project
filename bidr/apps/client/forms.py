@@ -59,11 +59,11 @@ class AddBidForm(ModelForm):
 
     def clean_amount(self):
         # Check if the bid is greater than the minimum price
-        if self.cleaned_data['amount'] <= self.item_instance.minimum_price:
+        if self.cleaned_data['amount'] <= self.item_instance.minimum_price + self.auction_instance.bid_increment:
             raise ValidationError("New bid must be greater than " + str(currency(self.item_instance.minimum_price)))
 
         # Check if the bid is greater than the current highest bid
-        if self.item_instance.highest_bid and self.cleaned_data['amount'] <= self.item_instance.highest_bid.amount:
+        if self.item_instance.highest_bid and self.cleaned_data['amount'] <= self.item_instance.highest_bid.amount + self.auction_instance.bid_increment:
             raise ValidationError("New bid must be greater than " + str(currency(self.item_instance.highest_bid.amount)))
 
         return self.cleaned_data['amount']
