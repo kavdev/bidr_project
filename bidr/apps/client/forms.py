@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 from django.forms.fields import IntegerField
 from django.forms.models import ModelForm
 
-from ..auctions.models import Auction
+from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
 from ..core.templatetags.currency import currency
 
@@ -51,6 +51,16 @@ class AddBidForm(ModelForm):
 
     def clean(self):
         if datetime.datetime.now() > self.auction_instance.end_time:
+            # End the auction
+            unclaimed_items = self.auction_instance.bidables.filter(claimed=False).exclude(bids=None)
+
+            if not unclaimed_items:
+                self.auction_instance.stage = STAGES.index("Report")
+            else:
+                self.auction_instance.stage = STAGES.index("Claim")
+
+            self.auction_instance.save()
+
             raise ValidationError("The auction has already ended. Unable to place bid.")
 
     def clean_amount(self):
