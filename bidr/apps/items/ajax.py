@@ -23,7 +23,6 @@ from .models import Item, ItemCollection
 # from .models import AbstractItem
 
 
-
 @ajax
 @require_POST
 def claim_item(request, slug, auction_id):
