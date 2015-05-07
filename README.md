@@ -10,4 +10,10 @@
 
 ### Detailed Coverage Report ###
 
-Coming soon
+**Production**
+
+[![codecov.io](http://codecov.io/bitbucket/windows9/bidr_project/coverage.svg?branch=master)](http://codecov.io/bitbucket/windows9/bidr_project?branch=master)
+
+**Staging**
+
+[![codecov.io](http://codecov.io/bitbucket/windows9/bidr_project/coverage.svg?branch=development)](http://codecov.io/bitbucket/windows9/bidr_project?branch=development)
