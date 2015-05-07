@@ -3,6 +3,7 @@
    :synopsis: Bidr Silent Auction System Client Views.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
 
 """
 
@@ -38,15 +39,25 @@ class AuctionListView(TemplateView):
 
 
 class ItemListView(TemplateView):
-    template_name = "client/auction_item_list.html"
-
     def get_context_data(self, **kwargs):
         context = super(ItemListView, self).get_context_data(**kwargs)
         auction_instance = Auction.objects.get(id=self.kwargs["auction_id"])
         context["auction"] = auction_instance
-        context["my_bids"] = auction_instance.get_my_bids(self.request.user)
-        context["other_items"] = auction_instance.get_other_items(self.request.user)
+        context["my_bids"] = auction_instance.get_items_user_has_bid_on(self.request.user)
+        context["winning_items"] = auction_instance.get_items_user_is_winning(self.request.user)
+        context["losing_items"] = auction_instance.get_items_user_is_losing(self.request.user)
+        context["other_items"] = auction_instance.get_items_user_has_not_bid_on(self.request.user)
+        context["all_items"] = list(auction_instance.bidables.all())
         return context
+
+    def get_template_names(self):
+        auction_instance = Auction.objects.get(id=self.kwargs["auction_id"])
+        if auction_instance.stage == 0:
+            return ["client/auction_upcoming_item_list.html"]
+        elif auction_instance.stage == 1:
+            return ["client/auction_current_item_list.html"]
+        else:
+            return ["client/auction_complete_item_list.html"]
 
 
 class ItemDetailView(FormView):
@@ -86,6 +97,11 @@ class ItemDetailView(FormView):
         auction_instance, item_instance = self.get_objects()
         context["object"] = item_instance
         context["auction"] = auction_instance
+        context["bid_on_item"] = item_instance in auction_instance.get_items_user_has_bid_on(self.request.user)
+        if item_instance.highest_bid is not None:
+            context["winning_item"] = item_instance.highest_bid.user == self.request.user
+        else:
+            context["winning_item"] = False
         return context
 
     def get_success_url(self):

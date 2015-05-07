@@ -1,6 +1,5 @@
 # Development dependencies go here
 -r base.txt
 coverage==3.7.1
-# django-nose==1.4
 flake8==2.4.0
 pep8-naming==0.2.2
