@@ -18,6 +18,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 
 from ..auctions.models import STAGES
+from ..auctions.utils import _end_auction
 from ..items.ajax import PopulateBidables
 from ..organizations.models import Organization
 from .models import Auction
@@ -153,22 +154,18 @@ class AuctionReportView(AuctionMixin, DetailView):
 
 
 def start_auction(request, slug, auction_id):
-    auc_instance = Auction.objects.get(id=auction_id)
-    auc_instance.start_time = timezone.now()
-    auc_instance.stage = STAGES.index("Observe")
-    auc_instance.save()
+    auction_instance = Auction.objects.get(id=auction_id)
+    auction_instance.start_time = timezone.now()
+    auction_instance.stage = STAGES.index("Observe")
+    auction_instance.save()
     return redirect('auction_observe', slug, auction_id)
 
 
 def end_auction(request, slug, auction_id):
-    auc_instance = Auction.objects.get(id=auction_id)
-    unclaimed_items = auc_instance.bidables.filter(claimed=False).exclude(bids=None)
+    auction_instance = Auction.objects.get(id=auction_id)
+    new_stage = _end_auction(auction_instance)
 
-    if not unclaimed_items:
-        auc_instance.stage = STAGES.index("Report")
-        auc_instance.save()
+    if new_stage == STAGES.index("Report"):
         return redirect('auction_report', slug, auction_id)
-    else:
-        auc_instance.stage = STAGES.index("Claim")
-        auc_instance.save()
+    elif new_stage == STAGES.index("Claim"):
         return redirect('auction_claim', slug, auction_id)

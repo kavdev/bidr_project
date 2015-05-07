@@ -18,6 +18,11 @@
 
 <div class="row text-center">
     <div class="col-xs-12">
+        {% if auction.stage == 1 %}
+            {% if not bid_on_item %}You have not bid on this item.{% elif winning_item %}You are winning this item!{% else %}You are losing this item.{% endif %}
+        {% elif auction.stage > 1 %}
+            {% if winning_item %}You won this item!{% else %}You did not win this item.{% endif %}
+        {% endif %}
         <h5>{% if auction.stage == 0 %}Minimum Bid:{% elif auctin.stage == 1 %}Current Bid:{% else %}Highest Bid:{% endif %} {{ object.highest_bid.amount|currency }}</h5>
         {% if auction.stage == 1 %}
             <form name="add_bid_form" method="POST" id="add_bid_form">

@@ -20,6 +20,7 @@ from ..bids.models import Bid
 from ..core.templatetags.currency import currency
 from ..datatables.ajax import BidrDatatablesPopulateView
 from .models import Item, ItemCollection
+# from .models import AbstractItem
 
 
 @ajax
@@ -28,10 +29,20 @@ def claim_item(request, slug, auction_id):
     item_id = request.POST["item_id"]
     bid_id = request.POST["bid_id"]
 
-    item_instance = Item.objects.get(id=item_id)
+    print("begin")
+    print("item Id is " + item_id)
+    auction_instance = Auction.objects.get(id=auction_id)
+    itemcollection = auction_instance.bidables.filter(polymorphic_ctype__name="item collection", id=item_id)
     bid_instance = Bid.objects.get(id=bid_id)
-    item_instance.claim(bid_instance)
 
+    if itemcollection:
+        item_collection_instance = ItemCollection.objects.get(id=item_id)
+        item_collection_instance.claim(bid_instance)
+    else:
+        item_instance = Item.objects.get(id=item_id)
+        item_instance.claim(bid_instance)
+
+    print("end")
     auction_instance = Auction.objects.get(id=auction_id)
     unclaimed_items = auction_instance.bidables.filter(claimed=False).exclude(bids=None)
 

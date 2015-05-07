@@ -50,15 +50,27 @@ class Auction(Model):
 
     managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="auction_managers", verbose_name="Managers", blank=True)
 
-    def get_my_bids(self, user_id):
+    def get_items_user_has_bid_on(self, user_id):
         my_bids = []
         [my_bids.extend(item.bids.filter(user=user_id)) for item in self.bidables.all()]
         my_items = []
         [my_items.append(bid.bids.all()[0]) for bid in my_bids]
         return list(set(my_items))
 
-    def get_other_items(self, user_id):
-        my_bids = self.get_my_bids(user_id)
+    def get_items_user_is_winning(self, user_id):
+        my_bid_items = self.get_items_user_has_bid_on(user_id)
+        winning_bids = []
+        [winning_bids.append(item) for item in my_bid_items if item.highest_bid.user == user_id]
+        return winning_bids
+
+    def get_items_user_is_losing(self, user_id):
+        my_bid_items = self.get_items_user_has_bid_on(user_id)
+        losing_bids = []
+        [losing_bids.append(item) for item in my_bid_items if item.highest_bid.user != user_id]
+        return losing_bids
+
+    def get_items_user_has_not_bid_on(self, user_id):
+        my_bids = self.get_items_user_has_bid_on(user_id)
         my_other_items = set(self.bidables.all()) - set(my_bids)
         return list(my_other_items)
 
@@ -70,7 +82,11 @@ class Auction(Model):
 
     @property
     def total_income(self):
-        return self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
+        amount = self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
+        if amount is None:
+            return 0
+        else:
+            return amount
 
     @property
     def bid_count(self):
