@@ -16,6 +16,7 @@ from django.db.models.fields import CharField, TextField, DateTimeField, Positiv
 from ..items.models import AbstractItem
 from .managers import ManageableAuctionManager
 from builtins import property
+from decimal import Decimal
 
 
 class AuctionUserInfo(Model):
@@ -83,10 +84,7 @@ class Auction(Model):
     @property
     def total_income(self):
         amount = self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
-        if amount is None:
-            return 0
-        else:
-            return amount
+        return amount if amount else Decimal(0)
 
     @property
     def bid_count(self):
