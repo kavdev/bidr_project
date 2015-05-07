@@ -4,18 +4,21 @@
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
 .. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
+.. moduleauthor:: Jirbert Dilanchian <jirbert@gmail.com>
 
 """
 
 from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db.models.aggregates import Sum
 from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey, ManyToManyField
-from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField
+from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, DecimalField
 
 from ..items.models import AbstractItem
 from .managers import ManageableAuctionManager
 from builtins import property
+from decimal import Decimal
 
 
 class AuctionUserInfo(Model):
@@ -40,6 +43,7 @@ class Auction(Model):
     start_time = DateTimeField(null=True, blank=True, verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
+    bid_increment = DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Bid Increment", validators=[MinValueValidator(Decimal("0.01"))])
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
     participants = ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="participants", verbose_name="Participants")
@@ -83,10 +87,7 @@ class Auction(Model):
     @property
     def total_income(self):
         amount = self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
-        if amount is None:
-            return 0
-        else:
-            return amount
+        return amount if amount else Decimal(0)
 
     @property
     def bid_count(self):
@@ -95,6 +96,9 @@ class Auction(Model):
     @property
     def sold_item_count(self):
         return self.get_sold_items().count()
+
+    def get_bid_increment(self):
+        return self.bid_increment()
 
     def __str__(self):
         return self.name

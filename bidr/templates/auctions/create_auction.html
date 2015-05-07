@@ -31,6 +31,10 @@
                 </div>
             </div>
             <div class="form-group">
+                {% render_field form.bid_increment placeholder="Bid Increment" class+="form-control" %}
+                <p class="help-block text-danger">{{ form.bid_increment.errors }}</p>
+            </div>
+            <div class="form-group">
                 {% render_field form.optional_password placeholder="Optional Password" class+="form-control" %}
                 <p class="help-block text-danger">{{ form.optional_password.errors }}</p>
             </div>

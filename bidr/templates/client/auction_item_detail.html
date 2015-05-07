@@ -55,7 +55,8 @@
     {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#id_amount").val({{ object.highest_bid.amount }} + 0.01);
+            $("#id_amount").placeholder({{ object.minumum_price }} + {{ auction.bid_increment }});
+            $("#id_amount").val({{ object.highest_bid.amount }} + {{ auction.bid_increment }});
         });
     
     </script>
