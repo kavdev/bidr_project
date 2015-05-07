@@ -7,6 +7,8 @@ from colorama import init as color_init
 from termcolor import colored
 from pathlib import Path
 
+TESTS_THRESHOLD = 40.00
+
 
 def get_env_variable(name):
     """ Gets the specified environment variable.
@@ -69,6 +71,14 @@ def activate_env():
 
 if __name__ == "__main__":
 
+    testing = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+    if testing:
+        from coverage import coverage
+        cov = coverage(config_file=True)
+        cov.erase()
+        cov.start()
+
     # Set this manually in the environment...
     # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.local")
 
@@ -83,4 +93,42 @@ if __name__ == "__main__":
         sys.stderr.write(colored(text="Error: Django could not be imported - please make sure it is installed.\nIf you are using a Virtual Environment, please make sure it is activated.\n\n", color="red", attrs=["bold"]))
         sys.exit(1)
 
+    if testing:
+        # Announce the test suite
+        sys.stdout.write(colored(text="Welcome to the ", color="magenta", attrs=["bold"]))
+        sys.stdout.write(colored(text="BIDR Silent Auction System", color="green", attrs=["bold"]))
+        sys.stdout.write(colored(text=" test suite.\n\n", color="magenta", attrs=["bold"]))
+
+        # Announce test run
+        sys.stdout.write(colored(text="Step 1: Running tests.\n\n", color="yellow", attrs=["bold"]))
+
     execute_from_command_line(sys.argv)
+
+    if testing:
+        # Announce coverage run
+        sys.stdout.write(colored(text="\nStep 2: Generating coverage results.\n\n", color="yellow", attrs=["bold"]))
+
+        cov.stop()
+        percentage = round(cov.report(show_missing=True), 2)
+        cov.html_report(directory='cover')
+        cov.save()
+
+        if percentage < TESTS_THRESHOLD:
+            sys.stderr.write(colored(text="YOUR CHANGES HAVE CAUSED TEST COVERAGE TO DROP. WAS {old}%, IS NOW {new}%.\n\n".format(old=TESTS_THRESHOLD, new=percentage), color="red", attrs=["bold"]))
+            sys.exit(1)
+
+        # Announce flake8 run
+        sys.stdout.write(colored(text="\nStep 3: Checking for pep8 errors.\n\n", color="yellow", attrs=["bold"]))
+
+        print("pep8 errors:")
+        print("----------------------------------------------------------------------")
+
+        from subprocess import call
+        flake_result = call(["flake8", ".", "--count"])
+        if flake_result != 0:
+            sys.stderr.write("pep8 errors detected.\n")
+            sys.stderr.write(colored(text="\nYOUR CHANGES HAVE INTRODUCED PEP8 ERRORS!\n\n", color="red", attrs=["bold"]))
+            sys.exit(flake_result)
+
+        # Announce success
+        sys.stdout.write(colored(text="\nTests completed successfully. Congrats!", color="green", attrs=["bold"]))

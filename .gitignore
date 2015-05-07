@@ -24,6 +24,7 @@ build
 .coverage
 .tox
 nosetests.xml
+cover/
 
 # Translations
 *.mo
