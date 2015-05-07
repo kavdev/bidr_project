@@ -55,7 +55,6 @@ def can_start_auction(request, slug, auction_id):
 def check_time(request, slug, auction_id):
     current_time = datetime.now()
     auc_instance = Auction.objects.get(id=auction_id)
-    print("Current time " + str(current_time))
-    print("End Time " + str(auc_instance.end_time))
+
     if current_time > auc_instance.end_time:
         return end_auction(request, slug, auction_id)
