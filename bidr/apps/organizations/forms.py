@@ -8,13 +8,13 @@
 
 from django.forms.models import ModelForm
 
-from bidr.apps.organizations.models import Organization
+from .models import Organization
 
 
 class OrganizationCreateForm(ModelForm):
 
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super(OrganizationCreateForm, self).__init__(*args, **kwargs)
 
     def clean_owner(self):

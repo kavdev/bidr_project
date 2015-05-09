@@ -7,7 +7,7 @@ from colorama import init as color_init
 from termcolor import colored
 from pathlib import Path
 
-TESTS_THRESHOLD = 68.00
+TESTS_THRESHOLD = 70.00
 
 
 def get_env_variable(name):
@@ -103,7 +103,7 @@ if __name__ == "__main__":
         sys.stdout.write(colored(text=" test suite.\n\n", color="magenta", attrs=["bold"]))
 
         # Announce test run
-        sys.stdout.write(colored(text="Step 1: Running tests.\n\n", color="yellow", attrs=["bold"]))
+        sys.stdout.write(colored(text="Step 1: Running unit tests.\n\n", color="yellow", attrs=["bold"]))
 
     execute_from_command_line(sys.argv)
 
