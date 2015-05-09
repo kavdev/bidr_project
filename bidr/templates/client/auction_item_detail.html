@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {% render_field form.amount required=true class+="form-control" %}
+                                {% render_field form.amount required=true autofocus=true class+="form-control" %}
                             </div>
                             <p class="help-block text-danger">{{ form.amount.errors }}</p>
                         </div>
@@ -55,8 +55,16 @@
     {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#id_amount").placeholder({{ object.starting_bid }} + {{ auction.bid_increment }});
-            $("#id_amount").val({{ object.highest_bid.amount }} + {{ auction.bid_increment }});
+            var base_amount = 0;
+
+            if ({{ object.highest_bid.amount }} != "None") {
+                base_amount = {{ object.highest_bid.amount }};
+            }
+            else {
+                base_amount = {{ object.starting_bid }};
+            }
+            
+            $("#id_amount").attr("placeholder", base_amount + {{ auction.bid_increment }});
         });
     
     </script>
