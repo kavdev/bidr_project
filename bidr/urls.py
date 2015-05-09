@@ -97,7 +97,7 @@ urlpatterns += [
 
 # Items
 urlpatterns += [
-    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/bid-modal$', login_required(user_is_type(UserType.MANAGER)(ItemModalView.as_view())), name='bid_modal'),
+    url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/bid-modal/$', login_required(user_is_type(UserType.MANAGER)(ItemModalView.as_view())), name='bid_modal'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/create/$', login_required(user_is_type(UserType.MANAGER)(ItemCreateView.as_view())), name='create_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/update/(?P<pk>\d+)/$', login_required(user_is_type(UserType.MANAGER)(ItemUpdateView.as_view())), name='update_item'),
     url(r'^organizations/(?P<slug>[\w-]+)/auctions/(?P<auction_id>\d+)/items/delete/$', login_required(user_is_type(UserType.MANAGER)(delete_item)), name='delete_item'),
