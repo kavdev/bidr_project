@@ -73,7 +73,7 @@ class Item(AbstractItem):
     """ An auction item."""
 
     minimum_price = DecimalField(max_digits=7, decimal_places=2, default=0, validators=[MinValueValidator(0)])
-    picture = ImageField() #null=True, blank=True)
+    picture = ImageField(null=True, blank=True)
 
     tags = TaggableManager()
 
