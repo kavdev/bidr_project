@@ -20,7 +20,7 @@ from django.views.generic.detail import DetailView
 class ItemCreateView(CreateView):
     template_name = "items/create_item.html"
     model = Item
-    fields = ["name", "description", "minimum_price", "picture"]
+    fields = ["name", "description", "starting_bid", "picture"]
 
     def form_valid(self, form):
         self.object = form.save()
@@ -39,7 +39,7 @@ class ItemCreateView(CreateView):
 class ItemUpdateView(UpdateView):
     template_name = "items/update_item.html"
     model = Item
-    fields = ['name', 'description', 'minimum_price', 'picture']
+    fields = ['name', 'description', 'starting_bid', 'picture']
 
     def form_valid(self, form):
         messages.success(self.request, "The item '{item}' was successfully updated.".format(item=str(self.object)))

@@ -82,7 +82,7 @@ class TestAddBidForm(TestCase):
                                                        end_time=datetime.now() + timedelta(days=20),
                                                        bid_increment=Decimal("2.00"))
 
-        self.item_instance = Item.objects.create(name="Bowling Ball", minimum_price=Decimal("10.00"))
+        self.item_instance = Item.objects.create(name="Bowling Ball", starting_bid=Decimal("10.00"))
         self.auction_instance.bidables.add(self.item_instance)
 
     def test_form_valid(self):
@@ -95,7 +95,7 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
-    def test_form_invalid_bid_below_minimum_price(self):
+    def test_form_invalid_bid_below_starting_bid(self):
         data = {"amount": Decimal("2.00")}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())

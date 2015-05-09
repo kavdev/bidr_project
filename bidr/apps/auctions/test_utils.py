@@ -27,18 +27,18 @@ class TestEndAuction(TestCase):
                                                        end_time=datetime.now() + timedelta(days=20))
 
         # Unbid items shouldn't affect the outcome.
-        unbid_item = Item.objects.create(name="unbid_item", minimum_price=Decimal("10.00"))
+        unbid_item = Item.objects.create(name="unbid_item", starting_bid=Decimal("10.00"))
         self.auction_instance.bidables.add(unbid_item)
 
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
-        self.bid_item1 = Item.objects.create(name="Bowling Ball", minimum_price=Decimal("10.00"))
+        self.bid_item1 = Item.objects.create(name="Bowling Ball", starting_bid=Decimal("10.00"))
         self.bid1 = Bid.objects.create(user=user, amount=Decimal("22.00"))
         self.bid_item1.bids.add(self.bid1)
 
         # Create another item with bids that has yet to be claimed.
-        self.bid_item2 = Item.objects.create(name="Rug", minimum_price=Decimal("500.00"))
+        self.bid_item2 = Item.objects.create(name="Rug", starting_bid=Decimal("500.00"))
         self.bid2 = Bid.objects.create(user=user, amount=Decimal("2200.00"))
         self.bid_item2.bids.add(self.bid2)
 
