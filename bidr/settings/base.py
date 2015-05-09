@@ -81,7 +81,7 @@ AWS_STORAGE_BUCKET_NAME = 'bidr-images'
 
 AWS_AUTO_CREATE_BUCKET = True
 
-AWS_DEFAULT_ACL = 'public'
+AWS_DEFAULT_ACL = 'public-read'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_SECURE_URLS = True
 
@@ -222,6 +222,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'djoser',
     'widget_tweaks',
+    "storages",
     'taggit',
     'bidr.apps.auctions',
     'bidr.apps.core',
