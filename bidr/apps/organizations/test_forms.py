@@ -36,13 +36,6 @@ class TestOrganizationCreateForm(TestCase):
         self.assertEqual(1, len(form.errors))
         self.assertIn("name", form.errors)
 
-    def test_form_invalid_bad_phone_number(self):
-        data = {"name": "test_name", "email": "test@email.com", "owner": self.request.user.id, "phone_number": "8056413215", "website": "http://test.com"}
-        form = OrganizationCreateForm(request=self.request, data=data)
-        self.assertFalse(form.is_valid())
-        self.assertEqual(1, len(form.errors))
-        self.assertIn("phone_number", form.errors)
-
     def test_form_valid_no_website_protocol(self):
         data = {"name": "test_name", "email": "test@email.com", "owner": self.request.user.id, "phone_number": "+18056413215", "website": "test.com"}
         form = OrganizationCreateForm(request=self.request, data=data)
