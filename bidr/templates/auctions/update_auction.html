@@ -27,44 +27,49 @@
             <form name="auction_update" id="auction_update" method="POST">
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
-                    <p class="help-block text-danger">{{ form.non_field_errors }}</p>
-                    <div class="form-group">
-                    <label for="id_name">Auction Name *</label>
-                        {% render_field form.name placeholder="Auction Name *" required=true class+="form-control" %}
-                        <p class="help-block text-danger">{{ form.name.errors }}</p>
-                    </div>
-                    <div class="form-group">
-                    <label for="id_name">Description *</label>
-                        {% render_field form.description placeholder="Description *" required=true class+="form-control" %}
-                        <p class="help-block text-danger">{{ form.description.errors }}</p>
-                    </div>
-                    <div class="form-group">
-                    <label for="id_name">Start Time *</label>
-                        <div class='input-group date' id='start_time_datepicker'>
-                            {% render_field form.start_time placeholder="Start Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
-                            <p class="help-block text-danger">{{ form.start_time.errors }}</p>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                        <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+                        <div class="form-group">
+                            <label for="id_name">Auction Name *</label>
+                            {% render_field form.name placeholder="Auction Name *" required=true class+="form-control" %}
+                            <p class="help-block text-danger">{{ form.name.errors }}</p>
                         </div>
-                    </div>
-                    <div class="form-group">
-                    <label for="id_name">End Time *</label>
-                        <div class='input-group date' id='end_time_datepicker'>
-                            {% render_field form.end_time placeholder="End Time *" title="YYYY-MM-DD hh:mm:ss" required=true class+="form-control" %}
-                            <p class="help-block text-danger">{{ form.end_time.errors }}</p>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                        <div class="form-group">
+                            <label for="id_name">Description *</label>
+                            {% render_field form.description placeholder="Description *" required=true class+="form-control" %}
+                            <p class="help-block text-danger">{{ form.description.errors }}</p>
                         </div>
+                        <div class="form-group">
+                            <label for="id_name">Start Time *</label>
+                            <div class='input-group date' id='start_time_datepicker'>
+                                {% render_field form.start_time placeholder="Start Time *" title="YYYY-MM-DD HH:mm" required=true class+="form-control" %}
+                                <p class="help-block text-danger">{{ form.start_time.errors }}</p>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_name">End Time *</label>
+                            <div class='input-group date' id='end_time_datepicker'>
+                                {% render_field form.end_time placeholder="End Time *" title="YYYY-MM-DD HH:mm" required=true class+="form-control" %}
+                                <p class="help-block text-danger">{{ form.end_time.errors }}</p>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_name">Bid Increment *</label>
+                            {% render_field form.bid_increment placeholder="Bid Increment *" class+="form-control" %}
+                            <p class="help-block text-danger">{{ form.bid_increment.errors }}</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_name">Password (Optional)</label>
+                            {% render_field form.optional_password placeholder="Auction Password" class+="form-control" %}
+                            <p class="help-block text-danger">{{ form.optional_password.errors }}</p>
+                        </div>
+                        {% csrf_token %}
                     </div>
-                    <div class="form-group">
-                    <label for="id_name">Password (Optional)</label>
-                        {% render_field form.optional_password placeholder="Auction Password" class+="form-control" %}
-                        <p class="help-block text-danger">{{ form.optional_password.errors }}</p>
-                    </div>
-                    {% csrf_token %}
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-lg-12 text-center">
                     <button type="submit" form="auction_update" class="btn btn-xl">Update</button>
-                </div>
                 </div>
             </form>
         </div>
