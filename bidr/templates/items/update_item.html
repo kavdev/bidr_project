@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 {% block form %}
-    <form name="update_item_form" id="update_item_form" method="POST">
+    <form name="update_item_form" id="update_item_form" method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <p class="help-block text-danger">{{ form.non_field_errors }}</p>
@@ -31,7 +31,7 @@
                         <br /><div class="text-center"><img src="{{ form.instance.picture.url }}" alt="Item picture thumbnail" class="img-rounded" height="100px" /></div><br />
                     {% endif %}
                     <div class="input-group">
-                        <input type="text" class="form-control" id="filename_placeholder" {% if form.instance.picture %}placeholder="{{ form.instance.picture.path }}"{% else %}placeholder="Select an item image."{% endif %} readonly />
+                        <input type="text" class="form-control" id="filename_placeholder" {% if form.instance.picture %}placeholder="{{ form.instance.picture.name }}"{% else %}placeholder="Select an item image."{% endif %} readonly />
                         <span class="input-group-btn">
                             <span class="btn btn-default btn-file">
                                 Browse&hellip; <input id="id_picture" name="picture" type="file" />
