@@ -17,16 +17,14 @@ from django.template.defaultfilters import slugify
 
 from ..auctions.models import Auction
 
-from phonenumber_field.modelfields import PhoneNumberField
-
 
 class Organization(Model):
     """An Organization that manages silent auction."""
 
     name = CharField(max_length=100, verbose_name="Name")
-    slug = SlugField(max_length=120, verbose_name="Slug")
+    slug = SlugField(unique=True, max_length=120, verbose_name="Slug")
     email = EmailField(verbose_name='Email Address', null=True, blank=True)
-    phone_number = PhoneNumberField(verbose_name='Phone Number', null=True, blank=True)
+    phone_number = CharField(max_length=20, verbose_name='Phone Number', null=True, blank=True)
     website = URLField(verbose_name="Website", null=True, blank=True)
     owner = ForeignKey(settings.AUTH_USER_MODEL, related_name="owner", verbose_name="Owner")
     auctions = ManyToManyField(Auction, related_name="auctions", verbose_name="Auctions", blank=True)

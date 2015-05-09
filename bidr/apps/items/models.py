@@ -61,7 +61,7 @@ class AbstractItem(PolymorphicModel):
         return self.bids.get(amount=highest_amount)
 
     @property
-    def min_price(self):
+    def total_starting_bid(self):
         raise NotImplementedError("Subclasses should implement this!")
 
     @property
@@ -72,7 +72,7 @@ class AbstractItem(PolymorphicModel):
 class Item(AbstractItem):
     """ An auction item."""
 
-    minimum_price = DecimalField(max_digits=7, decimal_places=2, default=0, validators=[MinValueValidator(0)])
+    starting_bid = DecimalField(max_digits=17, decimal_places=2, default=0, validators=[MinValueValidator(0)])
     picture = ImageField(null=True, blank=True)
 
     tags = TaggableManager()
@@ -88,8 +88,8 @@ class Item(AbstractItem):
         return [self._image_url()]
 
     @property
-    def min_price(self):
-        return self.minimum_price
+    def total_starting_bid(self):
+        return self.starting_bid
 
 
 class ItemCollection(AbstractItem):
@@ -107,8 +107,8 @@ class ItemCollection(AbstractItem):
         return [x._image_url() for x in self.items.all()[:4]]
 
     @property
-    def min_price(self):
-        return self.items.aggregate(Sum('minimum_price'))["minimum_price__sum"]
+    def total_starting_bid(self):
+        return self.items.aggregate(Sum('starting_bid'))["starting_bid__sum"]
 
     @property
     def ordered_items(self):

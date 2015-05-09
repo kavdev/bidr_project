@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import django.utils.timezone
-import phonenumber_field.modelfields
 
 
 class Migration(migrations.Migration):
@@ -22,7 +21,7 @@ class Migration(migrations.Migration):
                 ('is_superuser', models.BooleanField(verbose_name='superuser status', default=False, help_text='Designates that this user has all permissions without explicitly assigning them.')),
                 ('name', models.CharField(blank=True, verbose_name='Full Name', max_length=30)),
                 ('email', models.EmailField(blank=True, verbose_name='Email Address', max_length=75, unique=True)),
-                ('phone_number', phonenumber_field.modelfields.PhoneNumberField(verbose_name='Phone Number', max_length=128)),
+                ('phone_number', models.CharField(verbose_name='Phone Number', max_length=20)),
                 ('is_active', models.BooleanField(default=True)),
                 ('is_staff', models.BooleanField(default=False)),
                 ('groups', models.ManyToManyField(related_name='user_set', related_query_name='user', help_text='The groups this user belongs to. A user will get all permissions granted to each of his/her group.', blank=True, verbose_name='groups', to='auth.Group')),

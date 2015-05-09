@@ -43,7 +43,7 @@ class Auction(Model):
     start_time = DateTimeField(null=True, blank=True, verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
-    bid_increment = DecimalField(max_digits=10, decimal_places=2, default=Decimal("0.01"), verbose_name="Bid Increment", validators=[MinValueValidator(Decimal("0.01"))])
+    bid_increment = DecimalField(max_digits=17, decimal_places=2, default=Decimal("0.01"), verbose_name="Bid Increment", validators=[MinValueValidator(Decimal("0.01"))])
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
     participants = ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="participants", verbose_name="Participants")

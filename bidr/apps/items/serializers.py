@@ -19,4 +19,4 @@ class ItemSerializer(ModelSerializer):
 
     class Meta:
         model = AbstractItem
-        fields = ['id', 'name', 'description', 'claimed', 'claimed_bid', 'bids', 'image_urls', 'highest_bid', 'min_price', 'polymorphic_identifier']
+        fields = ['id', 'name', 'description', 'claimed', 'claimed_bid', 'bids', 'image_urls', 'highest_bid', 'total_starting_bid', 'polymorphic_identifier']

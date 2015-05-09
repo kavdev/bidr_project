@@ -18,12 +18,12 @@
                     <p class="help-block text-danger">{{ form.description.errors }}</p>
                 </div>
                 <div class="form-group">
-                    <label for="id_minimum_price">Minimum Bid</label>
+                    <label for="id_starting_bid">Starting Bid</label>
                     <div class="input-group">
                         <div class="input-group-addon">$</div>
-                        {% render_field form.minimum_price class+="form-control" %}
+                        {% render_field form.starting_bid class+="form-control" %}
                     </div>
-                    <p class="help-block text-danger">{{ form.minimum_price.errors }}</p>
+                    <p class="help-block text-danger">{{ form.starting_bid.errors }}</p>
                 </div>
                 <div class="form-group">
                     <label for="id_picture">Picture</label>

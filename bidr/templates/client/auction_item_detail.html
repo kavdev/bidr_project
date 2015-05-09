@@ -23,7 +23,7 @@
         {% elif auction.stage > 1 %}
             {% if winning_item %}You won this item!{% else %}You did not win this item.{% endif %}
         {% endif %}
-        <h5>{% if auction.stage == 0 %}Minimum Bid:{% elif auctin.stage == 1 %}Current Bid:{% else %}Highest Bid:{% endif %} {{ object.highest_bid.amount|currency }}</h5>
+        <h5>{% if auction.stage == 0 %}Starting Bid:{% elif auctin.stage == 1 %}Current Bid:{% else %}Highest Bid:{% endif %} {{ object.highest_bid.amount|currency }}</h5>
         {% if auction.stage == 1 %}
             <form name="add_bid_form" method="POST" id="add_bid_form">
                 <div class="row">
@@ -55,7 +55,7 @@
     {{ block.super }}
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#id_amount").placeholder({{ object.minumum_bid }} + {{ auction.bid_increment }});
+            $("#id_amount").placeholder({{ object.starting_bid }} + {{ auction.bid_increment }});
             $("#id_amount").val({{ object.highest_bid.amount }} + {{ auction.bid_increment }});
         });
     

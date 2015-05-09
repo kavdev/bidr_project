@@ -26,12 +26,12 @@ class TestAddAuctionForm(TestCase):
                                                        start_time=datetime.now(),
                                                        end_time=datetime.now() + timedelta(days=20))
 
-    def test_valid_form_no_password(self):
+    def test_form_valid_no_password(self):
         data = {"auction_id": self.auction_instance.id}
         form = AddAuctionForm(data=data)
         self.assertTrue(form.is_valid())
 
-    def test_valid_form_no_password_password_provided(self):
+    def test_form_valid_no_password_password_provided(self):
         """
         Submitting a password for an auction that doesn't need one should be fine.
         The form just ignores it.
@@ -41,14 +41,14 @@ class TestAddAuctionForm(TestCase):
         form = AddAuctionForm(data=data)
         self.assertTrue(form.is_valid())
 
-    def test_invalid_form_no_password(self):
+    def test_form_invalid_no_password(self):
         """A bogus auction ID will fail this test."""
 
         data = {"auction_id": 2012311243}
         form = AddAuctionForm(data=data)
         self.assertFalse(form.is_valid())
 
-    def test_valid_form_with_password(self):
+    def test_form_valid_with_password(self):
         self.auction_instance.optional_password = "test"
         self.auction_instance.save()
 
@@ -56,7 +56,7 @@ class TestAddAuctionForm(TestCase):
         form = AddAuctionForm(data=data)
         self.assertTrue(form.is_valid())
 
-    def test_invalid_form_with_password_incorrect_password_provided(self):
+    def test_form_invalid_with_password_incorrect_password_provided(self):
         self.auction_instance.optional_password = "test"
         self.auction_instance.save()
 
@@ -64,7 +64,7 @@ class TestAddAuctionForm(TestCase):
         form = AddAuctionForm(data=data)
         self.assertFalse(form.is_valid())
 
-    def test_invalid_form_with_password_no_password_provided(self):
+    def test_form_invalid_with_password_no_password_provided(self):
         self.auction_instance.optional_password = "test"
         self.auction_instance.save()
 
@@ -82,10 +82,10 @@ class TestAddBidForm(TestCase):
                                                        end_time=datetime.now() + timedelta(days=20),
                                                        bid_increment=Decimal("2.00"))
 
-        self.item_instance = Item.objects.create(name="Bowling Ball", minimum_price=Decimal("10.00"))
+        self.item_instance = Item.objects.create(name="Bowling Ball", starting_bid=Decimal("10.00"))
         self.auction_instance.bidables.add(self.item_instance)
 
-    def test_valid_form(self):
+    def test_form_valid(self):
         data = {"amount": Decimal("13.00")}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
@@ -95,12 +95,12 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
-    def test_invalid_form_bid_below_minimum_price(self):
+    def test_form_invalid_bid_below_starting_bid(self):
         data = {"amount": Decimal("2.00")}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
-    def test_invalid_form_second_bid_below_highest_bid(self):
+    def test_form_invalid_second_bid_below_highest_bid(self):
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
@@ -111,7 +111,7 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
-    def test_invalid_form_second_bid_above_highest_bid_below_increment(self):
+    def test_form_invalid_second_bid_above_highest_bid_below_increment(self):
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
@@ -122,7 +122,7 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
-    def test_valid_form_second_bid_above_highest_bid_below_matches_increment(self):
+    def test_form_valid_second_bid_above_highest_bid_below_matches_increment(self):
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
@@ -133,7 +133,7 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
-    def test_invalid_form_auction_already_ended_stage(self):
+    def test_form_invalid_auction_already_ended_stage(self):
         self.auction_instance.stage = STAGES.index("Report")
         self.auction_instance.save()
 
@@ -141,7 +141,7 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
-    def test_invalid_form_auction_already_ended_time(self):
+    def test_form_invalid_auction_already_ended_time(self):
         self.auction_instance.end_time = datetime.now() - timedelta(minutes=5)
         self.auction_instance.save()
 

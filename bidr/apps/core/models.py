@@ -14,7 +14,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 
-from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.authtoken.models import Token
 
 
@@ -54,7 +53,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
 
     name = CharField(max_length=30, blank=True, verbose_name='Full Name')
     email = EmailField(unique=True, verbose_name='Email Address')
-    phone_number = PhoneNumberField(verbose_name='Phone Number')
+    phone_number = CharField(max_length=20, verbose_name='Phone Number')
     date_joined = DateTimeField(default=timezone.now)
 
     is_active = BooleanField(default=True)
