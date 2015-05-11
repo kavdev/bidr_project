@@ -98,7 +98,7 @@ class Auction(Model):
         return self.get_sold_items().count()
 
     def get_bid_increment(self):
-        return self.bid_increment()
+        return self.bid_increment
 
     def __str__(self):
         return self.name

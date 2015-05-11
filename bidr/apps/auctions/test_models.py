@@ -19,7 +19,7 @@ from ..bids.models import Bid
 from ..items.models import Item
 
 
-class BidTest(TestCase):
+class AuctionTest(TestCase):
 
     def setUp(self):  # noqa
         # Generate users
@@ -175,5 +175,8 @@ class BidTest(TestCase):
         self.assertEqual(self.auction1.__str__(), "test1")
 
     def test_total_income(self):
-        self.assertEqual(Decimal(14.00), self.auction4.total_income)
-        self.assertEqual(Decimal(0), self.auction3.total_income)
+        self.assertEqual(Decimal("14.00"), self.auction4.total_income)
+        self.assertEqual(Decimal("0"), self.auction3.total_income)
+
+    def test_get_bid_increment(self):
+        self.assertEqual(Decimal("0.01"), self.auction1.get_bid_increment(), "Incorrect bid increment.")
