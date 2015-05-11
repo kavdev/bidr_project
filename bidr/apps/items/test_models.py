@@ -12,8 +12,12 @@ from unittest.mock import MagicMock
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.urlresolvers import reverse
+from django.test.client import RequestFactory
 from django.test.testcases import TestCase
+from django.utils import timezone
 
+from ..auctions.models import Auction
 from ..bids.models import Bid
 from .models import Item, ItemCollection, AbstractItem
 
@@ -35,8 +39,12 @@ class TestAbstractItem(TestCase):
 class TestItem(TestCase):
 
     def setUp(self):  # noqa
+        self.auction_instance = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
         self.item_instance = Item.objects.create(name="test_item", description="test_description", starting_bid=Decimal("2.00"))
         self.item_instance_no_bids = Item.objects.create(name="test_item2", description="test_description", starting_bid=Decimal("2.00"))
+
+        self.auction_instance.bidables.add(self.item_instance_no_bids)
+        self.auction_instance.bidables.add(self.item_instance)
 
         # Generate Users
         self.user1 = get_user_model().objects.create_user(email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
@@ -89,6 +97,19 @@ class TestItem(TestCase):
 
     def test_get_bids_by_amount(self):
         self.assertListEqual([self.bid8, self.bid3, self.bid6, self.bid2, self.bid5, self.bid7, self.bid4, self.bid1], list(self.item_instance.get_bids_by_amount()))
+
+    def test_get_absolute_client_url(self):
+        request = RequestFactory()
+
+        url_base = "https://bidrapp.com"
+        auction_id = self.auction_instance.id
+        item_id = self.item_instance.id
+
+        request.build_absolute_uri = (lambda location: url_base + location)
+
+        absolute_url = self.item_instance.get_absolute_client_url(request)
+
+        self.assertEqual(url_base + reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": item_id}), absolute_url)
 
 
 class TestItemCollection(TestCase):

@@ -8,6 +8,7 @@
 """
 
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator
 from django.db.models.fields import CharField, TextField, DecimalField, BooleanField
 from django.db.models.fields.files import ImageField
@@ -67,6 +68,10 @@ class AbstractItem(PolymorphicModel):
     @property
     def polymorphic_identifier(self):
         return self.polymorphic_ctype.name
+
+    def get_absolute_client_url(self, request):
+        auction_id = self.bidables.all()[0].id
+        return request.build_absolute_uri(reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": self.id}))
 
 
 class Item(AbstractItem):

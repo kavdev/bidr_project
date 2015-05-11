@@ -6,7 +6,7 @@
 
 """
 
-from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
@@ -52,18 +52,17 @@ class CreateBidAPIView(CreateAPIView):
             )
         headers = self.get_success_headers(serializer.data)
 
-        emails = []
         bid_item_queryset = instance.bids
         bid_item = bid_item_queryset.all()[0]
         outbid_bid = bid_item.get_second_highest_bid()
 
         if outbid_bid and outbid_bid.user.email != instance.user.email:
-            emails.append(outbid_bid.user.email)
+            kwargs = {"item": bid_item, "absolute_client_url": bid_item.get_absolute_client_url(self.request), "bid": instance.amount, "outbidder": instance.user}
+            text_content = render_to_string("email/outbid_notification.txt", kwargs)
+            html_content = render_to_string("email/outbid_notification.html", kwargs)
 
-            send_mail(subject="Bidr: You've been outbid!",
-                message="Oh No! You've been outbid on the item '{item}' with a bid of ${bid}".format(item=bid_item.name, bid=instance.amount),
-                from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
-                recipient_list=emails)
+            outbid_bid.user.email_user(subject="Bidr: You've been outbid!",
+                                       message=text_content, html_message=html_content)
 
         return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
 
