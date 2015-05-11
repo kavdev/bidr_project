@@ -8,6 +8,7 @@
 """
 
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator
 from django.db.models.fields import CharField, TextField, DecimalField, BooleanField
 from django.db.models.fields.files import ImageField
@@ -35,7 +36,7 @@ class AbstractItem(PolymorphicModel):
         self.save()
 
     def get_second_highest_bid(self):
-        bid_list = self.bids.all().order_by("-amount")
+        bid_list = self.get_bids_by_amount()
         if bid_list.count() > 1:
             return bid_list[1]
         else:
@@ -68,6 +69,10 @@ class AbstractItem(PolymorphicModel):
     def polymorphic_identifier(self):
         return self.polymorphic_ctype.name
 
+    def get_absolute_client_url(self, request):
+        auction_id = self.bidables.all()[0].id
+        return request.build_absolute_uri(reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": self.id}))
+
 
 class Item(AbstractItem):
     """ An auction item."""
@@ -97,10 +102,11 @@ class ItemCollection(AbstractItem):
 
     items = ManyToManyField(Item, blank=True, verbose_name="Items")
 
-    def claim(self, bid):
-        for item in self.items.all():
-            item.claim(bid)
-        super(ItemCollection, self).claim(bid)
+# @glazed4444 Not sure why this is here. Items are no longer biddables once they're in a collection
+#     def claim(self, bid):
+#         for item in self.items.all():
+#             item.claim(bid)
+#         super(ItemCollection, self).claim(bid)
 
     @property
     def image_urls(self):
@@ -113,3 +119,11 @@ class ItemCollection(AbstractItem):
     @property
     def ordered_items(self):
         return self.items.all().order_by("name")
+
+    @property
+    def tags(self):
+        tag_set = set()
+        # List compression syntax is not python's strongsuit...
+        [tag_set.add(tag) for item in self.items.all() for tag in item.tags.names()]
+
+        return list(tag_set)

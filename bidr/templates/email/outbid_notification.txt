@@ -1,0 +1,9 @@
+{% load currency %}
+Bidr Outbid Notification :: {{ now }}
+
+Your bid on {{ item.name }} has been surpassed by {{ outbidder }} with a bid of {{ bid|currency }}.
+
+To place another bid, navigate to {{ absolute_client_url }}.
+
+&copy;bidr 2015
+You received this email because you were outbid on an item at https://bidr.herokuapp.com.

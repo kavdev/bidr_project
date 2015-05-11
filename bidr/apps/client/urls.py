@@ -16,6 +16,6 @@ urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name="login"),
     url(r'^$', login_required(AuctionListView.as_view(), login_url=reverse_lazy("client:login")), name="home"),
     url(r'^auctions/add/$', login_required(AddAuctionView.as_view(), login_url=reverse_lazy("client:login")), name="add_auction"),
-    url(r'^client/auctions/(?P<auction_id>\d+)/list/$', login_required(ItemListView.as_view()), name='item_list'),
-    url(r'^client/auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/$', login_required(ItemDetailView.as_view()), name='item_detail')
+    url(r'^auctions/(?P<auction_id>\d+)/list/$', login_required(ItemListView.as_view()), name='item_list'),
+    url(r'^auctions/(?P<auction_id>\d+)/items/(?P<pk>\d+)/$', login_required(ItemDetailView.as_view()), name='item_detail')
 ]

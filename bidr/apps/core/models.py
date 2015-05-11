@@ -7,7 +7,7 @@
 """
 
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.mail import send_mail
 from django.db.models.fields import CharField, BooleanField, EmailField, DateTimeField
 from django.db.models.signals import post_save
@@ -16,36 +16,13 @@ from django.utils import timezone
 
 from rest_framework.authtoken.models import Token
 
+from .managers import BidrUserManager
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
-
-class BidrUserManager(BaseUserManager):
-
-    def _create_user(self, name, email, phone_number, password, is_staff, is_superuser, **extra_fields):
-        """Creates and saves a User with the given username, email and password."""
-
-        now = timezone.now()
-        if not email:
-            raise ValueError('The given email address must be set')
-        email = self.normalize_email(email)
-        user = self.model(name=name, email=email, phone_number=phone_number, is_staff=is_staff, is_active=True,
-                          is_superuser=is_superuser, last_login=now,
-                          date_joined=now, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_user(self, name, email, phone_number, password, **extra_fields):
-        return self._create_user(name, email, phone_number, password, False, False,
-                                 **extra_fields)
-
-    def create_superuser(self, name, email, phone_number, password, **extra_fields):
-        return self._create_user(name, email, phone_number, password, True, True,
-                                 **extra_fields)
 
 
 class BidrUser(AbstractBaseUser, PermissionsMixin):
@@ -73,7 +50,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
     def get_short_name(self):
         return self.get_username()
 
-    def email_user(self, subject, message, from_email=None):
+    def email_user(self, subject, message, html_message=None, from_email=None):
         """Sends an email to this user."""
 
-        send_mail(subject, message, from_email, [self.email])
+        send_mail(subject=subject, message=message, html_message=html_message, from_email=from_email, fail_silently=False, recipient_list=[self.email])

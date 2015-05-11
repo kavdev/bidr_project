@@ -18,6 +18,11 @@
                     <p class="help-block text-danger">{{ form.description.errors }}</p>
                 </div>
                 <div class="form-group">
+                    <label for="id_tags">Tags *</label>
+                    {% render_field form.tags placeholder="Tags (comma separated)" required=true class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.tags.errors }}</p>
+                </div>
+                <div class="form-group">
                     <label for="id_starting_bid">Starting Bid</label>
                     <div class="input-group">
                         <div class="input-group-addon">$</div>

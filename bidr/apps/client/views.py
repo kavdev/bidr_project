@@ -8,7 +8,7 @@
 """
 
 from django.core.urlresolvers import reverse_lazy, reverse
-from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 
@@ -87,10 +87,12 @@ class ItemDetailView(FormView):
         outbid_bid = item_instance.get_second_highest_bid()
 
         if outbid_bid and outbid_bid.user.email != self.request.user.email:
-            send_mail(subject="Bidr: You've been outbid!",
-                message="Oh No! You've been outbid on the item '{item}' with a bid of ${bid}.\n\n".format(item=item_instance.name, bid=bid_instance.amount),
-                from_email="Bidr Mail Relay Server <do-not-reply@bidr.herokuapp.com",
-                recipient_list=[outbid_bid.user.email])
+            kwargs = {"item": item_instance, "absolute_client_url": item_instance.get_absolute_client_url(self.request), "bid": bid_instance.amount, "outbidder": bid_instance.user}
+            text_content = render_to_string("email/outbid_notification.txt", kwargs)
+            html_content = render_to_string("email/outbid_notification.html", kwargs)
+
+            outbid_bid.user.email_user(subject="Bidr: You've been outbid!",
+                                       message=text_content, html_message=html_content)
 
         return super(FormView, self).form_valid(form)
 
