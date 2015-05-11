@@ -3,6 +3,7 @@
    :synopsis: Bidr Silent Auction System Bid Serializers.
 
 .. moduleauthor:: Alex Kavanaugh <kavanaugh.development@outlook.com>
+.. moduleauthor:: Zachary Glazer <glazed4@yahoo.com>
 
 """
 
@@ -24,6 +25,10 @@ class CreateBidSerializer(ModelSerializer):
 
     def create(self, validated_data):
         item = AbstractItem.objects.get(id=validated_data['item_id'])
+        auction = item.bidables.all()[0]
+
+        if auction.stage > 1:
+            raise ValidationError("Auction Over")
 
         if not item.highest_bid or item.highest_bid.amount < validated_data['amount']:
             del validated_data['item_id']

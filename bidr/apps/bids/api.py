@@ -45,11 +45,18 @@ class CreateBidAPIView(CreateAPIView):
         try:
             instance = self.perform_create(serializer)
         except ValidationError as exc:
-            return Response(
-                data={"current_highest_bid": exc.detail[0],
-                      "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[0]},
-                status=HTTP_400_BAD_REQUEST,
-            )
+            if exc.detail[0] == "Auction Over":
+                return Response(
+                                data={"auction_over": exc.detail[0],
+                                      "exception_message": "This auction has ended."},
+                                status=HTTP_400_BAD_REQUEST,
+                                )
+            else:
+                return Response(
+                                data={"current_highest_bid": exc.detail[0],
+                                      "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[0]},
+                                status=HTTP_400_BAD_REQUEST,
+                                )
         headers = self.get_success_headers(serializer.data)
 
         bid_item_queryset = instance.bids

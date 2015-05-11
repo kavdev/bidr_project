@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework.serializers import ModelSerializer, EmailField, ValidationError
 
-from ..auctions.models import Auction
+from .models import Auction
 from ..items.serializers import ItemSerializer
 
 
@@ -53,3 +53,11 @@ class AuctionItemSerializer(ModelSerializer):
     class Meta:
         model = Auction
         fields = ['bidables']
+
+
+class GetBidrUserParticipatedAuctionsSerializer(ModelSerializer):
+    participants = AuctionSerializer(many=True)
+
+    class Meta:
+        model = get_user_model()
+        fields = ['participants']

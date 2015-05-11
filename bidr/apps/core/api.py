@@ -18,7 +18,8 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 
 from .models import BidrUser
-from .serializers import RegisterBidrUserSerializer, GetBidrUserParticipatedAuctionsSerializer
+from .serializers import RegisterBidrUserSerializer
+from ..auctions.serializers import GetBidrUserParticipatedAuctionsSerializer
 
 logger = logging.getLogger(__name__)
 
