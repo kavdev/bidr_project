@@ -21,7 +21,6 @@ from rest_framework.views import APIView
 from .models import BidrUser
 from .serializers import RegisterBidrUserSerializer, UpdateBidrUserIOSDeviceTokenSerializer
 from ..auctions.serializers import GetBidrUserParticipatedAuctionsSerializer
-from rest_framework.decorators import permission_classes
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +70,7 @@ class UpdateUserIOSDeviceTokenView(UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         try:
             self.perform_update(serializer)
-        except ValidationError as exc:
+        except ValidationError:
             return Response(
                 data={"ios_device_token_not_updated": "The iOS device token was not updated"},
                 status=HTTP_400_BAD_REQUEST,
