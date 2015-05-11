@@ -2,7 +2,7 @@
 .. module:: bidr.apps.auctions.validators
    :synopsis: Bidr Silent Auction System Auction Validators.
 
-.. moduleauthor:: Jarred Stelfox <>
+.. moduleauthor:: Jarred Stelfox
 
 """
 from django.contrib.auth import get_user_model
