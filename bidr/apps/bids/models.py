@@ -6,12 +6,14 @@
 
 """
 
+from datetime import datetime, timedelta
+import math
+
 from django.db.models.base import Model
 from django.db.models.fields import DecimalField, DateTimeField
 from django.db.models.fields.related import ForeignKey
 from django.conf import settings
-from datetime import datetime, timedelta
-import math
+from django.template.defaultfilters import pluralize
 
 
 class Bid(Model):
@@ -29,19 +31,18 @@ class Bid(Model):
         elapsed = now - self.timestamp
 
         if now - timedelta(hours=1) < now - elapsed:
-            minago = math.ceil(elapsed.seconds / 60)
-            return str(minago) + " minutes ago"
+            minutes_ago = math.ceil(elapsed.seconds / 60)
+            return str(minutes_ago) + " minute" + pluralize(minutes_ago) + " ago"
         elif now - timedelta(hours=2) < now - elapsed:
             return "1 hour ago"
         elif now - timedelta(hours=3) < now - elapsed:
             return "2 hours ago"
         elif now - timedelta(hours=4) < now - elapsed:
             return "3 hours ago"
-        elif now - timedelta(hours=5) < now - elapsed and now.date.day:
-            testdatetime = self.timestamp
-            stringtime = testdatetime.strftime("%I:%M %p")
-            return stringtime
+        elif (now - timedelta(hours=4) > now - elapsed and
+              datetime.today().year == self.timestamp.year and
+              datetime.today().month == self.timestamp.month and
+              datetime.today().day == self.timestamp.day):
+            return self.timestamp.strftime("%H:%M")
         else:
-            testdatetime = self.timestamp
-            stringtime = testdatetime.strftime("%Y-%m-%d  %I:%M %p")
-            return stringtime
+            return self.timestamp.strftime("%Y-%m-%d  %H:%M")

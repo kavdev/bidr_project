@@ -47,9 +47,9 @@ SITE_ID = 1
 
 DATE_FORMAT = 'l, F d, Y'
 
-TIME_FORMAT = 'h:i a'
+TIME_FORMAT = 'H:i'
 
-DATETIME_FORMAT = 'l, F d, Y h:i a'
+DATETIME_FORMAT = 'l, F d, Y H:i'
 
 DEFAULT_CHARSET = 'utf-8'
 
