@@ -10,16 +10,18 @@ import logging
 
 from django.contrib.auth import get_user_model
 
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from rest_framework.serializers import ValidationError
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
 
 from .models import BidrUser
-from .serializers import RegisterBidrUserSerializer
+from .serializers import RegisterBidrUserSerializer, UpdateBidrUserIOSDeviceTokenSerializer
 from ..auctions.serializers import GetBidrUserParticipatedAuctionsSerializer
+from rest_framework.decorators import permission_classes
 
 logger = logging.getLogger(__name__)
 
@@ -52,3 +54,29 @@ class RegisterBidrUser(APIView):
             return Response({'token': token.key}, status=HTTP_201_CREATED)
         else:
             return Response(serializer._errors, status=HTTP_400_BAD_REQUEST)
+
+
+class UpdateUserIOSDeviceTokenView(UpdateAPIView):
+    queryset = BidrUser.objects.all()
+    serializer_class = UpdateBidrUserIOSDeviceTokenSerializer
+
+    permission_classes = (
+        IsAuthenticated,
+    )
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        try:
+            self.perform_update(serializer)
+        except ValidationError as exc:
+            return Response(
+                data={"ios_device_token_not_updated": "The iOS device token was not updated"},
+                status=HTTP_400_BAD_REQUEST,
+            )
+        return Response(
+            data={"ios_device_token_updated": "The iOS device token was updated"},
+            status=HTTP_200_OK,
+        )

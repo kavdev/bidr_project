@@ -28,7 +28,7 @@ from .apps.organizations.views import OrganizationListView, OrganizationCreateVi
 from .apps.items.views import ItemCreateView, ItemCollectionCreateView, ItemUpdateView, ItemCollectionUpdateView, ItemModalView
 
 from .apps.auctions.api import AddAuctionParticipantView, RetrieveAuctionAPIView, RetrieveAuctionItemView
-from .apps.core.api import GetBidrUserParticipatedAuctionsView
+from .apps.core.api import GetBidrUserParticipatedAuctionsView, UpdateUserIOSDeviceTokenView
 from .apps.bids.api import CreateBidAPIView
 from .apps.items.api import RetrieveItemAPIView
 
@@ -62,6 +62,7 @@ urlpatterns += [
 # API
 urlpatterns += [
     url(r'^api/auth/', include(api_auth_urls)),
+    url(r'^api/users/(?P<pk>\d+)/update_ios_device_token/$', UpdateUserIOSDeviceTokenView.as_view()),
     url(r'^api/users/(?P<pk>\d+)/auctions/$', GetBidrUserParticipatedAuctionsView.as_view()),
     url(r'^api/auctions/(?P<pk>\d+)/participants/add/$', AddAuctionParticipantView.as_view()),
     url(r'^api/auctions/(?P<pk>\d+)/$', RetrieveAuctionAPIView.as_view()),

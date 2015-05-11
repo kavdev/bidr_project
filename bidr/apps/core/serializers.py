@@ -24,3 +24,14 @@ class BidrUserIDSerializer(ModelSerializer):
     class Meta:
         model = BidrUser
         fields = ['id']
+
+
+class UpdateBidrUserIOSDeviceTokenSerializer(ModelSerializer):
+    def update(self, instance, validated_data):
+        instance.ios_device_token = validated_data.get('ios_device_token')
+        instance.save()
+        return instance
+
+    class Meta:
+        model = get_user_model()
+        fields = ['ios_device_token']

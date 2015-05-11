@@ -62,6 +62,7 @@ class CreateBidAPIView(CreateAPIView):
         bid_item_queryset = instance.bids
         bid_item = bid_item_queryset.all()[0]
         outbid_bid = bid_item.get_second_highest_bid()
+#        auction = bid_item.bidables.all()[0]
 
         if outbid_bid and outbid_bid.user.email != instance.user.email:
             kwargs = {"item": bid_item, "absolute_client_url": bid_item.get_absolute_client_url(self.request), "bid": instance.amount, "outbidder": instance.user}
@@ -70,6 +71,9 @@ class CreateBidAPIView(CreateAPIView):
 
             outbid_bid.user.email_user(subject="Bidr: You've been outbid!",
                                        message=text_content, html_message=html_content)
+#             if outbid_bid.user.ios_device_token is not None:
+#                 payload = Payload(alert="Outbid", sound="default", badge=1)
+#                 auction.apns.gateway_server.send_notification(outbid_bid.user.ios_device_token, payload)
 
         return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
 
