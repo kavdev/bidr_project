@@ -85,6 +85,13 @@ class TestItem(TestCase):
     def test_polymorphic_identifier(self):
         self.assertEqual("item", self.item_instance.polymorphic_identifier)
 
+    def test_bidders(self):
+        self.assertEquals(len(self.item_instance.bidders), 4)
+        self.assertTrue(self.user1 in self.item_instance.bidders)
+        self.assertTrue(self.user2 in self.item_instance.bidders)
+        self.assertTrue(self.user3 in self.item_instance.bidders)
+        self.assertTrue(self.user4 in self.item_instance.bidders)
+
     def test_str(self):
         self.assertEqual("test_item", str(self.item_instance))
 

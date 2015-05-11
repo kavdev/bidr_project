@@ -69,6 +69,12 @@ class AbstractItem(PolymorphicModel):
     def polymorphic_identifier(self):
         return self.polymorphic_ctype.name
 
+    @property
+    def bidders(self):
+        bidders = []
+        [bidders.append(bid.user) for bid in self.bids.all()]
+        return list(set(bidders))
+
     def get_absolute_client_url(self, request):
         auction_id = self.bidables.all()[0].id
         return request.build_absolute_uri(reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": self.id}))

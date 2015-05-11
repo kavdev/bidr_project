@@ -1,5 +1,5 @@
 {% load currency %}
-Bidr Outbid Notification :: {{ now }}
+Bidr Outbid Notification :: {% now 'DATETIME_FORMAT' %}
 
 Your bid on {{ item.name }} has been surpassed by {{ outbidder }} with a bid of {{ bid|currency }}.
 

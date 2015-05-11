@@ -32,6 +32,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
     email = EmailField(unique=True, verbose_name='Email Address')
     phone_number = CharField(max_length=20, verbose_name='Phone Number')
     date_joined = DateTimeField(default=timezone.now)
+    ios_device_token = CharField(max_length=64, blank=True, null=True, verbose_name='iOS Device Token')
 
     is_active = BooleanField(default=True)
     is_staff = BooleanField(default=False)

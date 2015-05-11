@@ -908,7 +908,7 @@ a:hover{color:#30495c !important}.wrapper .logo div{color:#41637e}.wrapper .logo
               <tbody><tr>
                 <td class="title" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: left;color: #fff;font-family: Georgia,serif">Bidr Outbid Notification</td>
                 <td class="webversion" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: right;width: 300px;color: #fff;font-family: Georgia,serif">
-                  {{ now }}
+                  {% now 'DATETIME_FORMAT' %}
                 </td>
               </tr>
             </tbody></table>

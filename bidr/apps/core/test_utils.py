@@ -10,8 +10,10 @@ from unittest.mock import Mock
 
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 
 from ..auctions.models import Auction
 from ..organizations.models import Organization
@@ -228,3 +230,10 @@ class UserTypeTest(TestCase):
         else:
             # Redirected to login
             return False
+
+    def test_anonymous_user(self):
+        self.assertFalse(self._test_user_via_request(user_type=UserType.OWNER, user=AnonymousUser()))
+
+    @override_settings(LOGIN_URL="https://www.google.com")
+    def test_remote_login_url(self):
+        self.assertFalse(self._test_user_via_request(user_type=UserType.OWNER, user=self.manager1))
