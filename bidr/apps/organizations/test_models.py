@@ -29,10 +29,8 @@ class OrganizationTest(TransactionTestCase):
         self.auction2 = Auction.objects.create(name="Test Auction 2", description="Oogalyboogaly 2", start_time=timezone.now(), end_time=timezone.now())
         self.auction1.managers.add(self.manager1)
         self.auction1.managers.add(self.manager2)
-        self.auction1.save()
         self.org.auctions.add(self.auction1)
         self.org.auctions.add(self.auction2)
-        self.org.save()
 
     def test_organization_model(self):
         self.assertEqual(self.org.name, "Test Studio")

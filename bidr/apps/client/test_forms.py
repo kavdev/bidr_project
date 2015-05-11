@@ -90,6 +90,11 @@ class TestAddBidForm(TestCase):
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
+    def test_form_invalid(self):
+        data = {"amount": Decimal("13.1238393")}
+        form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
+        self.assertFalse(form.is_valid())
+
     def test_valid_bid_matches(self):
         data = {"amount": Decimal("12.00")}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
