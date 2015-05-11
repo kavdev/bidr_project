@@ -19,7 +19,6 @@ class UserRegistrationForm(ModelForm):
     def clean_email(self):
         """
         Ensures the email address provided is unique.
-        For some reason this check isn't already happening.
         """
 
         email = self.cleaned_data["email"]

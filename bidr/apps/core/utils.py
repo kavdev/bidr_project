@@ -63,6 +63,10 @@ def user_type_test(user_type, user, org_slug, auction_id=None):
 
     """
 
+    # Catch anonymous users
+    if user.is_anonymous():
+        return False
+
     # Cache must be per organization (and, optionally, per auction)
     cache_org_slug = org_slug
     cache_auction_id = auction_id
