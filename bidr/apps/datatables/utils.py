@@ -22,6 +22,9 @@ def dict_merge(base, merge):
 
     """
 
+    if not isinstance(base, dict):
+        return None
+
     if not isinstance(merge, dict):
         return merge
     result = deepcopy(base)
