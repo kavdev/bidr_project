@@ -74,11 +74,23 @@
             $("#observe_stage").addClass("active");
         });
         
+        
         function confirm_end() {
             if (confirm('Are you sure you want to end this auction?')) {
                 window.location.href = "{% url 'end_auction' slug=org_slug auction_id=auction.id %}";
             }
         }
+        
+        function remove_bid(item_id, bid_id) {
+            var response = confirm('Are you sure you want to remove the highest bid?');
+            if (response) {
+                ajaxPost("{% url 'remove_bid' slug=org_slug auction_id=auction.id %}", {"item_id": item_id, "bid_id": bid_id}, function(response_context) {
+                    $("#bid_" + bid_id).remove();
+                });    
+            }
+        }
+        
+        
     </script>
     {% datatables_script %}
     <script src="//cdn.datatables.net/plug-ins/1.10.6/integration/bootstrap/3/dataTables.bootstrap.js" type="text/javascript"></script>

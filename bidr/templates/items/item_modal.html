@@ -57,7 +57,7 @@
                             <td class="text-left">
                                 {{ bid.amount }}
                             </td>
-                            <td>
+                            <td class="deleterow">
                                 <button class="btn btn-default" type="button" onclick="remove_bid({{ object.id }}, {{ bid.id }})">
                                     Remove bid 
                                 </button>
@@ -75,3 +75,13 @@
 {% endblock %}
 
 {% block footer %}{% endblock %}
+{% block extended_scripts %}
+    <script type="text/javascript">
+        $(".deleterow").on("click", function(){
+            var $killrow = $(this).parent('tr');
+                $killrow.addClass("danger");
+            $killrow.fadeOut(1000, function(){
+                $(this).remove();
+        });});
+    </script>
+{% endblock %}
