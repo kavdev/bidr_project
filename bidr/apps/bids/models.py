@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 import math
 
 from django.db.models.base import Model
-from django.db.models.fields import DecimalField, DateTimeField
+from django.db.models.fields import DateTimeField, BigIntegerField
 from django.db.models.fields.related import ForeignKey
 from django.conf import settings
 from django.template.defaultfilters import pluralize
@@ -19,7 +19,7 @@ from django.template.defaultfilters import pluralize
 class Bid(Model):
     """A bid on an item."""
 
-    amount = DecimalField(max_digits=40, decimal_places=2, verbose_name='Bid Amount')
+    amount = BigIntegerField(verbose_name='Bid Amount')
     user = ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Bidder')
     timestamp = DateTimeField(auto_now_add=True, blank=True, verbose_name='Timestamp')
 

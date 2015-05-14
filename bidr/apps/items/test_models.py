@@ -6,7 +6,6 @@
 
 """
 
-from decimal import Decimal
 from unittest.mock import MagicMock
 
 from django.conf import settings
@@ -40,8 +39,8 @@ class TestItem(TestCase):
 
     def setUp(self):  # noqa
         self.auction_instance = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
-        self.item_instance = Item.objects.create(name="test_item", description="test_description", starting_bid=Decimal("2.00"))
-        self.item_instance_no_bids = Item.objects.create(name="test_item2", description="test_description", starting_bid=Decimal("2.00"))
+        self.item_instance = Item.objects.create(name="test_item", description="test_description", starting_bid=2)
+        self.item_instance_no_bids = Item.objects.create(name="test_item2", description="test_description", starting_bid=2)
 
         self.auction_instance.bidables.add(self.item_instance_no_bids)
         self.auction_instance.bidables.add(self.item_instance)
@@ -53,14 +52,14 @@ class TestItem(TestCase):
         self.user4 = get_user_model().objects.create_user(email="testuser4@bidrapp.com", name="testuser4", phone_number="+13105550004", password="password")
 
         # Generate Bids
-        self.bid1 = Bid.objects.create(amount=Decimal("1.00"), user=self.user1)
-        self.bid2 = Bid.objects.create(amount=Decimal("3.60"), user=self.user2)
-        self.bid3 = Bid.objects.create(amount=Decimal("4.50"), user=self.user2)
-        self.bid4 = Bid.objects.create(amount=Decimal("2.00"), user=self.user3)
-        self.bid5 = Bid.objects.create(amount=Decimal("3.30"), user=self.user3)
-        self.bid6 = Bid.objects.create(amount=Decimal("4.00"), user=self.user3)
-        self.bid7 = Bid.objects.create(amount=Decimal("3.15"), user=self.user4)
-        self.bid8 = Bid.objects.create(amount=Decimal("5.00"), user=self.user4)
+        self.bid1 = Bid.objects.create(amount=1, user=self.user1)
+        self.bid2 = Bid.objects.create(amount=5, user=self.user2)
+        self.bid3 = Bid.objects.create(amount=7, user=self.user2)
+        self.bid4 = Bid.objects.create(amount=2, user=self.user3)
+        self.bid5 = Bid.objects.create(amount=4, user=self.user3)
+        self.bid6 = Bid.objects.create(amount=6, user=self.user3)
+        self.bid7 = Bid.objects.create(amount=3, user=self.user4)
+        self.bid8 = Bid.objects.create(amount=8, user=self.user4)
 
         # Add bids to the item
         self.item_instance.bids.add(self.bid1)
@@ -80,7 +79,7 @@ class TestItem(TestCase):
         self.assertIn("test_url", self.item_instance.image_urls, "Incorrect image url list for existing image.")
 
     def test_total_starting_bid(self):
-        self.assertEqual(Decimal("2.00"), self.item_instance.total_starting_bid, "Incorrect starting bid.")
+        self.assertEqual(2, self.item_instance.total_starting_bid, "Incorrect starting bid.")
 
     def test_polymorphic_identifier(self):
         self.assertEqual("item", self.item_instance.polymorphic_identifier)
@@ -122,11 +121,11 @@ class TestItem(TestCase):
 class TestItemCollection(TestCase):
 
     def setUp(self):  # noqa
-        self.item_instance_1 = Item.objects.create(name="Xtest_item_1", description="test_description", starting_bid=Decimal("2.00"), picture='test_url_1')
-        self.item_instance_2 = Item.objects.create(name="Ctest_item_2", description="test_description", starting_bid=Decimal("4.00"), picture='test_url_2')
-        self.item_instance_3 = Item.objects.create(name="Ftest_item_3", description="test_description", starting_bid=Decimal("6.00"), picture='test_url_3')
-        self.item_instance_4 = Item.objects.create(name="Qtest_item_4", description="test_description", starting_bid=Decimal("8.00"), picture='test_url_4')
-        self.item_instance_5 = Item.objects.create(name="Atest_item_5", description="test_description", starting_bid=Decimal("10.00"), picture='test_url_5')
+        self.item_instance_1 = Item.objects.create(name="Xtest_item_1", description="test_description", starting_bid=2, picture='test_url_1')
+        self.item_instance_2 = Item.objects.create(name="Ctest_item_2", description="test_description", starting_bid=4, picture='test_url_2')
+        self.item_instance_3 = Item.objects.create(name="Ftest_item_3", description="test_description", starting_bid=6, picture='test_url_3')
+        self.item_instance_4 = Item.objects.create(name="Qtest_item_4", description="test_description", starting_bid=8, picture='test_url_4')
+        self.item_instance_5 = Item.objects.create(name="Atest_item_5", description="test_description", starting_bid=10, picture='test_url_5')
 
         self.item_instance_1.tags.add("tag1")
         self.item_instance_1.tags.add("tag1")
@@ -153,7 +152,7 @@ class TestItemCollection(TestCase):
         self.assertNotIn(settings.MEDIA_URL + "test_url_5", self.collection_instance.image_urls, "Picture 5 unexpectedly in image url list. List should only contain first four images.")
 
     def test_total_starting_bid(self):
-        self.assertEqual(Decimal("30.00"), self.collection_instance.total_starting_bid, "Incorrect starting bid.")
+        self.assertEqual(30, self.collection_instance.total_starting_bid, "Incorrect starting bid.")
 
     def test_ordered_items(self):
         item_list = list(self.collection_instance.ordered_items.values_list('name', flat=True))
