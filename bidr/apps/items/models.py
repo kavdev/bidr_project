@@ -10,7 +10,7 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator
-from django.db.models.fields import CharField, TextField, IntegerField, BooleanField
+from django.db.models.fields import CharField, TextField, BigIntegerField, BooleanField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.db.models.aggregates import Max, Sum
@@ -83,7 +83,7 @@ class AbstractItem(PolymorphicModel):
 class Item(AbstractItem):
     """ An auction item."""
 
-    starting_bid = IntegerField(default=0, validators=[MinValueValidator(0)])
+    starting_bid = BigIntegerField(default=0, validators=[MinValueValidator(0)])
     picture = ImageField(null=True, blank=True)
 
     tags = TaggableManager()

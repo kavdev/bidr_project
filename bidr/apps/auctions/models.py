@@ -13,7 +13,7 @@ from django.core.validators import MinValueValidator
 from django.db.models.aggregates import Sum
 from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey, ManyToManyField
-from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, IntegerField
+from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, BigIntegerField
 
 from ..items.models import AbstractItem
 from .managers import ManageableAuctionManager
@@ -42,7 +42,7 @@ class Auction(Model):
     start_time = DateTimeField(null=True, blank=True, verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
-    bid_increment = IntegerField(default=1, verbose_name="Bid Increment", validators=[MinValueValidator(1)])
+    bid_increment = BigIntegerField(default=1, verbose_name="Bid Increment", validators=[MinValueValidator(1)])
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
     participants = ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="participants", verbose_name="Participants")
