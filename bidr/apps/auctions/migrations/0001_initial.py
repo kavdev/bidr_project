@@ -2,37 +2,26 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
+import django.core.validators
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Auction',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
                 ('name', models.CharField(verbose_name='Name', max_length=60)),
                 ('description', models.TextField(verbose_name='Description')),
-                ('start_time', models.DateTimeField(verbose_name='Start Time')),
+                ('start_time', models.DateTimeField(verbose_name='Start Time', blank=True, null=True)),
                 ('end_time', models.DateTimeField(verbose_name='End Time')),
-                ('stage', models.PositiveSmallIntegerField(choices=[(0, 'Plan'), (1, 'Manage'), (2, 'Claim'), (3, 'Report')], default=0, verbose_name='Auction Stage')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='AuctionUserInfo',
-            fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
-                ('attribute_name', models.CharField(max_length=60)),
-                ('attribute_value', models.CharField(max_length=100)),
-                ('bidder', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('optional_password', models.CharField(verbose_name='Password', blank=True, null=True, max_length=128)),
+                ('bid_increment', models.BigIntegerField(verbose_name='Bid Increment', validators=[django.core.validators.MinValueValidator(1)], default=1)),
+                ('stage', models.PositiveSmallIntegerField(verbose_name='Auction Stage', default=0, choices=[(0, 'Plan'), (1, 'Observe'), (2, 'Claim'), (3, 'Report')])),
             ],
             options={
             },

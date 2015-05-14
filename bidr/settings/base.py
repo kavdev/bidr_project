@@ -220,6 +220,7 @@ INSTALLED_APPS = (
     'bidr.apps.auctions',
     'bidr.apps.core',
     'bidr.apps.core.templatetags.CoreTemplatetagsConfig',
+    'bidr.apps.client',
     'bidr.apps.datatables',
     'bidr.apps.datatables.templatetags.DatatablesTemplatetagsConfig',
     'bidr.apps.bids',

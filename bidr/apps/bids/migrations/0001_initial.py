@@ -13,12 +13,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Bid',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
-                ('amount', models.DecimalField(verbose_name='Bid Amount', decimal_places=2, max_digits=40)),
-                ('timestamp', models.DateTimeField(auto_now_add=True, verbose_name='Timestamp')),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('amount', models.BigIntegerField(verbose_name='Bid Amount')),
+                ('timestamp', models.DateTimeField(verbose_name='Timestamp', auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'Bid',
             },
             bases=(models.Model,),
         ),

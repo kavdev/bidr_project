@@ -8,22 +8,22 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auctions', '0004_auto_20150205_1130'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('auctions', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Organization',
             fields=[
-                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
-                ('name', models.CharField(max_length=100, verbose_name='Name')),
-                ('email', models.EmailField(max_length=75, blank=True, verbose_name='Email Address', unique=True)),
-                ('phone_number', models.CharField(verbose_name='Phone Number', max_length=20)),
-                ('website', models.URLField(verbose_name='Website')),
-                ('auctions', models.ManyToManyField(to='auctions.Auction')),
-                ('managers', models.ManyToManyField(verbose_name='Manager', to=settings.AUTH_USER_MODEL, related_name='managers')),
-                ('owner', models.ForeignKey(verbose_name='Admin', related_name='owner', to=settings.AUTH_USER_MODEL)),
+                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('name', models.CharField(verbose_name='Name', max_length=100)),
+                ('slug', models.SlugField(verbose_name='Slug', max_length=120, unique=True)),
+                ('email', models.EmailField(verbose_name='Email Address', blank=True, null=True, max_length=75)),
+                ('phone_number', models.CharField(verbose_name='Phone Number', blank=True, null=True, max_length=20)),
+                ('website', models.URLField(verbose_name='Website', blank=True, null=True)),
+                ('auctions', models.ManyToManyField(related_name='auctions', to='auctions.Auction', verbose_name='Auctions', blank=True)),
+                ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, verbose_name='Owner', related_name='owner')),
             ],
             options={
             },
