@@ -7,7 +7,6 @@
 """
 
 from datetime import datetime, timedelta
-from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
@@ -80,28 +79,28 @@ class TestAddBidForm(TestCase):
                                                        description="test",
                                                        start_time=datetime.now(),
                                                        end_time=datetime.now() + timedelta(days=20),
-                                                       bid_increment=Decimal("2.00"))
+                                                       bid_increment=2)
 
-        self.item_instance = Item.objects.create(name="Bowling Ball", starting_bid=Decimal("10.00"))
+        self.item_instance = Item.objects.create(name="Bowling Ball", starting_bid=10)
         self.auction_instance.bidables.add(self.item_instance)
 
     def test_form_valid(self):
-        data = {"amount": Decimal("13.00")}
+        data = {"amount": 13}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
     def test_form_invalid(self):
-        data = {"amount": Decimal("13.1238393")}
+        data = {"amount": 13.121234}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
     def test_valid_bid_matches(self):
-        data = {"amount": Decimal("12.00")}
+        data = {"amount": 12}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
     def test_form_invalid_bid_below_starting_bid(self):
-        data = {"amount": Decimal("2.00")}
+        data = {"amount": 2}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
@@ -109,10 +108,10 @@ class TestAddBidForm(TestCase):
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
-        self.bid1 = Bid.objects.create(user=user, amount=Decimal("22.00"))
+        self.bid1 = Bid.objects.create(user=user, amount=22)
         self.item_instance.bids.add(self.bid1)
 
-        data = {"amount": Decimal("21.00")}
+        data = {"amount": 21}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
@@ -120,10 +119,10 @@ class TestAddBidForm(TestCase):
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
-        self.bid1 = Bid.objects.create(user=user, amount=Decimal("22.00"))
+        self.bid1 = Bid.objects.create(user=user, amount=22)
         self.item_instance.bids.add(self.bid1)
 
-        data = {"amount": Decimal("23.00")}
+        data = {"amount": 23}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
@@ -131,10 +130,10 @@ class TestAddBidForm(TestCase):
         user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         # Create an item with bids that has yet to be claimed.
-        self.bid1 = Bid.objects.create(user=user, amount=Decimal("22.00"))
+        self.bid1 = Bid.objects.create(user=user, amount=22)
         self.item_instance.bids.add(self.bid1)
 
-        data = {"amount": Decimal("24.00")}
+        data = {"amount": 24}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertTrue(form.is_valid())
 
@@ -142,7 +141,7 @@ class TestAddBidForm(TestCase):
         self.auction_instance.stage = STAGES.index("Report")
         self.auction_instance.save()
 
-        data = {"amount": Decimal("24.00")}
+        data = {"amount": 24}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())
 
@@ -150,6 +149,6 @@ class TestAddBidForm(TestCase):
         self.auction_instance.end_time = datetime.now() - timedelta(minutes=5)
         self.auction_instance.save()
 
-        data = {"amount": Decimal("24.00")}
+        data = {"amount": 24}
         form = AddBidForm(item_instance=self.item_instance, auction_instance=self.auction_instance, data=data)
         self.assertFalse(form.is_valid())

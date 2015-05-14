@@ -13,12 +13,11 @@ from django.core.validators import MinValueValidator
 from django.db.models.aggregates import Sum
 from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey, ManyToManyField
-from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, DecimalField
+from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, IntegerField
 
 from ..items.models import AbstractItem
 from .managers import ManageableAuctionManager
 from builtins import property
-from decimal import Decimal
 
 
 class AuctionUserInfo(Model):
@@ -43,7 +42,7 @@ class Auction(Model):
     start_time = DateTimeField(null=True, blank=True, verbose_name="Start Time")
     end_time = DateTimeField(verbose_name="End Time")
     optional_password = CharField(null=True, blank=True, verbose_name="Password", max_length=128)
-    bid_increment = DecimalField(max_digits=17, decimal_places=2, default=Decimal("0.01"), verbose_name="Bid Increment", validators=[MinValueValidator(Decimal("0.01"))])
+    bid_increment = IntegerField(default=1, verbose_name="Bid Increment", validators=[MinValueValidator(1)])
     stage = PositiveSmallIntegerField(default=STAGES.index('Plan'), choices=STAGE_CHOICES, verbose_name="Auction Stage")
 
     participants = ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name="participants", verbose_name="Participants")
@@ -87,7 +86,7 @@ class Auction(Model):
     @property
     def total_income(self):
         amount = self.get_sold_items().aggregate(Sum('claimed_bid__amount'))["claimed_bid__amount__sum"]
-        return amount if amount else Decimal(0)
+        return amount if amount else 0
 
     @property
     def bid_count(self):
