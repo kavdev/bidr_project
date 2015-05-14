@@ -12,7 +12,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db.models.aggregates import Sum
 from django.db.models.base import Model
-from django.db.models.fields.related import ForeignKey, ManyToManyField
+from django.db.models.fields.related import ManyToManyField  # ForeignKey
 from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, BigIntegerField
 
 from ..items.models import AbstractItem
@@ -20,12 +20,12 @@ from .managers import ManageableAuctionManager
 from builtins import property
 
 
-class AuctionUserInfo(Model):
-    """ Additional user fields defined for a particular auction."""
-
-    bidder = ForeignKey(settings.AUTH_USER_MODEL)
-    attribute_name = CharField(max_length=60)
-    attribute_value = CharField(max_length=100)
+# class AuctionUserInfo(Model):
+#     """ Additional user fields defined for a particular auction."""
+#
+#     bidder = ForeignKey(settings.AUTH_USER_MODEL)
+#     attribute_name = CharField(max_length=60)
+#     attribute_value = CharField(max_length=100)
 
 
 STAGES = ["Plan", "Observe", "Claim", "Report"]
@@ -49,7 +49,7 @@ class Auction(Model):
 
     bidables = ManyToManyField(AbstractItem, blank=True, related_name="bidables", verbose_name="Bidables")
 
-    user_info = ManyToManyField(AuctionUserInfo, blank=True, verbose_name="Additional User Info")
+#     user_info = ManyToManyField(AuctionUserInfo, blank=True, verbose_name="Additional User Info")
 
     managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="auction_managers", verbose_name="Managers", blank=True)
 
