@@ -1,7 +1,25 @@
 {% extends 'admin_base.html' %}
+
+{% block extended_head %}
+{{ block.super }}
+<style type="text/css">
+    section {
+        padding-top: 20px;
+    }
+</style>
+{% endblock %}
+
 {% block navbar_fixed %}{% endblock %}
 
 {% block auction_stages %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="aui-message aui-message-info">
+                <p class="title"><strong>Your Auction ID is {{ auction.id }}</strong></p>
+                <p>Present this to your bidders during auction registration.</p>
+            </div>
+        </div>
+    </div>
     <h1 class="page_title text-center">{{ auction.name }}
     {% block manage_modal_buttons %}
         <a title="Edit Auction Info" class="management_button" data-toggle="modal" data-target="#update_auction_modal"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
@@ -19,25 +37,25 @@
         </div>
     </div>
 
-{% block manage_modal %}
-<div class="modal fade" id="update_auction_modal" tabindex="-1" role="dialog" aria-labelledby="update_auction" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h1 class="modal-title" id="create_item">Update Auction</h1>
+    {% block manage_modal %}
+    <div class="modal fade" id="update_auction_modal" tabindex="-1" role="dialog" aria-labelledby="update_auction" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h1 class="modal-title" id="create_item">Update Auction</h1>
+                    </div>
+                    
+                    <div class="modal-body text-center embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="{% url 'update_auction' slug=org_slug auction_id=auction.id %}"></iframe>
+                    </div>
+                    
+                    <div class="modal-footer"></div>
                 </div>
-                
-                <div class="modal-body text-center embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="{% url 'update_auction' slug=org_slug auction_id=auction.id %}"></iframe>
-                </div>
-                
-                <div class="modal-footer"></div>
             </div>
         </div>
-    </div>
-    
-<div class="modal fade" id="managers_modal" tabindex="-1" role="dialog" aria-labelledby="managers_modal" aria-hidden="true">
+        
+    <div class="modal fade" id="managers_modal" tabindex="-1" role="dialog" aria-labelledby="managers_modal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header text-center">

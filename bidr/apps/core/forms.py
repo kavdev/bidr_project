@@ -43,4 +43,4 @@ class UserRegistrationForm(ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['name', 'email', 'phone_number', 'password']
+        fields = ['name', 'display_name', 'email', 'phone_number', 'password']

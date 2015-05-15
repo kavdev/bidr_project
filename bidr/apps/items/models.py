@@ -42,6 +42,12 @@ class AbstractItem(PolymorphicModel):
         else:
             return None
 
+    def get_previous_bid_by_user(self, user):
+        bid_list = self.bids.filter(user=user).order_by("-amount")
+
+        if bid_list.count() > 1:
+            return bid_list[1]
+
     def __str__(self):
         return self.name
 

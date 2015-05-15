@@ -104,6 +104,12 @@ class TestItem(TestCase):
     def test_get_bids_by_amount(self):
         self.assertListEqual([self.bid8, self.bid3, self.bid6, self.bid2, self.bid5, self.bid7, self.bid4, self.bid1], list(self.item_instance.get_bids_by_amount()))
 
+    def test_get_previous_bid_by_user(self):
+        self.assertEqual(self.bid7, self.item_instance.get_previous_bid_by_user(self.user4))
+        self.assertEqual(self.bid5, self.item_instance.get_previous_bid_by_user(self.user3))
+        self.assertEqual(self.bid2, self.item_instance.get_previous_bid_by_user(self.user2))
+        self.assertEqual(None, self.item_instance.get_previous_bid_by_user(self.user1))
+
     def test_get_absolute_client_url(self):
         request = RequestFactory()
 

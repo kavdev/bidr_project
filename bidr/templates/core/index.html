@@ -135,6 +135,11 @@
                                         <p class="help-block text-danger">{{ form.name.errors }}</p>
                                     </div>
                                     <div class="form-group">
+                                        <label class="sr-only" for="id_name">Display Name</label>
+                                        {% render_field form.display_name type="text" placeholder="Display Name (optional)" value="" class+="form-control" %}
+                                        <p class="help-block text-danger">{{ form.display_nameme.errors }}</p>
+                                    </div>
+                                    <div class="form-group">
                                         {% render_field form.email type="email" placeholder="Email Address *" required=true class+="form-control" %}
                                         <p class="help-block text-danger">{{ form.email.errors }}</p>
                                     </div>

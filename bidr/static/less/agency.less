@@ -3,6 +3,13 @@
 
 @footerheight: 90px;
 
+@font-face {
+    font-family: "Atlassian Icons";
+    src: url("/static/fonts/atlassian-icons.woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
 // Global Components
 
 html, body {
@@ -90,6 +97,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .page_title {
     margin-bottom: 60px;
+}
+
+.alert {
+    border-radius: 0;
 }
 
 /* Restyled Primary Buttons */
@@ -528,4 +539,69 @@ ul.errorlist {
 
 .management_button {
     cursor: pointer;
+}
+
+/* Atlassian message UI */
+
+.aui-message {
+    background: white;
+    border: 1px solid @brand-primary;
+    border-radius: 3px;
+    color: @gray;
+    margin: 0;
+    overflow-wrap: break-word;
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.aui-message:first-child {
+    margin-top: 0;
+}
+
+.aui-message p {
+    margin: 0;
+}
+
+.aui-message p.title {
+    font-weight: bold;
+}
+
+.aui-message {
+    border-radius: 3px;
+    border-width: 1px;
+    line-height: 20px;
+    padding-bottom: 10px;
+    padding-left: 60px;
+    padding-right: 20px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+}
+
+.aui-message:before {
+    background-color: @brand-primary;
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 40px;
+}
+
+.aui-message:after {
+    color: #ffffff;
+    content: "\f16f";
+    font-family: "Atlassian Icons";
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    /* Improves the rendering of icons */
+    font-style: normal;
+    font-weight: normal;
+    left: 12px;
+    line-height: 1;
+    margin-top: -8px;
+    position: absolute;
+    speak: none;
+    /* This prevents screen readers from pronouncing the pseudo element text content used to trigger the icon font */
+    top: 50%;
 }

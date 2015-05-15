@@ -28,7 +28,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 class BidrUser(AbstractBaseUser, PermissionsMixin):
     """Enterprise Groups Management Tool User Model"""
 
-    name = CharField(max_length=30, blank=True, verbose_name='Full Name')
+    name = CharField(max_length=30, verbose_name='Full Name')
+    display_name = CharField(max_length=30, blank=True, default="Anonymous", verbose_name='Display Name')
     email = EmailField(unique=True, verbose_name='Email Address')
     phone_number = CharField(max_length=20, verbose_name='Phone Number')
     date_joined = DateTimeField(default=timezone.now)
@@ -47,6 +48,9 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
 
     def get_full_name(self):
         return self.name
+
+    def get_display_name(self):
+        return self.display_name
 
     def get_short_name(self):
         return self.get_username()

@@ -39,10 +39,5 @@ class Bid(Model):
             return "2 hours ago"
         elif now - timedelta(hours=4) < now - elapsed:
             return "3 hours ago"
-        elif (now - timedelta(hours=4) > now - elapsed and
-              datetime.today().year == self.timestamp.year and
-              datetime.today().month == self.timestamp.month and
-              datetime.today().day == self.timestamp.day):
-            return self.timestamp.strftime("%H:%M")
         else:
             return self.timestamp.strftime("%Y-%m-%d  %H:%M")
