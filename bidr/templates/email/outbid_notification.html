@@ -936,7 +936,7 @@ a:hover{color:#30495c !important}.wrapper .logo div{color:#41637e}.wrapper .logo
                           <tbody><tr>
                             <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px;word-break: break-word;word-wrap: break-word">
                               
-            <h1 style="Margin-top: 0;color: #555;font-weight: 700;font-size: 36px;Margin-bottom: 18px;font-family: sans-serif;line-height: 42px;text-align: center">You've Been Outbid!</h1><p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">Your bid on {{ item.name }} has been surpassed by {{ outbidder }} with a bid of {{ bid|currency }}.</p><p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 24px">To place another bid, <a href="{{ absolute_client_url }}">click here</a>.</p>
+            <h1 style="Margin-top: 0;color: #555;font-weight: 700;font-size: 36px;Margin-bottom: 18px;font-family: sans-serif;line-height: 42px;text-align: center">You've Been Outbid!</h1><p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">Your bid on {{ item.name }} has been surpassed by {{ outbidder.get_display_name }} with a bid of {{ bid|currency }}.</p><p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 24px">To place another bid, <a href="{{ absolute_client_url }}">click here</a>.</p>
           
                             </td>
                           </tr>

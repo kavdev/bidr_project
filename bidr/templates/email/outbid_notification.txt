@@ -1,7 +1,7 @@
 {% load currency %}
 Bidr Outbid Notification :: {% now 'DATETIME_FORMAT' %}
 
-Your bid on {{ item.name }} has been surpassed by {{ outbidder }} with a bid of {{ bid|currency }}.
+Your bid on {{ item.name }} has been surpassed by {{ outbidder.get_display_name }} with a bid of {{ bid|currency }}.
 
 To place another bid, navigate to {{ absolute_client_url }}.
 

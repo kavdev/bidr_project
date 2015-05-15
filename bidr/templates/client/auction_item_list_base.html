@@ -1,0 +1,14 @@
+{% extends "client/auction_base.html" %}
+
+{% block header_left %}<a href="{% url 'client:home' %}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</a>{% endblock %}
+
+{% block extended_scripts %}
+{{ block.super }}
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".hyperlinked_row").click(function() {
+            location = $(this).data("href");
+        });
+    });
+</script>
+{% endblock %}
