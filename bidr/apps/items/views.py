@@ -77,7 +77,7 @@ class ItemCollectionUpdateView(UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "The item collection '{itemcollection}' was successfully created.".format(itemcollection=str(self.object)))
 
-        return super(ItemUpdateView, self).form_valid(form)
+        return super(ItemCollectionUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('update_item_collection', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id'], 'pk': self.object.id})
