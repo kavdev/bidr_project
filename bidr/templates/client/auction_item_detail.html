@@ -57,12 +57,11 @@
         $(document).ready(function () {
             var base_amount = 0;
 
-            if ({{ object.highest_bid.amount }} != "None") {
+            {% if object.highest_bid.amount %}
                 base_amount = {{ object.highest_bid.amount }};
-            }
-            else {
-                base_amount = {{ object.starting_bid }};
-            }
+            {% else %}
+                base_amount = {{ object.total_starting_bid }};
+            {% endif %}
             
             $("#id_amount").attr("value", base_amount + {{ auction.bid_increment }});
             $("#id_amount").attr("placeholder", base_amount + {{ auction.bid_increment }});

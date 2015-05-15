@@ -81,6 +81,20 @@ class AbstractItem(PolymorphicModel):
         [bidders.append(bid.user) for bid in self.bids.all()]
         return list(set(bidders))
 
+    @property
+    def highest_bid_for_each_bidder(self):
+        bidrs = self.bidders
+        highest_bids = []
+        [highest_bids.append(self.get_highest_bid_of_bidder(bidr)) for bidr in bidrs]
+        return highest_bids
+
+    def get_highest_bid_of_bidder(self, bidder):
+        bids = self.bids.all().filter(user=bidder)
+        highest_amount = bids.all().aggregate(Max('amount'))["amount__max"]
+        if not highest_amount:
+            return None
+        return bids.get(amount=highest_amount)
+
     def get_absolute_client_url(self, request):
         auction_id = self.bidables.all()[0].id
         return request.build_absolute_uri(reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": self.id}))

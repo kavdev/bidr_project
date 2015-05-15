@@ -36,7 +36,7 @@
                         {{ item.highest_bid.amount|currency }}
                     </td>
                     <td>
-                        <button class="btn btn-default" type="button" onclick="claim_item({{ item.id }}, {{ item.highest_bid.id }})">
+                        <button class="btn btn-default" type="button" onclick="claim_item({{ item.id }}, {{ item.highest_bid.id }});">
                             Claim 
                         </button>
                     </td>
@@ -81,6 +81,8 @@
                 return false;
             }
         }
+        
+        
         function remove_bid(item_id, bid_id) {
             var response = confirm('Are you sure you want to remove the highest bid?');
             if (response) {
@@ -96,5 +98,6 @@
             $("#observe_stage").addClass("inactive");
             $("#claim_stage").addClass("active");
         });
+        
     </script>
 {% endblock %}
