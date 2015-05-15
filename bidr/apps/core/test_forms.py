@@ -25,6 +25,15 @@ class TestUserRegistrationForm(TestCase):
         form = UserRegistrationForm(data=data)
         self.assertTrue(form.is_valid())
 
+    def test_form_valid_with_display_name(self):
+        data = {"name": "test_name",
+                "display_name": "Display Name",
+                "email": "test_email@email.com",
+                "phone_number": "+13105551987",
+                "password": "bidr2015", "password_confirm": "bidr2015"}
+        form = UserRegistrationForm(data=data)
+        self.assertTrue(form.is_valid())
+
     def test_form_invalid_email_already_in_use(self):
         data = {"name": "test_name",
                 "email": "popularemail@test.com",
