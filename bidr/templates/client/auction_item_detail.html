@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {% render_field form.amount required=true autofocus=true class+="form-control" %}
+                                {% render_field form.amount type="number" min=0 step=1 required=true autofocus=true class+="form-control" %}
                                 <span class="input-group-addon">.00</span>
                             </div>
                             <p class="help-block text-danger">{{ form.amount.errors }}</p>
@@ -64,7 +64,9 @@
                 base_amount = {{ object.starting_bid }};
             }
             
+            $("#id_amount").attr("value", base_amount + {{ auction.bid_increment }});
             $("#id_amount").attr("placeholder", base_amount + {{ auction.bid_increment }});
+            $("#id_amount").attr("min", base_amount + {{ auction.bid_increment }});
         });
     
     </script>
