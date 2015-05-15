@@ -80,6 +80,7 @@ class CreateBidAPIView(CreateAPIView):
 
             outbid_bid.user.email_user(subject="Bidr: You've been outbid!",
                                        message=text_content, html_message=html_content)
+
             if outbid_bid.user.ios_device_token:
                 auction.apns_client.send(
                     outbid_bid.user.ios_device_token,
@@ -92,6 +93,7 @@ class CreateBidAPIView(CreateAPIView):
                            'auct_id': auction.id
                            }
                 )
+
                 # res = auction.apns_client.send(outbid_bid.user.ios_device_token, 'It Works!', title='YES', sound='default')
 
         return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
