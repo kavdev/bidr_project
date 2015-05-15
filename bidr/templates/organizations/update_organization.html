@@ -1,60 +1,58 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
-{% block extended_head %}
-    <style type="text/css">
-        .btn-file {
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            cursor: inherit;
-            display: block;
-        }
-        input[readonly] {
-            background-color: transparent !important;
-            cursor: text !important;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
+<div class="container-fluid">
+    {% block messages %}
+        {% if messages %}
+            <div class="row">
+                <div class="col-xs-12 column">
+                    {% for message in messages %}
+                    <div class="row clearfix">
+                        <div class="alert {% if message.tags %}alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}{% endif %} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {% autoescape off %}{{ message }}{% endautoescape %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+</div>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <p class="help-block text-danger">{{ form.non_field_errors }}</p>
-            <div class="form-group">
-            <label for="id_name">Organization Name *</label>
-                {% render_field form.name placeholder="Organization Name *" required=true class+="form-control" %}
-                <p class="help-block text-danger">{{ form.name.errors }}</p>
+        <form name="update_organization" id="update_organization" method="POST">
+            <div class="col-md-6 col-md-offset-3">
+                <p class="help-block text-danger">{{ form.non_field_errors }}</p>
+                <div class="form-group">
+                <label for="id_name">Organization Name *</label>
+                    {% render_field form.name placeholder="Organization Name *" required=true class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.name.errors }}</p>
+                </div>
+                <div class="form-group">
+                <label for="id_name">Organization email address</label>
+                    {% render_field form.email placeholder="Organization Email Address" class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.email.errors }}</p>
+                </div>
+                <div class="form-group">
+                <label for="id_name">Organization phone number</label>
+                    {% render_field form.phone_number placeholder="Organization Phone Number" class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
+                </div>
+                <div class="form-group">
+                <label for="id_name">Organization website</label>
+                    {% render_field form.website placeholder="Organization Website" class+="form-control" %}
+                    <p class="help-block text-danger">{{ form.website.errors }}</p>
+                 </div>
+                 <input type="hidden" name="owner" value="1" />
+                {% csrf_token %}
             </div>
-            <div class="form-group">
-            <label for="id_name">Organization email address</label>
-                {% render_field form.email placeholder="Organization Email Address" class+="form-control" %}
-                <p class="help-block text-danger">{{ form.email.errors }}</p>
-            </div>
-            <div class="form-group">
-            <label for="id_name">Organization phone number</label>
-                {% render_field form.phone_number placeholder="Organization Phone Number" class+="form-control" %}
-                <p class="help-block text-danger">{{ form.phone_number.errors }}</p>
-            </div>
-            <div class="form-group">
-            <label for="id_name">Organization website</label>
-                {% render_field form.website placeholder="Organization Website" class+="form-control" %}
-                <p class="help-block text-danger">{{ form.website.errors }}</p>
-             </div>
-            {% csrf_token %}
-        </div>
+        </form>
         <div class="clearfix"></div>
         <div class="col-lg-12 text-center">
-            <button class="btn btn-xl" form="update_organization" type="submit">
-                Update
-            </button>
+            <button class="btn btn-xl" form="update_organization" type="submit">Update</button>
         </div>
     </div>
 </div>

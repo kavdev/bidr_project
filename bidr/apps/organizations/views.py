@@ -36,17 +36,27 @@ class OrganizationCreateView(CreateView):
         kwargs["request"] = self.request
         return kwargs
 
+    def form_valid(self, form):
+        messages.success(self.request, "The Organization '{organization}' was successfully created.".format(organization=str(self.object)))
+        return super(OrganizationCreateView, self).form_valid(form)
+
     def get_success_url(self):
         return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
 
 
 class OrganizationUpdateView(UpdateView):
     template_name = "organizations/update_organization.html"
+    form_class = OrganizationCreateForm
     model = Organization
 
-    def get_success_url(self):
-        return reverse_lazy('auctions', kwargs={'slug': self.object.slug})
+    def get_form_kwargs(self):
+        kwargs = super(OrganizationUpdateView, self).get_form_kwargs()
+        kwargs["request"] = self.request
+        return kwargs
 
     def form_valid(self, form):
-        messages.success(self.request, "The Organization '{item}' was successfully updated.".format(item=str(self.object)))
+        messages.success(self.request, "The Organization '{organization}' was successfully updated.".format(organization=str(self.object)))
         return super(OrganizationUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('update_organization', kwargs={'slug': self.object.slug})
