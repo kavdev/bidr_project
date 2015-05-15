@@ -61,7 +61,7 @@
                 base_amount = {{ object.highest_bid.amount }};
             }
             else {
-                base_amount = {{ object.starting_bid }};
+                base_amount = {{ object.total_starting_bid }};
             }
             
             $("#id_amount").attr("value", base_amount + {{ auction.bid_increment }});
