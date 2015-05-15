@@ -5,7 +5,6 @@
 {% block admin_content %}
 <h2>Create Organization</h2>
 <form method="POST" name="organization_create" id="organization_create">
-    <input type="hidden" name="owner" value="1" />
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <p class="help-block text-danger">{{ form.non_field_errors }}</p>
@@ -25,13 +24,12 @@
                 {% render_field form.website type=text placeholder="Organization Website" class+="form-control" %}
                 <p class="help-block text-danger">{{ form.website.errors }}</p>
              </div>
+             <input type="hidden" name="owner" value="1" />
             {% csrf_token %}
         </div>
         <div class="clearfix"></div>
         <div class="col-lg-12 text-center">
-            <button class="btn btn-xl" form="organization_create" type="submit">
-                Submit
-            </button>
+            <button class="btn btn-xl" form="organization_create" type="submit">Create</button>
         </div>
     </div>
 </form>

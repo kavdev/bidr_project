@@ -53,7 +53,7 @@ class AuctionCreateView(CreateView):
         org_instance = Organization.objects.get(slug=self.kwargs['slug'])
         org_instance.auctions.add(self.object)
         org_instance.save()
-        messages.success(self.request, "The auction '{auction}' was successfully updated.".format(auction=str(self.object)))
+        messages.success(self.request, "The auction '{auction}' was successfully created.".format(auction=str(self.object)))
         return redirect(self.get_success_url())
 
 

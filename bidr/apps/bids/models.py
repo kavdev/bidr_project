@@ -23,6 +23,10 @@ class Bid(Model):
     user = ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Bidder')
     timestamp = DateTimeField(auto_now_add=True, blank=True, verbose_name='Timestamp')
 
+    @property
+    def user_display_name(self):
+        return self.user.display_name
+
     def __str__(self):
         return str(self.user) + " - $" + str(self.amount)
 
@@ -39,10 +43,5 @@ class Bid(Model):
             return "2 hours ago"
         elif now - timedelta(hours=4) < now - elapsed:
             return "3 hours ago"
-        elif (now - timedelta(hours=4) > now - elapsed and
-              datetime.today().year == self.timestamp.year and
-              datetime.today().month == self.timestamp.month and
-              datetime.today().day == self.timestamp.day):
-            return self.timestamp.strftime("%H:%M")
         else:
             return self.timestamp.strftime("%Y-%m-%d  %H:%M")

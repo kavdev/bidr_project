@@ -9,11 +9,14 @@
 """
 
 from django.conf import settings
+from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.validators import MinValueValidator
 from django.db.models.aggregates import Sum
 from django.db.models.base import Model
 from django.db.models.fields.related import ManyToManyField  # ForeignKey
 from django.db.models.fields import CharField, TextField, DateTimeField, PositiveSmallIntegerField, BigIntegerField
+
+from pushjack import APNSSandboxClient
 
 from ..items.models import AbstractItem
 from .managers import ManageableAuctionManager
@@ -52,6 +55,8 @@ class Auction(Model):
 #     user_info = ManyToManyField(AuctionUserInfo, blank=True, verbose_name="Additional User Info")
 
     managers = ManyToManyField(settings.AUTH_USER_MODEL, related_name="auction_managers", verbose_name="Managers", blank=True)
+
+    apns_client = APNSSandboxClient(certificate=static('pem/BidrBird-ck-noenc.pem'))
 
     def get_items_user_has_bid_on(self, user_id):
         my_bids = []

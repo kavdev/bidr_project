@@ -1,7 +1,6 @@
 {% extends "client/auction_base.html" %}
 
 {% load currency %}
-{% load staticfiles %}
 {% load widget_tweaks %}
 
 {% block header_left %}<a href="{% url 'client:item_list' auction_id=auction.id %}"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;Back</a>{% endblock %}
@@ -19,7 +18,7 @@
 <div class="row text-center">
     <div class="col-xs-12">
         {% if auction.stage == 1 %}
-            {% if not bid_on_item %}You have not bid on this item.{% elif winning_item %}You are winning this item!{% else %}You are losing this item.{% endif %}
+            {% if not bid_on_item %}You have not bid on this item.{% elif winning_item %}You are winning this item!{% else %}You are losing this item.<br />Your previous bid was {{ previous_bid.amount|currency }}.{% endif %}
         {% elif auction.stage > 1 %}
             {% if winning_item %}You won this item!{% else %}You did not win this item.{% endif %}
         {% endif %}
@@ -32,7 +31,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">$</span>
-                                {% render_field form.amount required=true autofocus=true class+="form-control" %}
+                                {% render_field form.amount type="number" min=0 step=1 required=true autofocus=true class+="form-control" %}
                                 <span class="input-group-addon">.00</span>
                             </div>
                             <p class="help-block text-danger">{{ form.amount.errors }}</p>
@@ -58,14 +57,15 @@
         $(document).ready(function () {
             var base_amount = 0;
 
-            if ({{ object.highest_bid.amount }} != "None") {
+            {% if object.highest_bid.amount %}
                 base_amount = {{ object.highest_bid.amount }};
-            }
-            else {
-                base_amount = {{ object.starting_bid }};
-            }
+            {% else %}
+                base_amount = {{ object.total_starting_bid }};
+            {% endif %}
             
+            $("#id_amount").attr("value", base_amount + {{ auction.bid_increment }});
             $("#id_amount").attr("placeholder", base_amount + {{ auction.bid_increment }});
+            $("#id_amount").attr("min", base_amount + {{ auction.bid_increment }});
         });
     
     </script>

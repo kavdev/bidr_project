@@ -51,9 +51,18 @@ class CreateBidAPIView(CreateAPIView):
                         "exception_message": "This auction has ended."},
                     status=HTTP_400_BAD_REQUEST,
                 )
+            elif exc.detail[0] == "bid_increment_error":
+                return Response(
+                    data={"bid_increment_error": exc.detail[1],
+                        "current_highest_bid": exc.detail[2],
+                        "highest_bid_user_id": exc.detail[3],
+                        "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[2]},
+                    status=HTTP_400_BAD_REQUEST,
+                )
             else:
                 return Response(
                     data={"current_highest_bid": exc.detail[0],
+                        "highest_bid_user_id": exc.detail[1],
                         "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[0]},
                     status=HTTP_400_BAD_REQUEST,
                 )
@@ -62,7 +71,7 @@ class CreateBidAPIView(CreateAPIView):
         bid_item_queryset = instance.bids
         bid_item = bid_item_queryset.all()[0]
         outbid_bid = bid_item.get_second_highest_bid()
-#        auction = bid_item.bidables.all()[0]
+        auction = bid_item.bidables.all()[0]
 
         if outbid_bid and outbid_bid.user.email != instance.user.email:
             kwargs = {"item": bid_item, "absolute_client_url": bid_item.get_absolute_client_url(self.request), "bid": instance.amount, "outbidder": instance.user}
@@ -71,9 +80,19 @@ class CreateBidAPIView(CreateAPIView):
 
             outbid_bid.user.email_user(subject="Bidr: You've been outbid!",
                                        message=text_content, html_message=html_content)
-#             if outbid_bid.user.ios_device_token is not None:
-#                 payload = Payload(alert="Outbid", sound="default", badge=1)
-#                 auction.apns.gateway_server.send_notification(outbid_bid.user.ios_device_token, payload)
+            if outbid_bid.user.ios_device_token:
+                auction.apns_client.send(
+                    outbid_bid.user.ios_device_token,
+                    'You\'ve been outbid on ' + bid_item.name + '!',
+                    title='Outbid!', sound='default',
+                    extra={'display_name': instance.user.display_name,
+                           'amount': instance.amount,
+                           'item_id': bid_item.id,
+                           'item_name': bid_item.name,
+                           'auct_id': auction.id
+                           }
+                )
+                # res = auction.apns_client.send(outbid_bid.user.ios_device_token, 'It Works!', title='YES', sound='default')
 
         return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
 

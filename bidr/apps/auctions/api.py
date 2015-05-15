@@ -29,7 +29,13 @@ class AddAuctionParticipantView(UpdateAPIView):
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
-        instance = self.get_object()
+        try:
+            instance = self.get_object()
+        except Exception as exc:
+            return Response(
+                data={'detail': 'Not found'},
+                status=HTTP_400_BAD_REQUEST,
+            )
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         try:

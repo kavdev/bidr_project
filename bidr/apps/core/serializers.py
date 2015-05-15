@@ -17,7 +17,7 @@ from .models import BidrUser
 class RegisterBidrUserSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ['name', 'email', 'phone_number', 'password']
+        fields = ['name', 'display_name', 'email', 'phone_number', 'password']
 
 
 class BidrUserIDSerializer(ModelSerializer):
@@ -28,8 +28,11 @@ class BidrUserIDSerializer(ModelSerializer):
 
 class UpdateBidrUserIOSDeviceTokenSerializer(ModelSerializer):
     def update(self, instance, validated_data):
-        instance.ios_device_token = validated_data.get('ios_device_token')
-        instance.save()
+        ios_device_token = validated_data.get('ios_device_token')
+        # "(null)" is what the iphone simulator sends over the api for some reason
+        if ios_device_token and ios_device_token != ('(null)'):
+            instance.ios_device_token = validated_data.get('ios_device_token')
+            instance.save()
         return instance
 
     class Meta:

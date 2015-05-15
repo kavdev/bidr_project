@@ -26,7 +26,7 @@
                     <label for="id_starting_bid">Starting Bid</label>
                     <div class="input-group">
                         <div class="input-group-addon">$</div>
-                        {% render_field form.starting_bid class+="form-control" %}
+                        {% render_field form.starting_bid type="number" min=0 step=1 class+="form-control" %}
                     </div>
                     <p class="help-block text-danger">{{ form.starting_bid.errors }}</p>
                 </div>

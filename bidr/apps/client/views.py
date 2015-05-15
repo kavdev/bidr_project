@@ -113,6 +113,7 @@ class ItemDetailView(FormView):
             context["winning_item"] = item_instance.highest_bid.user == self.request.user
         else:
             context["winning_item"] = False
+        context["previous_bid"] = item_instance.get_previous_bid_by_user(self.request.user)
         return context
 
     def get_success_url(self):

@@ -43,8 +43,6 @@ class BidTest(TestCase):
         self.bid3.save()
         self.bid4.timestamp = datetime.now() - timedelta(hours=3, minutes=20)
         self.bid4.save()
-        self.bid5.timestamp = datetime.now().replace(hour=12, minute=30) - timedelta(hours=8, minutes=20)
-        self.bid5.save()
         self.bid6.timestamp = datetime(2015, 5, 11, 12, 30) - timedelta(hours=22, minutes=15)
         self.bid6.save()
 
@@ -68,5 +66,4 @@ class BidTest(TestCase):
         self.assertEqual(self.bid2.time_delta(), "1 hour ago")
         self.assertEqual(self.bid3.time_delta(), "2 hours ago")
         self.assertEqual(self.bid4.time_delta(), "3 hours ago")
-        self.assertEqual(self.bid5.time_delta(), "04:10")
         self.assertEqual(self.bid6.time_delta(), "2015-05-10  14:15")
