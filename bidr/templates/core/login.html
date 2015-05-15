@@ -2,7 +2,14 @@
 {% load widget_tweaks %}
 
 {% block navbar_shrink %}{% endblock %}
-{% block navitems %}{% endblock %}
+{% block navitems %}
+    <li>
+        <a class="page-scroll" href="{% url 'client:login' %}">Web Client</a>
+    </li>
+    <li>
+        <a class="page-scroll" href="{% url 'admin_login' %}">Admin Console</a>
+    </li>
+{% endblock %}
 
 {% block content %}
 <section id="register" class="index_section">
