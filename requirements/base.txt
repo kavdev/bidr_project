@@ -20,3 +20,4 @@ djoser==0.3.0
 django-polymorphic==0.7.1
 django-datatables-view==1.12
 django-storages-redux==1.2.3
+pushjack==1.0.1
