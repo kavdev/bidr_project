@@ -193,7 +193,7 @@
         });
         
         $('#create_item_modal, #create_item_collection_modal').on('hidden.bs.modal', function () {
-            location.reload();
+            location.reload(true);
         });
         
         function delete_item(item_id) {
