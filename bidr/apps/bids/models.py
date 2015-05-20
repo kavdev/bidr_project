@@ -23,6 +23,10 @@ class Bid(Model):
     user = ForeignKey(settings.AUTH_USER_MODEL, verbose_name='Bidder')
     timestamp = DateTimeField(auto_now_add=True, blank=True, verbose_name='Timestamp')
 
+    @property
+    def user_display_name(self):
+        return self.user.display_name
+
     def __str__(self):
         return str(self.user) + " - $" + str(self.amount)
 

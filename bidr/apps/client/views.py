@@ -94,6 +94,19 @@ class ItemDetailView(FormView):
             outbid_bid.user.email_user(subject="Bidr: You've been outbid!",
                                        message=text_content, html_message=html_content)
 
+            if outbid_bid.user.ios_device_token:
+                auction_instance.apns_client.send(
+                    outbid_bid.user.ios_device_token,
+                    'You\'ve been outbid on ' + item_instance.name + '!',
+                    title='Outbid!', sound='default',
+                    extra={'display_name': self.request.user.get_display_name(),
+                           'amount': bid_instance.amount,
+                           'item_id': item_instance.id,
+                           'item_name': item_instance.name,
+                           'auct_id': auction_instance.id
+                           }
+                )
+
         return super(FormView, self).form_valid(form)
 
     def get_form_kwargs(self):

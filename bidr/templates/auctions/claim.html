@@ -81,6 +81,8 @@
                 return false;
             }
         }
+        
+        
         function remove_bid(item_id, bid_id) {
             var response = confirm('Are you sure you want to remove the highest bid?');
             if (response) {
@@ -96,5 +98,6 @@
             $("#observe_stage").addClass("inactive");
             $("#claim_stage").addClass("active");
         });
+        
     </script>
 {% endblock %}

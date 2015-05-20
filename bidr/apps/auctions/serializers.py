@@ -44,7 +44,7 @@ class AddAuctionParticipantSerializer(ModelSerializer):
 class AuctionSerializer(ModelSerializer):
     class Meta:
         model = Auction
-        fields = ['name', 'stage', 'id']
+        fields = ['name', 'stage', 'id', 'bid_increment']
 
 
 class AuctionItemSerializer(ModelSerializer):
@@ -52,7 +52,7 @@ class AuctionItemSerializer(ModelSerializer):
 
     class Meta:
         model = Auction
-        fields = ['bidables']
+        fields = ['bidables', 'stage']
 
 
 class GetBidrUserParticipatedAuctionsSerializer(ModelSerializer):

@@ -7,7 +7,7 @@ from colorama import init as color_init
 from termcolor import colored
 from pathlib import Path
 
-TESTS_THRESHOLD = 79.64
+TESTS_THRESHOLD = 78.50
 
 
 def get_env_variable(name):
