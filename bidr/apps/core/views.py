@@ -23,13 +23,13 @@ class IndexView(RegistrationView):
     form_class = UserRegistrationForm
     success_url = reverse_lazy("home")
 
-    def register(self, request, **cleaned_data):
+    def register(self, request, form):
         """ Handles valid credentials"""
 
-        get_user_model().objects.create_user(name=cleaned_data["name"],
-                                             email=cleaned_data["email"],
-                                             phone_number=cleaned_data["phone_number"],
-                                             password=cleaned_data["password"])
+        get_user_model().objects.create_user(name=form.cleaned_data["name"],
+                                             email=form.cleaned_data["email"],
+                                             phone_number=form.cleaned_data["phone_number"],
+                                             password=form.cleaned_data["password"])
 
         messages.success(self.request, "You have successfully created a Bidr account.")
 

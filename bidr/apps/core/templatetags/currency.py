@@ -26,6 +26,6 @@ def currency(value):
     value = Decimal(value) if value else Decimal(0)
 
     if value >= 0:
-        return '${amount}'.format(amount=value.quantize(Decimal('0.01')))
+        return '${amount:,}'.format(amount=value.quantize(Decimal('0.01')))
     else:
-        return '-${amount}'.format(amount=abs(value).quantize(Decimal('0.01')))
+        return '-${amount:,}'.format(amount=abs(value).quantize(Decimal('0.01')))

@@ -31,7 +31,7 @@ class CreateBidSerializer(ModelSerializer):
             raise ValidationError("Auction Over")
 
         if not item.highest_bid or item.highest_bid.amount < validated_data['amount']:
-            if validated_data['amount'] - item.highest_bid.amount >= auction.bid_increment:
+            if not item.highest_bid or validated_data['amount'] - item.highest_bid.amount >= auction.bid_increment:
                 del validated_data['item_id']
 
                 instance = ModelSerializer.create(self, validated_data)
