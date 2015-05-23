@@ -1,0 +1,602 @@
+@font-face {
+  font-family: "Atlassian Icons";
+  src: url('/static/fonts/atlassian-icons.woff');
+  font-weight: normal;
+  font-style: normal;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  overflow-x: hidden;
+  font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+
+  margin-bottom: -90px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer,
+.page-wrap:after {
+  height: 90px;
+}
+.text-muted {
+  color: #777777;
+}
+.text-primary {
+  color: #40c870;
+}
+p {
+  font-size: 14px;
+  line-height: 1.75;
+}
+p.large {
+  font-size: 16px;
+}
+a,
+a:hover,
+a:focus,
+a:active,
+a.active {
+  outline: none;
+}
+a {
+  color: #40c870;
+}
+a:hover,
+a:focus,
+a:active,
+a.active {
+  color: #30a559;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.img-centered {
+  margin: 0 auto;
+}
+.bg-light-gray {
+  background-color: #f7f7f7;
+}
+.bg-darkest-gray {
+  background-color: #222222;
+}
+.object_list ul {
+  list-style-type: none;
+  padding-bottom: 20px;
+  padding-left: 0px !important;
+}
+.page_title {
+  margin-bottom: 60px;
+}
+.alert {
+  border-radius: 0;
+}
+/* Restyled Primary Buttons */
+.btn-primary {
+  color: #ffffff;
+  background-color: #40c870;
+  border-color: #40c870;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #30a559;
+  border-color: #2d9d55;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  background-image: none;
+}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: #40c870;
+  border-color: #40c870;
+}
+.btn-primary .badge {
+  color: #40c870;
+  background-color: #ffffff;
+}
+.btn-xl {
+  color: #ffffff;
+  background-color: #40c870;
+  border-color: #40c870;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 3px;
+  font-size: 18px;
+  padding: 20px 40px;
+}
+.btn-xl:hover,
+.btn-xl:focus,
+.btn-xl:active,
+.btn-xl.active,
+.open .dropdown-toggle.btn-xl {
+  color: #ffffff;
+  background-color: #30a559;
+  border-color: #2d9d55;
+}
+.btn-xl:active,
+.btn-xl.active,
+.open .dropdown-toggle.btn-xl {
+  background-image: none;
+}
+.btn-xl.disabled,
+.btn-xl[disabled],
+fieldset[disabled] .btn-xl,
+.btn-xl.disabled:hover,
+.btn-xl[disabled]:hover,
+fieldset[disabled] .btn-xl:hover,
+.btn-xl.disabled:focus,
+.btn-xl[disabled]:focus,
+fieldset[disabled] .btn-xl:focus,
+.btn-xl.disabled:active,
+.btn-xl[disabled]:active,
+fieldset[disabled] .btn-xl:active,
+.btn-xl.disabled.active,
+.btn-xl[disabled].active,
+fieldset[disabled] .btn-xl.active {
+  background-color: #40c870;
+  border-color: #40c870;
+}
+.btn-xl .badge {
+  color: #40c870;
+  background-color: #ffffff;
+}
+/* Custom Navigation Bar */
+.navbar-default {
+  border-radius: 0;
+  background-color: #222222;
+  border-color: transparent;
+}
+.navbar-default .navbar-brand {
+  color: #40c870;
+  font-family: "Noto Sans", "Helvetica Neue", Helvetica, Arial, cursive;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-default .navbar-brand:active,
+.navbar-default .navbar-brand.active {
+  color: #30a559;
+}
+.navbar-default .navbar-collapse {
+  border-color: rgba(255, 255, 255, 0.02);
+}
+.navbar-default .navbar-toggle {
+  background-color: #40c870;
+  border-color: #40c870;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: white;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #40c870;
+}
+.navbar-default .nav li a {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: white;
+}
+.navbar-default .nav li a:hover,
+.navbar-default .nav li a:focus {
+  color: #40c870;
+  outline: none;
+}
+.navbar-default .navbar-nav > .active > a {
+  border-radius: 0;
+  color: white;
+  background-color: #40c870;
+}
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: white;
+  background-color: #30a559;
+}
+@media (min-width: 768px) {
+  .navbar-default {
+    background-color: transparent;
+    padding: 25px 0;
+    -webkit-transition: padding 0.3s;
+    -moz-transition: padding 0.3s;
+    transition: padding 0.3s;
+    border: none;
+  }
+  .navbar-default .navbar-brand {
+    font-size: 2em;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .navbar-default .navbar-nav > .active > a {
+    border-radius: 3px;
+  }
+  .navbar-default.navbar-shrink {
+    background-color: #222222;
+    padding: 10px 0;
+  }
+  .navbar-default.navbar-shrink .navbar-brand {
+    font-size: 1.5em;
+  }
+}
+header {
+  background-image: url('/static/img/header-bg.jpg');
+  background-repeat: none;
+  background-attachment: scroll;
+  background-position: center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  text-align: center;
+  color: white;
+}
+header .intro-text {
+  padding-top: 100px;
+  padding-bottom: 50px;
+}
+header .intro-text .intro-lead-in {
+  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 22px;
+  margin-bottom: 25px;
+}
+header .intro-text .intro-heading {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 50px;
+  margin-bottom: 25px;
+}
+@media (min-width: 768px) {
+  header .intro-text {
+    padding-top: 300px;
+    padding-bottom: 200px;
+  }
+  header .intro-text .intro-lead-in {
+    font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: italic;
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 25px;
+  }
+  header .intro-text .intro-heading {
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 75px;
+    line-height: 75px;
+    margin-bottom: 50px;
+  }
+}
+/* Global Section Styles */
+section {
+  padding: 60px 0;
+}
+section h2.section-heading {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+section h3.section-subheading {
+  font-size: 16px;
+  font-family: "Droid Serif", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: none;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 75px;
+}
+@media (min-width: 768px) {
+  section {
+    padding: 60px 0;
+  }
+}
+.index_section {
+  padding: 160px 0;
+}
+/* About Section */
+.about-heading {
+  margin: 15px 0;
+  text-transform: none;
+}
+/* Salesforce Branding */
+aside.clients img {
+  margin: 50px auto;
+}
+/* Registration Section */
+section#register {
+  background-color: #222222;
+  background-image: url('/static/img/map-image.png');
+  background-position: center;
+  background-repeat: no-repeat;
+}
+section#register .section-heading {
+  color: white;
+}
+section#register .form-group {
+  margin-bottom: 25px;
+}
+section#register .form-group input,
+section#register .form-group textarea {
+  padding: 20px;
+}
+section#register .form-group input.form-control {
+  height: auto;
+}
+section#register .form-group textarea.form-control {
+  height: 236px;
+}
+section#register .form-control:focus {
+  border-color: #40c870;
+  box-shadow: none;
+}
+section#register ::-webkit-input-placeholder {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #bbbbbb;
+}
+section#register :-moz-placeholder {
+  /* Firefox 18- */
+
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #bbbbbb;
+}
+section#register ::-moz-placeholder {
+  /* Firefox 19+ */
+
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #bbbbbb;
+}
+section#register :-ms-input-placeholder {
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #bbbbbb;
+}
+section#register .text-danger {
+  color: #e74c3c;
+}
+footer {
+  padding: 25px 0;
+  text-align: center;
+}
+footer span.copyright {
+  line-height: 40px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  text-transform: none;
+}
+footer ul.quicklinks {
+  margin-bottom: 0;
+  line-height: 40px;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  text-transform: none;
+}
+ul.social-buttons {
+  margin-bottom: 0;
+}
+ul.social-buttons li a {
+  display: block;
+  background-color: #222222;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+  font-size: 20px;
+  line-height: 40px;
+  color: white;
+  outline: none;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+ul.social-buttons li a:hover,
+ul.social-buttons li a:focus,
+ul.social-buttons li a:active {
+  background-color: #40c870;
+}
+.btn:focus,
+.btn:active,
+.btn.active,
+.btn:active:focus {
+  outline: none;
+}
+::-moz-selection {
+  text-shadow: none;
+  background: #40c870;
+}
+::selection {
+  text-shadow: none;
+  background: #40c870;
+}
+img::selection {
+  background: transparent;
+}
+img::-moz-selection {
+  background: transparent;
+}
+body {
+  webkit-tap-highlight-color: #40c870;
+}
+ul.errorlist {
+  color: #5ec667;
+}
+.hyperlinked_row {
+  cursor: pointer;
+}
+.add_object {
+  text-align: right;
+}
+.add_object a {
+  font-weight: normal;
+  cursor: pointer;
+}
+.edit a {
+  color: #ec971f;
+  cursor: pointer;
+  padding-right: 5px;
+}
+.edit a:hover {
+  color: #c77c11;
+}
+.delete a {
+  color: red;
+  cursor: pointer;
+}
+.delete a:hover {
+  color: #cc0000;
+}
+.remove a {
+  color: gray;
+  cursor: pointer;
+}
+.remove a:hover {
+  color: #676767;
+}
+.itemcollectionitem {
+  color: #999999;
+}
+.item_destination {
+  background-color: #f9f9f9;
+}
+.disabled_link a {
+  color: gray;
+  cursor: default;
+}
+.disabled_link a:hover {
+  text-decoration: none;
+}
+.draggable_item {
+  cursor: grab;
+  z-index: 1000;
+}
+.auction_action_button {
+  margin-bottom: 30px;
+}
+/* Stage Tracker */
+#stage_tracker {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-left: 0;
+  font-size: 13px;
+}
+#stage_tracker li {
+  border: 1px solid #adadad;
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+}
+#stage_tracker li.active {
+  background-color: #40c870;
+  color: white;
+}
+#stage_tracker li.inactive {
+  background-color: #b7b7b7;
+  color: white;
+}
+.management_button {
+  cursor: pointer;
+}
+/* Atlassian message UI */
+.aui-message {
+  background: white;
+  border: 1px solid #40c870;
+  border-radius: 3px;
+  color: #777777;
+  margin: 0;
+  overflow-wrap: break-word;
+  position: relative;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+.aui-message:first-child {
+  margin-top: 0;
+}
+.aui-message p {
+  margin: 0;
+}
+.aui-message p.title {
+  font-weight: bold;
+}
+.aui-message {
+  border-radius: 3px;
+  border-width: 1px;
+  line-height: 20px;
+  padding-bottom: 10px;
+  padding-left: 60px;
+  padding-right: 20px;
+  padding-top: 10px;
+  margin-bottom: 20px;
+}
+.aui-message:before {
+  background-color: #40c870;
+  bottom: 0;
+  content: '';
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 40px;
+}
+.aui-message:after {
+  color: #ffffff;
+  content: "\f16f";
+  font-family: "Atlassian Icons";
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  /* Improves the rendering of icons */
+
+  font-style: normal;
+  font-weight: normal;
+  left: 12px;
+  line-height: 1;
+  margin-top: -8px;
+  position: absolute;
+  speak: none;
+  /* This prevents screen readers from pronouncing the pseudo element text content used to trigger the icon font */
+
+  top: 50%;
+}

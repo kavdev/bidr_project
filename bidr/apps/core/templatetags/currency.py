@@ -29,4 +29,3 @@ def currency(value):
         return '${amount:,}'.format(amount=value.quantize(Decimal('0.01')))
     else:
         return '-${amount:,}'.format(amount=abs(value).quantize(Decimal('0.01')))
-
