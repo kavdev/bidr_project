@@ -23,7 +23,7 @@ googleads==4.6.1
 phonenumbers==7.7.2
 pillow==3.4.2
 psycopg2==2.6.2
-pushjack==1.0.1
+pushjack==1.2.1
 python-dotenv==0.6.0
 raven==5.30.0
 termcolor==1.1.0
