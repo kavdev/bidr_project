@@ -1,0 +1,16 @@
+[run]
+
+branch = True
+source = ./bidr/apps
+
+omit =
+    *test_*
+    *migrations*
+    *management/commands*
+    *__init__*
+
+[report]
+skip_covered = True
+
+[html]
+directory = cover

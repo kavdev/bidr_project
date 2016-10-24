@@ -1,0 +1,7 @@
+media/*
+static/*
+circle.yml
+codecov.yml
+README.md
+.coveragerc
+/test_

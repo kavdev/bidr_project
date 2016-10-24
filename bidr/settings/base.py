@@ -1,93 +1,93 @@
-import os
 from pathlib import Path
-
-from django.core.exceptions import ImproperlyConfigured
 
 import dj_database_url
 
-
-def get_env_variable(name):
-    """ Gets the specified environment variable.
-
-    :param name: The name of the variable.
-    :type name: str
-    :returns: The value of the specified variable.
-    :raises: **ImproperlyConfigured** when the specified variable does not exist.
-
-    """
-
-    try:
-        return os.environ[name]
-    except KeyError:
-        error_msg = "The %s environment variable is not set!" % name
-        raise ImproperlyConfigured(error_msg)
+from bidr.manage import get_env_variable
 
 
-# ======================================================================================================== #
-#                                         General Management                                               #
-# ======================================================================================================== #
+# =========================================================================== #
+#                             General Configuration                           #
+# =========================================================================== #
+MAIN_APP_NAME = 'bidr'
 
-ADMINS = (
-    ('Alex Kavanaugh', 'kavanaugh.development@outlook.com'),
-)
-
-MANAGERS = ADMINS
-
-# ======================================================================================================== #
-#                                         General Settings                                                 #
-# ======================================================================================================== #
-
-# Local time zone for this installation. Choices can be found here:
-TIME_ZONE = 'America/Los_Angeles'
-
-# Language code for this installation.
-LANGUAGE_CODE = 'en-us'
+ROOT_URLCONF = MAIN_APP_NAME + '.urls'
 
 SITE_ID = 1
 
 DATE_FORMAT = 'l, F d, Y'
-
 TIME_FORMAT = 'H:i'
-
 DATETIME_FORMAT = 'l, F d, Y H:i'
 
-DEFAULT_CHARSET = 'utf-8'
+LANGUAGE_CODE = 'en-us'
+USE_I18N = False
+USE_L10N = False
+USE_TZ = True
 
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
-USE_I18N = True
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'polymorphic',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    MAIN_APP_NAME + '.apps.auctions',
+    MAIN_APP_NAME + '.apps.bids',
+    MAIN_APP_NAME + '.apps.client',
+    MAIN_APP_NAME + '.apps.core',
+    MAIN_APP_NAME + '.apps.core.templatetags.CoreTemplatetagsConfig',
+    MAIN_APP_NAME + '.apps.datatables',
+    MAIN_APP_NAME + '.apps.datatables.templatetags.DatatablesTemplatetagsConfig',
+    MAIN_APP_NAME + '.apps.items',
+    MAIN_APP_NAME + '.apps.organizations',
+    'raven.contrib.django.raven_compat',
+    'django_ajax',
+    'dj_database_url',
+    'static_precompiler',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'widget_tweaks',
+    'taggit',
+]
 
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
-USE_L10N = True
+MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
+]
 
-ROOT_URLCONF = 'bidr.urls'
+# =========================================================================== #
+#                    Authentication/Security Configuration                    #
+# =========================================================================== #
 
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+LOGIN_URL = 'admin_login'
+LOGIN_REDIRECT_URL = 'home'
 
-# ======================================================================================================== #
-#                                          Database Configuration                                          #
-# ======================================================================================================== #
+SESSION_COOKIE_HTTPONLY = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+AUTH_USER_MODEL = 'core.BidrUser'
+
+SECRET_KEY = get_env_variable('BIDR_SECRET_KEY')
+
+# =========================================================================== #
+#                            Database Configuration                           #
+# =========================================================================== #
 
 DATABASES = {
-    'default': dj_database_url.config(default=get_env_variable('BIDR_DATABASE_URL')),
+    'default': dj_database_url.config(default=get_env_variable("DATABASE_URL"))
 }
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_ACCESS_KEY_ID = get_env_variable('BIDR_AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = get_env_variable('BIDR_AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'bidr-images'
-
-AWS_AUTO_CREATE_BUCKET = True
-
-AWS_DEFAULT_ACL = 'public-read'
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_SECURE_URLS = True
-
-# ======================================================================================================== #
-#                                            E-Mail Configuration                                          #
-# ======================================================================================================== #
+# =========================================================================== #
+#                           Email/SMS Configuration                           #
+# =========================================================================== #
 
 # Outgoing email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -101,136 +101,47 @@ EMAIL_HOST_PASSWORD = get_env_variable('BIDR_EMAIL_PASSWORD')
 SERVER_EMAIL = 'Bidr Mail Relay Server <do-not-reply@bidrapp.com>'
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-# ======================================================================================================== #
-#                                        Authentication Configuration                                      #
-# ======================================================================================================== #
-
-LOGIN_URL = '/login/'
-
-LOGIN_REDIRECT_URL = '/login/'
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-)
-
-AUTH_USER_MODEL = 'core.BidrUser'
-
-# ======================================================================================================== #
-#                                      Session/Security Configuration                                      #
-# ======================================================================================================== #
-
-# Cookie settings.
-SESSION_COOKIE_HTTPONLY = True
-
-# Session expiraton
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = get_env_variable('BIDR_SECRET_KEY')
-
-# ======================================================================================================== #
-#                                  File/Application Handling Configuration                                 #
-# ======================================================================================================== #
+# =========================================================================== #
+#                        Template, Asset Configuration                        #
+# =========================================================================== #
 
 PROJECT_DIR = Path(__file__).parents[2]
 
-# The directory that will hold user-uploaded files.
-MEDIA_ROOT = str(PROJECT_DIR.joinpath("media").resolve())
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
+            ],
+            'debug': False,
+        }
+    },
+]
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a trailing slash.
-MEDIA_URL = '/media/'
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
-# The directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
 STATIC_ROOT = str(PROJECT_DIR.joinpath("static").resolve())
-
-# URL prefix for static files. Make sure to use a trailing slash.
 STATIC_URL = '/static/'
 
-STATIC_PRECOMPILER_OUTPUT_DIR = ""
-STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = True
+MEDIA_ROOT = str(PROJECT_DIR.joinpath("media").resolve())
+MEDIA_URL = '/media/'
 
-# Additional locations of static files
 STATICFILES_DIRS = (
-    str(PROJECT_DIR.joinpath("bidr", "static").resolve()),
+    str(PROJECT_DIR.joinpath(MAIN_APP_NAME, "static").resolve()),
 )
 
-# List of finder classes that know how to find static files in various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'static_precompiler.finders.StaticPrecompilerFinder',
-)
+STATIC_PRECOMPILER_OUTPUT_DIR = ""
+STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = False
 
-TEMPLATE_DIRS = (
-    str(PROJECT_DIR.joinpath("bidr", "templates").resolve()),
-)
-
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader',
-)
-
-# List of processors used by RequestContext to populate the context.
-# Each one should be a callable that takes the request object as its
-# only parameter and returns a dictionary to add to the context.
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-)
-
-MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
-    'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-)
-
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'polymorphic',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.admin',
-    'django.contrib.staticfiles',
-    'raven.contrib.django.raven_compat',
-    'django_ajax',
-    'dj_database_url',
-    'static_precompiler',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
-    'widget_tweaks',
-    "storages",
-    'taggit',
-    'bidr.apps.auctions',
-    'bidr.apps.core',
-    'bidr.apps.core.templatetags.CoreTemplatetagsConfig',
-    'bidr.apps.client',
-    'bidr.apps.datatables',
-    'bidr.apps.datatables.templatetags.DatatablesTemplatetagsConfig',
-    'bidr.apps.bids',
-    'bidr.apps.items',
-    'bidr.apps.organizations',
-)
-
-# ======================================================================================================== #
-#                                       REST Endpoint Configuration                                        #
-# ======================================================================================================== #
+# =========================================================================== #
+#                              REST Configuration                             #
+# =========================================================================== #
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -254,9 +165,9 @@ DJOSER = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-# ======================================================================================================== #
-#                                         Logging Configuration                                            #
-# ======================================================================================================== #
+# =========================================================================== #
+#                            Logging Configuration                            #
+# =========================================================================== #
 
 RAVEN_CONFIG = {
     'dsn': get_env_variable('BIDR_SENTRY_DSN'),
@@ -266,7 +177,7 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
-        'level': 'INFO',
+        'level': 'WARNING',
         'handlers': ['sentry'],
     },
     'formatters': {
@@ -276,14 +187,14 @@ LOGGING = {
     },
     'handlers': {
         'sentry': {
-            'level': 'INFO',
+            'level': 'WARNING',
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
         },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
-        }
+        },
     },
     'loggers': {
         'django.db.backends': {
@@ -301,10 +212,15 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
+        'django.server': {
+            'level': 'WARNING',
+            'handlers': ['console'],
+            'propagate': False,
+        },
         'django_ajax': {
             'level': 'INFO',
             'handlers': ['sentry'],
             'propagate': True,
         },
-    }
+    },
 }
