@@ -25,5 +25,5 @@ pillow==3.4.2
 psycopg2==2.6.2
 pushjack==1.0.1
 python-dotenv==0.6.0
-raven==5.30.0
+raven==5.31.0
 termcolor==1.1.0
