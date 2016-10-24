@@ -10,13 +10,12 @@
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator
+from django.db.models.aggregates import Max, Sum
 from django.db.models.fields import CharField, TextField, BigIntegerField, BooleanField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
-from django.db.models.aggregates import Max, Sum
-
+from polymorphic.models import PolymorphicModel
 from taggit.managers import TaggableManager
-from polymorphic import PolymorphicModel
 
 from ..bids.models import Bid
 
