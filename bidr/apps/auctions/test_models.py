@@ -8,23 +8,43 @@
 """
 
 from datetime import datetime, timedelta
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from .models import Auction
-
 from ..bids.models import Bid
 from ..items.models import Item
+from .models import Auction
 
 
 class AuctionTest(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         # Generate users
-        self.user1 = get_user_model().objects.create_user(email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
-        self.user2 = get_user_model().objects.create_user(email="testuser2@bidrapp.com", name="testuser2", phone_number="+13105550002", password="password")
-        self.user3 = get_user_model().objects.create_user(email="testuser3@bidrapp.com", name="testuser3", phone_number="+13105550003", password="password")
-        self.user4 = get_user_model().objects.create_user(email="testuser4@bidrapp.com", name="testuser4", phone_number="+13105550004", password="password")
+        self.user1 = get_user_model().objects.create_user(
+            email="testuser1@bidrapp.com",
+            name="testuser1",
+            phone_number="+13105550001",
+            password="password"
+        )
+        self.user2 = get_user_model().objects.create_user(
+            email="testuser2@bidrapp.com",
+            name="testuser2",
+            phone_number="+13105550002",
+            password="password"
+        )
+        self.user3 = get_user_model().objects.create_user(
+            email="testuser3@bidrapp.com",
+            name="testuser3",
+            phone_number="+13105550003",
+            password="password"
+        )
+        self.user4 = get_user_model().objects.create_user(
+            email="testuser4@bidrapp.com",
+            name="testuser4",
+            phone_number="+13105550004",
+            password="password"
+        )
 
         # Generate Bids
         self.bid1 = Bid.objects.create(amount=1, user=self.user1)
@@ -67,10 +87,30 @@ class AuctionTest(TestCase):
         auciton_end_time = datetime.now() + timedelta(days=5)
 
         # Generate Auction
-        self.auction1 = Auction.objects.create(name="test1", description="test auction 1.", stage=0, end_time=auciton_end_time)
-        self.auction2 = Auction.objects.create(name="test2", description="test auction 2.", stage=1, end_time=auciton_end_time)
-        self.auction3 = Auction.objects.create(name="test3", description="test auction 3.", stage=2, end_time=auciton_end_time)
-        self.auction4 = Auction.objects.create(name="test4", description="test auction 4.", stage=3, end_time=auciton_end_time)
+        self.auction1 = Auction.objects.create(
+            name="test1",
+            description="test auction 1.",
+            stage=0,
+            end_time=auciton_end_time
+        )
+        self.auction2 = Auction.objects.create(
+            name="test2",
+            description="test auction 2.",
+            stage=1,
+            end_time=auciton_end_time
+        )
+        self.auction3 = Auction.objects.create(
+            name="test3",
+            description="test auction 3.",
+            stage=2,
+            end_time=auciton_end_time
+        )
+        self.auction4 = Auction.objects.create(
+            name="test4",
+            description="test auction 4.",
+            stage=3,
+            end_time=auciton_end_time
+        )
 
         # Set up stuff
         self.auction1.bidables.add(self.item1)

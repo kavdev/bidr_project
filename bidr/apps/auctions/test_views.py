@@ -18,14 +18,16 @@ from ..organizations.models import Organization
 
 class TestEndAuctionView(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         owner = get_user_model().objects.create_superuser("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 
         self.org_instance = Organization.objects.create(name="test org", owner=owner)
-        self.auction_instance = Auction.objects.create(name="test",
-                                                       description="test",
-                                                       start_time=datetime.now(),
-                                                       end_time=datetime.now() + timedelta(days=20))
+        self.auction_instance = Auction.objects.create(
+            name="test",
+            description="test",
+            start_time=datetime.now(),
+            end_time=datetime.now() + timedelta(days=20)
+        )
 
         self.org_instance.auctions.add(self.auction_instance)
         self.org_instance.save()
@@ -50,4 +52,4 @@ class TestEndAuctionView(TestCase):
                                                                   "auction_id": self.auction_instance.id}))
 
         self.assertRedirects(response, reverse('auction_report', kwargs={"slug": self.org_instance.slug,
-                                                                        "auction_id": self.auction_instance.id}))
+                                                                         "auction_id": self.auction_instance.id}))

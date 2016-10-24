@@ -9,9 +9,9 @@
 
 from rest_framework.serializers import ModelSerializer, ValidationError, IntegerField
 
-from .models import Bid
 from ..core.templatetags.currency import currency
 from ..items.models import AbstractItem
+from .models import Bid
 
 
 class BidSerializer(ModelSerializer):
@@ -40,7 +40,12 @@ class CreateBidSerializer(ModelSerializer):
 
                 return instance
             else:
-                raise ValidationError(['bid_increment_error', auction.bid_increment, currency(item.highest_bid.amount), item.highest_bid.user.id])
+                raise ValidationError([
+                    'bid_increment_error',
+                    auction.bid_increment,
+                    currency(item.highest_bid.amount),
+                    item.highest_bid.user.id
+                ])
         else:
             raise ValidationError([currency(item.highest_bid.amount), item.highest_bid.user.id])
 

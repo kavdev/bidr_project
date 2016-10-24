@@ -7,12 +7,11 @@
 """
 
 from django.template.loader import render_to_string
-
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.serializers import ValidationError
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 from .models import Bid
 from .serializers import BidSerializer, CreateBidSerializer
@@ -47,23 +46,31 @@ class CreateBidAPIView(CreateAPIView):
         except ValidationError as exc:
             if exc.detail[0] == "Auction Over":
                 return Response(
-                    data={"auction_over": exc.detail[0],
-                        "exception_message": "This auction has ended."},
+                    data={
+                        "auction_over": exc.detail[0],
+                        "exception_message": "This auction has ended."
+                    },
                     status=HTTP_400_BAD_REQUEST,
                 )
             elif exc.detail[0] == "bid_increment_error":
                 return Response(
-                    data={"bid_increment_error": exc.detail[1],
+                    data={
+                        "bid_increment_error": exc.detail[1],
                         "current_highest_bid": exc.detail[2],
                         "highest_bid_user_id": exc.detail[3],
-                        "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[2]},
+                        "exception_message": "Your bid must be greater than the current "
+                                             "highest bid of " + exc.detail[2]
+                    },
                     status=HTTP_400_BAD_REQUEST,
                 )
             else:
                 return Response(
-                    data={"current_highest_bid": exc.detail[0],
+                    data={
+                        "current_highest_bid": exc.detail[0],
                         "highest_bid_user_id": exc.detail[1],
-                        "exception_message": "Your bid must be greater than the current highest bid of " + exc.detail[0]},
+                        "exception_message": "Your bid must be greater than the current "
+                        "highest bid of " + exc.detail[0]
+                    },
                     status=HTTP_400_BAD_REQUEST,
                 )
         headers = self.get_success_headers(serializer.data)
@@ -74,7 +81,12 @@ class CreateBidAPIView(CreateAPIView):
         auction = bid_item.bidables.all()[0]
 
         if outbid_bid and outbid_bid.user.email != instance.user.email:
-            kwargs = {"item": bid_item, "absolute_client_url": bid_item.get_absolute_client_url(self.request), "bid": instance.amount, "outbidder": instance.user}
+            kwargs = {
+                "item": bid_item,
+                "absolute_client_url": bid_item.get_absolute_client_url(self.request),
+                "bid": instance.amount,
+                "outbidder": instance.user
+            }
             text_content = render_to_string("email/outbid_notification.txt", kwargs)
             html_content = render_to_string("email/outbid_notification.html", kwargs)
 
@@ -86,15 +98,14 @@ class CreateBidAPIView(CreateAPIView):
                     outbid_bid.user.ios_device_token,
                     'You\'ve been outbid on ' + bid_item.name + '!',
                     title='Outbid!', sound='default',
-                    extra={'display_name': instance.user.display_name,
-                           'amount': instance.amount,
-                           'item_id': bid_item.id,
-                           'item_name': bid_item.name,
-                           'auct_id': auction.id
-                           }
+                    extra={
+                        'display_name': instance.user.display_name,
+                        'amount': instance.amount,
+                        'item_id': bid_item.id,
+                        'item_name': bid_item.name,
+                        'auct_id': auction.id
+                    }
                 )
-
-                # res = auction.apns_client.send(outbid_bid.user.ios_device_token, 'It Works!', title='YES', sound='default')
 
         return Response(serializer.data, status=HTTP_201_CREATED, headers=headers)
 

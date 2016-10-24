@@ -15,14 +15,34 @@ from .models import Auction
 
 class TestManageableAuctionManager(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         # Generate users
-        self.manager1 = get_user_model().objects.create_user(email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
-        self.manager2 = get_user_model().objects.create_user(email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")
+        self.manager1 = get_user_model().objects.create_user(
+            email="testmanager1@bidrapp.com",
+            name="testmanager1",
+            phone_number="+13105550011",
+            password="password"
+        )
+        self.manager2 = get_user_model().objects.create_user(
+            email="testmanager2@bidrapp.com",
+            name="testmanager2",
+            phone_number="+13105550012",
+            password="password"
+        )
 
         # Generate auctions
-        self.auction1 = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
-        self.auction2 = Auction.objects.create(name="Test Auction 2", description="Oogalyboogaly 2", start_time=timezone.now(), end_time=timezone.now())
+        self.auction1 = Auction.objects.create(
+            name="Test Auction",
+            description="Oogalyboogaly",
+            start_time=timezone.now(),
+            end_time=timezone.now()
+        )
+        self.auction2 = Auction.objects.create(
+            name="Test Auction 2",
+            description="Oogalyboogaly 2",
+            start_time=timezone.now(),
+            end_time=timezone.now()
+        )
         self.auction1.managers.add(self.manager1)
         self.auction1.managers.add(self.manager2)
         self.auction2.managers.add(self.manager1)

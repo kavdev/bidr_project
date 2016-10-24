@@ -13,4 +13,6 @@ from django.db.models import Q
 class ManageableAuctionManager(BaseUserManager):
 
     def managed_by(self, user):
-        return super(ManageableAuctionManager, self).get_queryset().filter(Q(managers__in=[user]) | Q(auctions__owner=user))
+        return super(ManageableAuctionManager, self).get_queryset().filter(
+            Q(managers__in=[user]) | Q(auctions__owner=user)
+        )

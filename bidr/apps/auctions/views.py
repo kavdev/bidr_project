@@ -9,21 +9,21 @@
 """
 
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView
-from django.utils import timezone
-from django.contrib.auth import get_user_model
 
 from ..auctions.forms import AuctionCreateForm
 from ..auctions.models import STAGES
 from ..auctions.utils import _end_auction
 from ..items.ajax import PopulateBidables
 from ..organizations.models import Organization
-from .models import Auction
 from .forms import ManagerForm
+from .models import Auction
 
 
 class AuctionView(TemplateView):
@@ -31,9 +31,18 @@ class AuctionView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionView, self).get_context_data(**kwargs)
-        context["upcoming_auctions"] = Auction.objects.filter(auctions__slug=self.kwargs['slug'], stage=STAGES.index("Plan")).order_by("start_time")
-        context["active_auctions"] = Auction.objects.filter(auctions__slug=self.kwargs['slug'], stage=STAGES.index("Observe")).order_by("start_time")
-        context["complete_auctions"] = Auction.objects.filter(auctions__slug=self.kwargs['slug'], stage__gte=STAGES.index("Claim")).order_by("start_time")
+        context["upcoming_auctions"] = Auction.objects.filter(
+            auctions__slug=self.kwargs['slug'],
+            stage=STAGES.index("Plan")
+        ).order_by("start_time")
+        context["active_auctions"] = Auction.objects.filter(
+            auctions__slug=self.kwargs['slug'],
+            stage=STAGES.index("Observe")
+        ).order_by("start_time")
+        context["complete_auctions"] = Auction.objects.filter(
+            auctions__slug=self.kwargs['slug'],
+            stage__gte=STAGES.index("Claim")
+        ).order_by("start_time")
         context["org_slug"] = self.kwargs['slug']
         context["org_name"] = Organization.objects.get(slug=self.kwargs['slug']).name
         context["is_owner"] = Organization.objects.filter(slug=self.kwargs['slug'], owner=self.request.user).exists()
@@ -53,7 +62,10 @@ class AuctionCreateView(CreateView):
         org_instance = Organization.objects.get(slug=self.kwargs['slug'])
         org_instance.auctions.add(self.object)
         org_instance.save()
-        messages.success(self.request, "The auction '{auction}' was successfully created.".format(auction=str(self.object)))
+        messages.success(
+            self.request,
+            "The auction '{auction}' was successfully created.".format(auction=str(self.object))
+        )
         return redirect(self.get_success_url())
 
 
@@ -63,7 +75,10 @@ class AuctionUpdateView(UpdateView):
     form_class = AuctionCreateForm
 
     def form_valid(self, form):
-        messages.success(self.request, "The auction '{auction}' was successfully updated.".format(auction=str(self.object)))
+        messages.success(
+            self.request,
+            "The auction '{auction}' was successfully updated.".format(auction=str(self.object))
+        )
         return super(AuctionUpdateView, self).form_valid(form)
 
     def get_object(self, queryset=None):
@@ -92,7 +107,10 @@ class AuctionManageView(FormView):
         return context
 
     def get_success_url(self):
-        return reverse_lazy('auction_managers', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})
+        return reverse_lazy(
+            'auction_managers',
+            kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']}
+        )
 
 
 class AuctionMixin(object):
@@ -124,7 +142,9 @@ class AuctionPlanView(AuctionMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(AuctionPlanView, self).get_context_data(**kwargs)
         context["items"] = self.object.bidables.filter(polymorphic_ctype__name="item").order_by("name")
-        context["item_collections"] = self.object.bidables.filter(polymorphic_ctype__name="item collection").order_by("name")
+        context["item_collections"] = self.object.bidables.filter(
+            polymorphic_ctype__name="item collection"
+        ).order_by("name")
         return context
 
 

@@ -6,16 +6,21 @@
 
 """
 
+from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
 
 from .forms import UserRegistrationForm
-from django.contrib.auth import get_user_model
 
 
 class TestUserRegistrationForm(TestCase):
 
-    def setUp(self):  # noqa
-        self.user = get_user_model().objects.create(name="test", email="popularemail@test.com", phone_number="12345456656", password="!")
+    def setUp(self):
+        self.user = get_user_model().objects.create(
+            name="test",
+            email="popularemail@test.com",
+            phone_number="12345456656",
+            password="!"
+        )
 
     def test_form_valid(self):
         data = {"name": "test_name",

@@ -17,12 +17,33 @@ from ..bids.models import Bid
 
 class BidTest(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         # Generate users
-        self.user1 = get_user_model().objects.create_user(email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
-        self.user2 = get_user_model().objects.create_user(email="testuser2@bidrapp.com", name="testuser2", phone_number="+13105550002", password="password")
-        self.user3 = get_user_model().objects.create_user(email="testuser3@bidrapp.com", name="testuser3", phone_number="+13105550003", password="password")
-        self.user4 = get_user_model().objects.create_user(email="testuser4@bidrapp.com", name="testuser4", phone_number="+13105550004", password="password")
+        # Generate users
+        self.user1 = get_user_model().objects.create_user(
+            email="testuser1@bidrapp.com",
+            name="testuser1",
+            phone_number="+13105550001",
+            password="password"
+        )
+        self.user2 = get_user_model().objects.create_user(
+            email="testuser2@bidrapp.com",
+            name="testuser2",
+            phone_number="+13105550002",
+            password="password"
+        )
+        self.user3 = get_user_model().objects.create_user(
+            email="testuser3@bidrapp.com",
+            name="testuser3",
+            phone_number="+13105550003",
+            password="password"
+        )
+        self.user4 = get_user_model().objects.create_user(
+            email="testuser4@bidrapp.com",
+            name="testuser4",
+            phone_number="+13105550004",
+            password="password"
+        )
 
         # Generate Bids
         self.bid0 = Bid.objects.create(amount=20, user=self.user1)

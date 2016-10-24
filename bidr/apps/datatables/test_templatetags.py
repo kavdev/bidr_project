@@ -20,7 +20,7 @@ from .templatetags.datatables import do_datatables
 
 class TestDatatables(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         # Generate users
         self.manager1 = get_user_model().objects.create_user(email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
         self.manager2 = get_user_model().objects.create_user(email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")

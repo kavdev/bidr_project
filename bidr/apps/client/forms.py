@@ -28,7 +28,8 @@ class AddAuctionForm(ModelForm):
         except Auction.DoesNotExist:
             raise ValidationError('An auction with this ID does not exist.')
 
-        if auction_instance.optional_password and (auction_instance.optional_password != self.cleaned_data.get('optional_password')):
+        if (auction_instance.optional_password and
+                (auction_instance.optional_password != self.cleaned_data.get('optional_password'))):
             if not self.cleaned_data.get('optional_password'):
                 message = 'This auction requires an auction password.'
             else:
@@ -51,7 +52,8 @@ class AddBidForm(ModelForm):
         self.item_instance = item_instance
 
     def clean(self):
-        if datetime.datetime.now() > self.auction_instance.end_time or self.auction_instance.stage > STAGES.index("Observe"):
+        if (datetime.datetime.now() > self.auction_instance.end_time or
+                self.auction_instance.stage > STAGES.index("Observe")):
             # End the auction if it hasn't ended already
             _end_auction(self.auction_instance)
 
@@ -60,11 +62,20 @@ class AddBidForm(ModelForm):
     def clean_amount(self):
         # Check if the bid is greater than or equal to the starting bid
         if self.cleaned_data['amount'] < self.item_instance.total_starting_bid + self.auction_instance.bid_increment:
-            raise ValidationError("New bid must not be less than " + str(currency(self.item_instance.total_starting_bid + self.auction_instance.bid_increment)))
+            raise ValidationError(
+                "New bid must not be less than " + str(
+                    currency(self.item_instance.total_starting_bid + self.auction_instance.bid_increment)
+                )
+            )
 
         # Check if the bid is greater than or equal to the current highest bid
-        if self.item_instance.highest_bid and self.cleaned_data['amount'] < self.item_instance.highest_bid.amount + self.auction_instance.bid_increment:
-            raise ValidationError("New bid must not be less than " + str(currency(self.item_instance.highest_bid.amount + self.auction_instance.bid_increment)))
+        if (self.item_instance.highest_bid and self.cleaned_data['amount'] <
+                self.item_instance.highest_bid.amount + self.auction_instance.bid_increment):
+            raise ValidationError(
+                "New bid must not be less than " + str(
+                    currency(self.item_instance.highest_bid.amount + self.auction_instance.bid_increment)
+                )
+            )
 
         return self.cleaned_data['amount']
 

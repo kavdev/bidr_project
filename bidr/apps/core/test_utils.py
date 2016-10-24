@@ -8,12 +8,12 @@
 
 from unittest.mock import Mock
 
-from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
+from django.utils import timezone
 
 from ..auctions.models import Auction
 from ..organizations.models import Organization
@@ -22,12 +22,33 @@ from .utils import UserType, user_is_type, user_type_test
 
 class UserTypeTest(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         # Generate users
-        self.user1 = get_user_model().objects.create_user(email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
-        self.user2 = get_user_model().objects.create_user(email="testuser2@bidrapp.com", name="testuser2", phone_number="+13105550002", password="password")
-        self.user3 = get_user_model().objects.create_user(email="testuser3@bidrapp.com", name="testuser3", phone_number="+13105550003", password="password")
-        self.user4 = get_user_model().objects.create_user(email="testuser4@bidrapp.com", name="testuser4", phone_number="+13105550004", password="password")
+        # Generate users
+        self.user1 = get_user_model().objects.create_user(
+            email="testuser1@bidrapp.com",
+            name="testuser1",
+            phone_number="+13105550001",
+            password="password"
+        )
+        self.user2 = get_user_model().objects.create_user(
+            email="testuser2@bidrapp.com",
+            name="testuser2",
+            phone_number="+13105550002",
+            password="password"
+        )
+        self.user3 = get_user_model().objects.create_user(
+            email="testuser3@bidrapp.com",
+            name="testuser3",
+            phone_number="+13105550003",
+            password="password"
+        )
+        self.user4 = get_user_model().objects.create_user(
+            email="testuser4@bidrapp.com",
+            name="testuser4",
+            phone_number="+13105550004",
+            password="password"
+        )
         self.manager1 = get_user_model().objects.create_user(email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
         self.manager2 = get_user_model().objects.create_user(email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")
         self.manager3 = get_user_model().objects.create_user(email="testmanager3@bidrapp.com", name="testmanager3", phone_number="+13105550013", password="password")

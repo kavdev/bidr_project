@@ -15,7 +15,7 @@ from .forms import OrganizationCreateForm
 
 class TestOrganizationCreateForm(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         self.request = RequestFactory()
         self.request.user = get_user_model().objects.create_user("The Dude", "thedudeabides@dudeism.com", "+13107824229", "!")
 

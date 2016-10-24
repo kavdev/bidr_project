@@ -9,8 +9,8 @@
 
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.template.loader import render_to_string
-from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
 
 from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
@@ -87,7 +87,12 @@ class ItemDetailView(FormView):
         outbid_bid = item_instance.get_second_highest_bid()
 
         if outbid_bid and outbid_bid.user.email != self.request.user.email:
-            kwargs = {"item": item_instance, "absolute_client_url": item_instance.get_absolute_client_url(self.request), "bid": bid_instance.amount, "outbidder": bid_instance.user}
+            kwargs = {
+                "item": item_instance,
+                "absolute_client_url": item_instance.get_absolute_client_url(self.request),
+                "bid": bid_instance.amount,
+                "outbidder": bid_instance.user
+            }
             text_content = render_to_string("email/outbid_notification.txt", kwargs)
             html_content = render_to_string("email/outbid_notification.html", kwargs)
 
@@ -130,7 +135,7 @@ class ItemDetailView(FormView):
         return context
 
     def get_success_url(self):
-        auction_instance, item_instance = self.get_objects()
+        auction_instance, _item_instance = self.get_objects()
         return reverse("client:item_list", kwargs={"auction_id": auction_instance.id})
 
 

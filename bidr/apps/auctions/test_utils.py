@@ -19,11 +19,13 @@ from .utils import _end_auction
 
 class TestEndAuction(TestCase):
 
-    def setUp(self):  # noqa
-        self.auction_instance = Auction.objects.create(name="test",
-                                                       description="test",
-                                                       start_time=datetime.now(),
-                                                       end_time=datetime.now() + timedelta(days=20))
+    def setUp(self):
+        self.auction_instance = Auction.objects.create(
+            name="test",
+            description="test",
+            start_time=datetime.now(),
+            end_time=datetime.now() + timedelta(days=20)
+        )
 
         # Unbid items shouldn't affect the outcome.
         unbid_item = Item.objects.create(name="unbid_item", starting_bid=10)
@@ -61,7 +63,10 @@ class TestEndAuction(TestCase):
         self.assertEqual(STAGES.index("Report"), new_stage)
 
     def test_with_mixed_items(self):
-        """In the case of both claimed and unclaimed items, the stage gets set to claim, where unclaimed items don't appear."""
+        """
+        In the case of both claimed and unclaimed items,
+        the stage gets set to claim, where unclaimed items don't appear.
+        """
 
         self.bid_item2.claim(self.bid2)
 

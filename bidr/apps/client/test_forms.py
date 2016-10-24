@@ -11,15 +11,15 @@ from datetime import datetime, timedelta
 from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
 
-from ..bids.models import Bid
 from ..auctions.models import Auction, STAGES
+from ..bids.models import Bid
 from ..items.models import Item
 from .forms import AddAuctionForm, AddBidForm
 
 
 class TestAddAuctionForm(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         self.auction_instance = Auction.objects.create(name="test",
                                                        description="test",
                                                        start_time=datetime.now(),
@@ -74,7 +74,7 @@ class TestAddAuctionForm(TestCase):
 
 class TestAddBidForm(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         self.auction_instance = Auction.objects.create(name="test",
                                                        description="test",
                                                        start_time=datetime.now(),

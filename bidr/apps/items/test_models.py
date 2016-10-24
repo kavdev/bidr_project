@@ -23,7 +23,7 @@ from .models import Item, ItemCollection, AbstractItem
 
 class TestAbstractItem(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         self.abstract_item_instance = AbstractItem.objects.create(name="test_name", description="test_description")
 
     def test_image_urls(self):
@@ -37,7 +37,7 @@ class TestAbstractItem(TestCase):
 
 class TestItem(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         self.auction_instance = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
         self.item_instance = Item.objects.create(name="test_item", description="test_description", starting_bid=2)
         self.item_instance_no_bids = Item.objects.create(name="test_item2", description="test_description", starting_bid=2)
@@ -126,7 +126,7 @@ class TestItem(TestCase):
 
 class TestItemCollection(TestCase):
 
-    def setUp(self):  # noqa
+    def setUp(self):
         self.item_instance_1 = Item.objects.create(name="Xtest_item_1", description="test_description", starting_bid=2, picture='test_url_1')
         self.item_instance_2 = Item.objects.create(name="Ctest_item_2", description="test_description", starting_bid=4, picture='test_url_2')
         self.item_instance_3 = Item.objects.create(name="Ftest_item_3", description="test_description", starting_bid=6, picture='test_url_3')

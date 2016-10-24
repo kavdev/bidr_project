@@ -13,8 +13,13 @@ from django.test.testcases import TestCase
 
 class TestBidrUser(TestCase):
 
-    def setUp(self):  # noqa
-        self.user = get_user_model().objects.create(name="test", email="popularemail@test.com", phone_number="12345456656", password="!")
+    def setUp(self):
+        self.user = get_user_model().objects.create(
+            name="test",
+            email="popularemail@test.com",
+            phone_number="12345456656",
+            password="!"
+        )
 
     def test_get_full_name(self):
         self.assertEqual("test", self.user.get_full_name())
