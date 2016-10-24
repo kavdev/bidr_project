@@ -7,9 +7,11 @@
 
 import logging
 
-from django.template import Context, loader, Library, Node, TemplateSyntaxError
 from django.core.exceptions import ImproperlyConfigured
+from django.template import Context, loader, Library, Node, TemplateSyntaxError
+
 from ..ajax import BidrDatatablesPopulateView
+
 
 logger = logging.getLogger(__name__)
 register = Library()
@@ -29,17 +31,25 @@ class DatatablesNode(Node):
         try:
             datatables_class = context["datatables_class"]
         except KeyError:
-            raise TemplateSyntaxError("The datatables template tag requires a datatables class to be passed into context. (context['datatables_class'])")
+            raise TemplateSyntaxError(
+                "The datatables template tag requires a datatables class to be passed into context. "
+                "(context['datatables_class'])"
+            )
 
         try:
             kwargs = context["kwargs"]
         except KeyError:
-            raise TemplateSyntaxError("The datatables template tag requires kwargs to be passed into context. (context['kwargs'])")
+            raise TemplateSyntaxError(
+                "The datatables template tag requires kwargs to be passed into context. (context['kwargs'])"
+            )
 
         # Add context
         if datatables_class:
             if not issubclass(datatables_class, BidrDatatablesPopulateView):
-                raise ImproperlyConfigured("The populate_class instance variable is either not set or is not a subclass of BidrDatatablesPopulateView.")
+                raise ImproperlyConfigured(
+                    "The populate_class instance variable is either not set or is not a subclass of "
+                    "BidrDatatablesPopulateView."
+                )
 
             datatables_class_instance = datatables_class(kwargs=kwargs)
 

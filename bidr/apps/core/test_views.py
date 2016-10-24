@@ -20,7 +20,8 @@ class TestIndexView(TestCase):
         # Check page content
         self.assertIn("Bidr Silent Auction System", smart_str(response.content))
         self.assertIn("A silent auction system for the digital age", smart_str(response.content))
-        self.assertIn("""<form name="registration_form" method="POST" id="registration_form">""", smart_str(response.content))
+        self.assertIn("""<form name="registration_form" method="POST" id="registration_form">""",
+                      smart_str(response.content))
 
     def test_post_redirects_to_home(self):
         response = self.client.post(reverse("home"), data={"name": "test",

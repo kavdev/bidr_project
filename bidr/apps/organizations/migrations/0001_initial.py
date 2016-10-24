@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
 from django.conf import settings
+from django.db import models, migrations
 
 
 class Migration(migrations.Migration):
@@ -22,7 +22,8 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(verbose_name='Email Address', blank=True, null=True, max_length=75)),
                 ('phone_number', models.CharField(verbose_name='Phone Number', blank=True, null=True, max_length=20)),
                 ('website', models.URLField(verbose_name='Website', blank=True, null=True)),
-                ('auctions', models.ManyToManyField(related_name='auctions', to='auctions.Auction', verbose_name='Auctions', blank=True)),
+                ('auctions', models.ManyToManyField(related_name='auctions', to='auctions.Auction',
+                                                    verbose_name='Auctions', blank=True)),
                 ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL, verbose_name='Owner', related_name='owner')),
             ],
             options={

@@ -8,13 +8,14 @@
 
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import redirect
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView
+
+from bidr.apps.items.models import AbstractItem
 
 from ..auctions.models import Auction
 from ..items.models import Item, ItemCollection
-from bidr.apps.items.models import AbstractItem
-from django.views.generic.detail import DetailView
 
 
 class ItemCreateView(CreateView):
@@ -33,7 +34,10 @@ class ItemCreateView(CreateView):
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('create_item', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})
+        return reverse_lazy(
+            'create_item',
+            kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']}
+        )
 
 
 class ItemUpdateView(UpdateView):
@@ -47,7 +51,10 @@ class ItemUpdateView(UpdateView):
         return super(ItemUpdateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('update_item', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id'], 'pk': self.object.id})
+        return reverse_lazy(
+            'update_item',
+            kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id'], 'pk': self.object.id}
+        )
 
 
 class ItemCollectionCreateView(CreateView):
@@ -61,12 +68,18 @@ class ItemCollectionCreateView(CreateView):
         auction_instance.bidables.add(self.object)
         auction_instance.save()
 
-        messages.success(self.request, "The item collection '{itemcollection}' was successfully created.".format(itemcollection=str(self.object)))
+        messages.success(
+            self.request,
+            "The item collection '{itemcollection}' was successfully created.".format(itemcollection=str(self.object))
+        )
 
         return redirect(self.get_success_url())
 
     def get_success_url(self):
-        return reverse_lazy('create_item_collection', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']})
+        return reverse_lazy(
+            'create_item_collection',
+            kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id']}
+        )
 
 
 class ItemCollectionUpdateView(UpdateView):
@@ -75,12 +88,18 @@ class ItemCollectionUpdateView(UpdateView):
     fields = ['name', 'description']
 
     def form_valid(self, form):
-        messages.success(self.request, "The item collection '{itemcollection}' was successfully created.".format(itemcollection=str(self.object)))
+        messages.success(
+            self.request,
+            "The item collection '{itemcollection}' was successfully created.".format(itemcollection=str(self.object))
+        )
 
         return super(ItemCollectionUpdateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('update_item_collection', kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id'], 'pk': self.object.id})
+        return reverse_lazy(
+            'update_item_collection',
+            kwargs={'slug': self.kwargs['slug'], 'auction_id': self.kwargs['auction_id'], 'pk': self.object.id}
+        )
 
 
 class ItemModalView(DetailView):

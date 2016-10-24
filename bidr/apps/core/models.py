@@ -58,4 +58,7 @@ class BidrUser(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, html_message=None, from_email=None):
         """Sends an email to this user."""
 
-        send_mail(subject=subject, message=message, html_message=html_message, from_email=from_email, fail_silently=False, recipient_list=[self.email])
+        send_mail(
+            subject=subject, message=message, html_message=html_message, from_email=from_email,
+            fail_silently=False, recipient_list=[self.email]
+        )

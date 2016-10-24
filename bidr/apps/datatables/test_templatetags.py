@@ -22,13 +22,19 @@ class TestDatatables(TestCase):
 
     def setUp(self):
         # Generate users
-        self.manager1 = get_user_model().objects.create_user(email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
-        self.manager2 = get_user_model().objects.create_user(email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")
-        self.owner1 = get_user_model().objects.create_user(email="testowner1@bidrapp.com", name="testowner1", phone_number="+13105550021", password="password")
+        self.manager1 = get_user_model().objects.create_user(
+            email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
+        self.manager2 = get_user_model().objects.create_user(
+            email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")
+        self.owner1 = get_user_model().objects.create_user(
+            email="testowner1@bidrapp.com", name="testowner1", phone_number="+13105550021", password="password")
 
         # Generate a Organization
-        self.org = Organization.objects.create(name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
-        self.auction = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
+        self.org = Organization.objects.create(
+            name="Test Studio", email="myStudio@emailaddress.com",
+            phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
+        self.auction = Auction.objects.create(
+            name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
         self.auction.managers.add(self.manager1)
         self.auction.managers.add(self.manager2)
         self.org.auctions.add(self.auction)

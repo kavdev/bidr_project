@@ -6,18 +6,18 @@
 
 """
 
-import shlex
-import json
-import logging
 from collections import OrderedDict
 from copy import deepcopy
+import json
+import logging
+import shlex
 
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.db.models import Q
-
 from django_datatables_view.base_datatable_view import BaseDatatableView
 
 from .utils import dict_merge
+
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,9 @@ class BidrDatatablesPopulateView(BaseDatatableView):
                           '</select> items:',
             "search": "Filter items: ",
             "zeroRecords": "No items to display.",
-            "processing": """<img src="{loading_gif}" alt=""  /> Processing...""".format(loading_gif=static('img/tiny_loading.gif'))
+            "processing": """<img src="{loading_gif}" alt=""  /> Processing...""".format(
+                loading_gif=static('img/tiny_loading.gif')
+            )
         },
         "processing": True,
         "serverSide": True,

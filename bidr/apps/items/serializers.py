@@ -8,9 +8,9 @@
 
 from rest_framework.serializers import ModelSerializer
 
-from .models import AbstractItem
 from ..bids.serializers import BidSerializer
 from ..core.serializers import BidrUserIDSerializer
+from .models import AbstractItem
 
 
 class ItemSerializer(ModelSerializer):
@@ -21,4 +21,7 @@ class ItemSerializer(ModelSerializer):
 
     class Meta:
         model = AbstractItem
-        fields = ['id', 'name', 'description', 'claimed', 'claimed_bid', 'bidders', 'image_urls', 'highest_bid', 'total_starting_bid', 'polymorphic_identifier', 'highest_bid_for_each_bidder']
+        fields = [
+            'id', 'name', 'description', 'claimed', 'claimed_bid', 'bidders', 'image_urls',
+            'highest_bid', 'total_starting_bid', 'polymorphic_identifier', 'highest_bid_for_each_bidder'
+        ]

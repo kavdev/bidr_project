@@ -27,9 +27,13 @@ class TestDictMerge(TestCase):
                          dict_merge({"hello": "world"}, {"hello": {"world", "sun"}}))
 
     def test_two_level_dict_merge(self):
-        self.assertEqual({"hello": {"world": "today", "toy": "boat"}, "goodbye": "world"},
-                 dict_merge({"hello": {"world": "today"}}, {"goodbye": "world", "hello": {"toy": "boat"}}))
+        self.assertEqual(
+            {"hello": {"world": "today", "toy": "boat"}, "goodbye": "world"},
+            dict_merge({"hello": {"world": "today"}}, {"goodbye": "world", "hello": {"toy": "boat"}})
+        )
 
     def test_two_level_dict_overwrite(self):
-        self.assertEqual({"hello": {"world": "tomorrow"}, "goodbye": "world"},
-                 dict_merge({"hello": {"world": "today"}}, {"goodbye": "world", "hello": {"world": "tomorrow"}}))
+        self.assertEqual(
+            {"hello": {"world": "tomorrow"}, "goodbye": "world"},
+            dict_merge({"hello": {"world": "today"}}, {"goodbye": "world", "hello": {"world": "tomorrow"}})
+        )

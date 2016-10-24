@@ -38,18 +38,24 @@ class TestAbstractItem(TestCase):
 class TestItem(TestCase):
 
     def setUp(self):
-        self.auction_instance = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
+        self.auction_instance = Auction.objects.create(
+            name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
         self.item_instance = Item.objects.create(name="test_item", description="test_description", starting_bid=2)
-        self.item_instance_no_bids = Item.objects.create(name="test_item2", description="test_description", starting_bid=2)
+        self.item_instance_no_bids = Item.objects.create(
+            name="test_item2", description="test_description", starting_bid=2)
 
         self.auction_instance.bidables.add(self.item_instance_no_bids)
         self.auction_instance.bidables.add(self.item_instance)
 
         # Generate Users
-        self.user1 = get_user_model().objects.create_user(email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
-        self.user2 = get_user_model().objects.create_user(email="testuser2@bidrapp.com", name="testuser2", phone_number="+13105550002", password="password")
-        self.user3 = get_user_model().objects.create_user(email="testuser3@bidrapp.com", name="testuser3", phone_number="+13105550003", password="password")
-        self.user4 = get_user_model().objects.create_user(email="testuser4@bidrapp.com", name="testuser4", phone_number="+13105550004", password="password")
+        self.user1 = get_user_model().objects.create_user(
+            email="testuser1@bidrapp.com", name="testuser1", phone_number="+13105550001", password="password")
+        self.user2 = get_user_model().objects.create_user(
+            email="testuser2@bidrapp.com", name="testuser2", phone_number="+13105550002", password="password")
+        self.user3 = get_user_model().objects.create_user(
+            email="testuser3@bidrapp.com", name="testuser3", phone_number="+13105550003", password="password")
+        self.user4 = get_user_model().objects.create_user(
+            email="testuser4@bidrapp.com", name="testuser4", phone_number="+13105550004", password="password")
 
         # Generate Bids
         self.bid1 = Bid.objects.create(amount=1, user=self.user1)
@@ -72,7 +78,9 @@ class TestItem(TestCase):
         self.item_instance.bids.add(self.bid8)
 
     def test_image_urls_no_image(self):
-        self.assertIn(static('img/no_image.png'), self.item_instance.image_urls, "Incorrect image url list for no image.")
+        self.assertIn(
+            static('img/no_image.png'), self.item_instance.image_urls, "Incorrect image url list for no image."
+        )
 
     def test_image_urls_image_exists(self):
         self.item_instance.picture = MagicMock(url="test_url")
@@ -102,7 +110,10 @@ class TestItem(TestCase):
         self.assertEqual(None, self.item_instance_no_bids.get_second_highest_bid())
 
     def test_get_bids_by_amount(self):
-        self.assertListEqual([self.bid8, self.bid3, self.bid6, self.bid2, self.bid5, self.bid7, self.bid4, self.bid1], list(self.item_instance.get_bids_by_amount()))
+        self.assertListEqual(
+            [self.bid8, self.bid3, self.bid6, self.bid2, self.bid5, self.bid7, self.bid4, self.bid1],
+            list(self.item_instance.get_bids_by_amount())
+        )
 
     def test_get_previous_bid_by_user(self):
         self.assertEqual(self.bid7, self.item_instance.get_previous_bid_by_user(self.user4))
@@ -121,17 +132,25 @@ class TestItem(TestCase):
 
         absolute_url = self.item_instance.get_absolute_client_url(request)
 
-        self.assertEqual(url_base + reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": item_id}), absolute_url)
+        self.assertEqual(
+            url_base + reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": item_id}),
+            absolute_url
+        )
 
 
 class TestItemCollection(TestCase):
 
     def setUp(self):
-        self.item_instance_1 = Item.objects.create(name="Xtest_item_1", description="test_description", starting_bid=2, picture='test_url_1')
-        self.item_instance_2 = Item.objects.create(name="Ctest_item_2", description="test_description", starting_bid=4, picture='test_url_2')
-        self.item_instance_3 = Item.objects.create(name="Ftest_item_3", description="test_description", starting_bid=6, picture='test_url_3')
-        self.item_instance_4 = Item.objects.create(name="Qtest_item_4", description="test_description", starting_bid=8, picture='test_url_4')
-        self.item_instance_5 = Item.objects.create(name="Atest_item_5", description="test_description", starting_bid=10, picture='test_url_5')
+        self.item_instance_1 = Item.objects.create(
+            name="Xtest_item_1", description="test_description", starting_bid=2, picture='test_url_1')
+        self.item_instance_2 = Item.objects.create(
+            name="Ctest_item_2", description="test_description", starting_bid=4, picture='test_url_2')
+        self.item_instance_3 = Item.objects.create(
+            name="Ftest_item_3", description="test_description", starting_bid=6, picture='test_url_3')
+        self.item_instance_4 = Item.objects.create(
+            name="Qtest_item_4", description="test_description", starting_bid=8, picture='test_url_4')
+        self.item_instance_5 = Item.objects.create(
+            name="Atest_item_5", description="test_description", starting_bid=10, picture='test_url_5')
 
         self.item_instance_1.tags.add("tag1")
         self.item_instance_1.tags.add("tag1")
@@ -150,12 +169,27 @@ class TestItemCollection(TestCase):
         self.collection_instance.items.add(self.item_instance_5)
 
     def test_image_urls(self):
-        self.assertIn(settings.MEDIA_URL + "test_url_1", self.collection_instance.image_urls, "Picture 1 not in image url list.")
-        self.assertIn(settings.MEDIA_URL + "test_url_2", self.collection_instance.image_urls, "Picture 2 not in image url list.")
-        self.assertIn(settings.MEDIA_URL + "test_url_3", self.collection_instance.image_urls, "Picture 3 not in image url list.")
-        self.assertIn(settings.MEDIA_URL + "test_url_4", self.collection_instance.image_urls, "Picture 4 not in image url list.")
+        self.assertIn(
+            settings.MEDIA_URL + "test_url_1", self.collection_instance.image_urls,
+            "Picture 1 not in image url list."
+        )
+        self.assertIn(
+            settings.MEDIA_URL + "test_url_2", self.collection_instance.image_urls,
+            "Picture 2 not in image url list."
+        )
+        self.assertIn(
+            settings.MEDIA_URL + "test_url_3", self.collection_instance.image_urls,
+            "Picture 3 not in image url list."
+        )
+        self.assertIn(
+            settings.MEDIA_URL + "test_url_4", self.collection_instance.image_urls,
+            "Picture 4 not in image url list."
+        )
 
-        self.assertNotIn(settings.MEDIA_URL + "test_url_5", self.collection_instance.image_urls, "Picture 5 unexpectedly in image url list. List should only contain first four images.")
+        self.assertNotIn(
+            settings.MEDIA_URL + "test_url_5", self.collection_instance.image_urls,
+            "Picture 5 unexpectedly in image url list. List should only contain first four images."
+        )
 
     def test_total_starting_bid(self):
         self.assertEqual(30, self.collection_instance.total_starting_bid, "Incorrect starting bid.")
@@ -163,10 +197,16 @@ class TestItemCollection(TestCase):
     def test_ordered_items(self):
         item_list = list(self.collection_instance.ordered_items.values_list('name', flat=True))
 
-        self.assertListEqual(["Atest_item_5", "Ctest_item_2", "Ftest_item_3", "Qtest_item_4", "Xtest_item_1"], item_list)
+        self.assertListEqual(
+            ["Atest_item_5", "Ctest_item_2", "Ftest_item_3", "Qtest_item_4", "Xtest_item_1"],
+            item_list
+        )
 
     def test_tags(self):
-        self.assertListEqual(["tag1", "tag2", "tag3", "tag4", "tag5"], sorted(self.collection_instance.tags), "Tags don't match.")
+        self.assertListEqual(
+            ["tag1", "tag2", "tag3", "tag4", "tag5"], sorted(self.collection_instance.tags),
+            "Tags don't match."
+        )
 
     def test_polymorphic_identifier(self):
         self.assertEqual("item collection", self.collection_instance.polymorphic_identifier)

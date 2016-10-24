@@ -20,7 +20,6 @@ from ..bids.models import Bid
 from ..core.templatetags.currency import currency
 from ..datatables.ajax import BidrDatatablesPopulateView
 from .models import Item, ItemCollection
-# from .models import AbstractItem
 
 
 @ajax
@@ -130,11 +129,18 @@ class PopulateBidables(BidrDatatablesPopulateView):
 
     # Hacking the crap out of the columns. Claimed is really image_urls, claimed_bid is really highest_bid
     column_definitions = OrderedDict()
-    column_definitions["id"] = {"width": "0px", "searchable": False, "orderable": False, "visible": False, "title": "ID"}
-    column_definitions["claimed"] = {"width": "225px", "type": "html", "title": "Item Picture", "searchable": False, "orderable": False, "sortable": False}
+    column_definitions["id"] = {
+        "width": "0px", "searchable": False, "orderable": False, "visible": False, "title": "ID"
+    }
+    column_definitions["claimed"] = {
+        "width": "225px", "type": "html", "title": "Item Picture",
+        "searchable": False, "orderable": False, "sortable": False
+    }
     column_definitions["name"] = {"width": "100px", "type": "string", "title": "Item Name"}
     column_definitions["description"] = {"width": "225px", "type": "string", "title": "Description"}
-    column_definitions["claimed_bid"] = {"width": "100px", "type": "string", "title": "Current Highest Bid", "searchable": False, "orderable": False}
+    column_definitions["claimed_bid"] = {
+        "width": "100px", "type": "string", "title": "Current Highest Bid", "searchable": False, "orderable": False
+    }
 
     def get_initial_queryset(self):
         return Auction.objects.get(id=self.kwargs["auction_id"], auctions__slug=self.kwargs["slug"]).bidables.all()
@@ -150,7 +156,10 @@ class PopulateBidables(BidrDatatablesPopulateView):
 
     def get_row_data_attributes(self, row):
         self.kwargs.update({"pk": row.id})
-        return {"data-toggle": "modal", "data-target": "#item_modal_" + str(row.id), "href": reverse('bid_modal', kwargs=self.kwargs)}
+        return {
+            "data-toggle": "modal", "data-target": "#item_modal_" + str(row.id),
+            "href": reverse('bid_modal', kwargs=self.kwargs)
+        }
 
     def render_column(self, row, column):
         if column == 'claimed':

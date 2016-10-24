@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
 import django.core.validators
+from django.db import models, migrations
 import taggit.managers
 
 
@@ -31,10 +31,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Item',
             fields=[
-                ('abstractitem_ptr', models.OneToOneField(serialize=False, parent_link=True, to='items.AbstractItem', auto_created=True, primary_key=True)),
-                ('starting_bid', models.BigIntegerField(validators=[django.core.validators.MinValueValidator(0)], default=0)),
+                ('abstractitem_ptr', models.OneToOneField(serialize=False, parent_link=True, to='items.AbstractItem',
+                                                          auto_created=True, primary_key=True)),
+                ('starting_bid', models.BigIntegerField(validators=[django.core.validators.MinValueValidator(0)],
+                                                        default=0)),
                 ('picture', models.ImageField(upload_to='', null=True, blank=True)),
-                ('tags', taggit.managers.TaggableManager(to='taggit.Tag', verbose_name='Tags', help_text='A comma-separated list of tags.', through='taggit.TaggedItem')),
+                ('tags', taggit.managers.TaggableManager(
+                    to='taggit.Tag', verbose_name='Tags',
+                    help_text='A comma-separated list of tags.', through='taggit.TaggedItem')),
             ],
             options={
                 'abstract': False,
@@ -44,7 +48,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ItemCollection',
             fields=[
-                ('abstractitem_ptr', models.OneToOneField(serialize=False, parent_link=True, to='items.AbstractItem', auto_created=True, primary_key=True)),
+                ('abstractitem_ptr', models.OneToOneField(serialize=False, parent_link=True, to='items.AbstractItem',
+                                                          auto_created=True, primary_key=True)),
                 ('items', models.ManyToManyField(to='items.Item', verbose_name='Items', blank=True)),
             ],
             options={
@@ -67,7 +72,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='abstractitem',
             name='polymorphic_ctype',
-            field=models.ForeignKey(to='contenttypes.ContentType', related_name='polymorphic_items.abstractitem_set+', null=True, editable=False),
+            field=models.ForeignKey(to='contenttypes.ContentType', related_name='polymorphic_items.abstractitem_set+',
+                                    null=True, editable=False),
             preserve_default=True,
         ),
     ]

@@ -19,14 +19,21 @@ class OrganizationTest(TransactionTestCase):
 
     def setUp(self):
         # Generate users
-        self.manager1 = get_user_model().objects.create_user(email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
-        self.manager2 = get_user_model().objects.create_user(email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")
-        self.owner1 = get_user_model().objects.create_user(email="testowner1@bidrapp.com", name="testowner1", phone_number="+13105550021", password="password")
+        self.manager1 = get_user_model().objects.create_user(
+            email="testmanager1@bidrapp.com", name="testmanager1", phone_number="+13105550011", password="password")
+        self.manager2 = get_user_model().objects.create_user(
+            email="testmanager2@bidrapp.com", name="testmanager2", phone_number="+13105550012", password="password")
+        self.owner1 = get_user_model().objects.create_user(
+            email="testowner1@bidrapp.com", name="testowner1", phone_number="+13105550021", password="password")
 
         # Generate a Organization
-        self.org = Organization.objects.create(name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
-        self.auction1 = Auction.objects.create(name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
-        self.auction2 = Auction.objects.create(name="Test Auction 2", description="Oogalyboogaly 2", start_time=timezone.now(), end_time=timezone.now())
+        self.org = Organization.objects.create(
+            name="Test Studio", email="myStudio@emailaddress.com",
+            phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
+        self.auction1 = Auction.objects.create(
+            name="Test Auction", description="Oogalyboogaly", start_time=timezone.now(), end_time=timezone.now())
+        self.auction2 = Auction.objects.create(
+            name="Test Auction 2", description="Oogalyboogaly 2", start_time=timezone.now(), end_time=timezone.now())
         self.auction1.managers.add(self.manager1)
         self.auction1.managers.add(self.manager2)
         self.org.auctions.add(self.auction1)
@@ -46,14 +53,22 @@ class OrganizationTest(TransactionTestCase):
         self.assertEqual(self.org.managers, [self.manager1, self.manager2])
 
     def test_save_slug_creation(self):
-        org_copy = Organization.objects.create(name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
+        org_copy = Organization.objects.create(
+            name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615",
+            website="https://main.studio.com", owner=self.owner1)
         self.assertNotEqual(self.org.slug, org_copy.slug, "Slugs are unexpectedly equal. Should be unique")
         self.assertEqual("test-studio-2", org_copy.slug)
-        org_copy_2 = Organization.objects.create(name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
+        org_copy_2 = Organization.objects.create(
+            name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615",
+            website="https://main.studio.com", owner=self.owner1)
         self.assertEqual("test-studio-3", org_copy_2.slug)
-        org_copy_3 = Organization.objects.create(name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
+        org_copy_3 = Organization.objects.create(
+            name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615",
+            website="https://main.studio.com", owner=self.owner1)
         self.assertEqual("test-studio-4", org_copy_3.slug)
-        org_copy_4 = Organization.objects.create(name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615", website="https://main.studio.com", owner=self.owner1)
+        org_copy_4 = Organization.objects.create(
+            name="Test Studio", email="myStudio@emailaddress.com", phone_number="+18054523615",
+            website="https://main.studio.com", owner=self.owner1)
         self.assertEqual("test-studio-5", org_copy_4.slug)
 
     def test_str(self):

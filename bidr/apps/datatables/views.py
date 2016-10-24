@@ -20,7 +20,10 @@ class DatatablesView(CreateView):
         super(DatatablesView, self).__init__(**kwargs)
 
         if not issubclass(self.populate_class, BidrDatatablesPopulateView):
-            raise ImproperlyConfigured("The populate_class instance variable is either not set or is not a subclass of BidrDatatablesPopulateView.")
+            raise ImproperlyConfigured(
+                "The populate_class instance variable is either not set or is not a subclass of "
+                "BidrDatatablesPopulateView."
+            )
 
     def get_context_data(self, **kwargs):
         context = super(DatatablesView, self).get_context_data(**kwargs)

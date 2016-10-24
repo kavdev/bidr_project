@@ -12,12 +12,12 @@ from urllib.parse import urlparse
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.core.cache import cache
+from django.shortcuts import resolve_url
 from django.utils.decorators import available_attrs
 from django.utils.encoding import force_str
-from django.shortcuts import resolve_url
 
-from ..organizations.models import Organization
 from ..auctions.models import Auction
+from ..organizations.models import Organization
 
 
 class UserType(object):
@@ -35,7 +35,8 @@ def user_is_type(user_type, login_url=None, redirect_field_name=REDIRECT_FIELD_N
     def decorator(view_func):
         @wraps(view_func, assigned=available_attrs(view_func))
         def _wrapped_view(request, *args, **kwargs):
-            if user_type_test(user_type=user_type, user=request.user, org_slug=kwargs["slug"], auction_id=kwargs.get("auction_id")):
+            if user_type_test(user_type=user_type, user=request.user,
+                              org_slug=kwargs["slug"], auction_id=kwargs.get("auction_id")):
                 return view_func(request, *args, **kwargs)
             path = request.build_absolute_uri()
             # urlparse chokes on lazy objects in Python 3, force to str

@@ -96,7 +96,9 @@ class AbstractItem(PolymorphicModel):
 
     def get_absolute_client_url(self, request):
         auction_id = self.bidables.all()[0].id
-        return request.build_absolute_uri(reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": self.id}))
+        return request.build_absolute_uri(
+            reverse("client:item_detail", kwargs={"auction_id": auction_id, "pk": self.id})
+        )
 
 
 class Item(AbstractItem):
