@@ -4,4 +4,4 @@
 -r base.txt
 
 gunicorn==19.6
-django-redis-cache==1.7.0
+django-redis-cache==1.7.1
