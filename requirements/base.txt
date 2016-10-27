@@ -20,7 +20,7 @@ django-widget-tweaks==1.4.1
 djoser==0.5.1
 facebookads==2.8.1
 googleads==4.6.1
-phonenumbers==7.7.2
+phonenumbers==7.7.3
 pillow==3.4.2
 psycopg2==2.6.2
 pushjack==1.0.1
