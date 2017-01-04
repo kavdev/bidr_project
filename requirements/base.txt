@@ -2,7 +2,7 @@ boto==2.43.0
 boto3==1.4.1
 colorama==0.3.7
 dj-database-url==0.4.1
-django==1.10.3
+django==1.10.5
 djangoajax==2.3.6
 djangorestframework==3.5.1
 django-axes==2.3.1
