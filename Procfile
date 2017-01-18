@@ -1,1 +1,1 @@
-web: gunicorn bidr.wsgi --log-file -
+web: gunicorn bidr.wsgi --preload --log-file -
