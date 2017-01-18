@@ -71,6 +71,10 @@ def activate_env():
 
 if __name__ == "__main__":
     if "test" in sys.argv:
+        import coverage
+        coverage.process_startup()
+        os.environ["COVERAGE_PROCESS_START"] = ".coveragerc"
+
         # Switch to the test settings file
         os.environ["DJANGO_SETTINGS_MODULE"] = "bidr.settings.test"
 

@@ -23,5 +23,5 @@ AWS_DEFAULT_ACL = 'public-read'
 AWS_QUERYSTRING_AUTH = False
 AWS_S3_SECURE_URLS = True
 
-STATIC_URL = '//messagemanager.s3.amazonaws.com/static/'
-MEDIA_URL = '//messagemanager.s3.amazonaws.com/media/'
+STATIC_URL = '//bidr-images.s3.amazonaws.com/static/'
+MEDIA_URL = '//bidr-images.s3.amazonaws.com/media/'

@@ -12,10 +12,8 @@ from django.shortcuts import redirect
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
-from bidr.apps.items.models import AbstractItem
-
 from ..auctions.models import Auction
-from ..items.models import Item, ItemCollection
+from ..items.models import AbstractItem, Item, ItemCollection
 
 
 class ItemCreateView(CreateView):
