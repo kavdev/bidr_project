@@ -13,7 +13,7 @@ TEMPLATES[0]['OPTIONS']['debug'] = False  # noqa: F405
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = get_env_variable('BIDR_AWS_ACCESS_KEY_ID')  # noqa: F405
 AWS_SECRET_ACCESS_KEY = get_env_variable('BIDR_AWS_SECRET_ACCESS_KEY')  # noqa: F405
 AWS_STORAGE_BUCKET_NAME = 'bidr-images'
