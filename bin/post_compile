@@ -1,5 +1,5 @@
 echo "-----> Compiling static files"
-sudo apt-get install node-less
+apt-get install node-less
 python bidr/manage.py compilestatic
 
 echo "-----> Running Django migrations"
