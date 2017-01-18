@@ -1,0 +1,6 @@
+echo "-----> Running Django migrations"
+python motimatic/manage.py migrate --noinput
+
+echo "-----> Compiling static files"
+sudo apt-get install node-less
+python motimatic/manage.py compilestatic
