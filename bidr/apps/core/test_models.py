@@ -14,7 +14,7 @@ from django.test.testcases import TestCase
 class TestBidrUser(TestCase):
 
     def setUp(self):
-        self.user = get_user_model().objects.create(
+        self.user = get_user_model().objects.create_user(
             name="test",
             email="popularemail@test.com",
             phone_number="12345456656",

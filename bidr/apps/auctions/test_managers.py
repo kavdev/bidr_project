@@ -48,5 +48,7 @@ class TestManageableAuctionManager(TestCase):
         self.auction2.managers.add(self.manager1)
 
     def test_managed_by(self):
-        self.assertListEqual([self.auction1, self.auction2], list(Auction.objects.managed_by(self.manager1)))
-        self.assertListEqual([self.auction1], list(Auction.objects.managed_by(self.manager2)))
+        self.assertIn(self.auction1, list(Auction.objects.managed_by(self.manager1)))
+        self.assertIn(self.auction2, list(Auction.objects.managed_by(self.manager1)))
+
+        self.assertIn(self.auction1, list(Auction.objects.managed_by(self.manager2)))

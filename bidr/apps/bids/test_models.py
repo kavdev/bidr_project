@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils.timezone import now, make_aware
 
 from ..bids.models import Bid
 
@@ -18,7 +19,6 @@ from ..bids.models import Bid
 class BidTest(TestCase):
 
     def setUp(self):
-        # Generate users
         # Generate users
         self.user1 = get_user_model().objects.create_user(
             email="testuser1@bidrapp.com",
@@ -54,17 +54,17 @@ class BidTest(TestCase):
         self.bid5 = Bid.objects.create(amount=25, user=self.user3)
         self.bid6 = Bid.objects.create(amount=0, user=self.user2)
 
-        self.bid0.timestamp = datetime.now() - timedelta(minutes=1)
+        self.bid0.timestamp = now() - timedelta(minutes=1)
         self.bid0.save()
-        self.bid1.timestamp = datetime.now() - timedelta(minutes=20)
+        self.bid1.timestamp = now() - timedelta(minutes=20)
         self.bid1.save()
-        self.bid2.timestamp = datetime.now() - timedelta(hours=1, minutes=20)
+        self.bid2.timestamp = now() - timedelta(hours=1, minutes=20)
         self.bid2.save()
-        self.bid3.timestamp = datetime.now() - timedelta(hours=2, minutes=20)
+        self.bid3.timestamp = now() - timedelta(hours=2, minutes=20)
         self.bid3.save()
-        self.bid4.timestamp = datetime.now() - timedelta(hours=3, minutes=20)
+        self.bid4.timestamp = now() - timedelta(hours=3, minutes=20)
         self.bid4.save()
-        self.bid6.timestamp = datetime(2015, 5, 11, 12, 30) - timedelta(hours=22, minutes=15)
+        self.bid6.timestamp = make_aware(datetime(2015, 5, 11, 12, 30)) - timedelta(hours=22, minutes=15)
         self.bid6.save()
 
     def test_bid_model(self):

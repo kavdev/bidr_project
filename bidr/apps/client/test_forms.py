@@ -6,10 +6,11 @@
 
 """
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
+from django.utils.timezone import now
 
 from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
@@ -22,8 +23,8 @@ class TestAddAuctionForm(TestCase):
     def setUp(self):
         self.auction_instance = Auction.objects.create(name="test",
                                                        description="test",
-                                                       start_time=datetime.now(),
-                                                       end_time=datetime.now() + timedelta(days=20))
+                                                       start_time=now(),
+                                                       end_time=now() + timedelta(days=20))
 
     def test_form_valid_no_password(self):
         data = {"auction_id": self.auction_instance.id}
@@ -77,8 +78,8 @@ class TestAddBidForm(TestCase):
     def setUp(self):
         self.auction_instance = Auction.objects.create(name="test",
                                                        description="test",
-                                                       start_time=datetime.now(),
-                                                       end_time=datetime.now() + timedelta(days=20),
+                                                       start_time=now(),
+                                                       end_time=now() + timedelta(days=20),
                                                        bid_increment=2)
 
         self.item_instance = Item.objects.create(name="Bowling Ball", starting_bid=10)
@@ -146,7 +147,7 @@ class TestAddBidForm(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_form_invalid_auction_already_ended_time(self):
-        self.auction_instance.end_time = datetime.now() - timedelta(minutes=5)
+        self.auction_instance.end_time = now() - timedelta(minutes=5)
         self.auction_instance.save()
 
         data = {"amount": 24}

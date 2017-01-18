@@ -7,11 +7,10 @@
 
 """
 
-import datetime
-
 from django.core.exceptions import ValidationError
 from django.forms.fields import IntegerField
 from django.forms.models import ModelForm
+from django.utils.timezone import now
 
 from ..auctions.models import Auction, STAGES
 from ..auctions.utils import _end_auction
@@ -52,7 +51,7 @@ class AddBidForm(ModelForm):
         self.item_instance = item_instance
 
     def clean(self):
-        if (datetime.datetime.now() > self.auction_instance.end_time or
+        if (now() > self.auction_instance.end_time or
                 self.auction_instance.stage > STAGES.index("Observe")):
             # End the auction if it hasn't ended already
             _end_auction(self.auction_instance)

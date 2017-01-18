@@ -7,10 +7,11 @@
 
 """
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
+from django.utils.timezone import now
 
 from ..bids.models import Bid
 from ..items.models import Item
@@ -84,7 +85,7 @@ class AuctionTest(TestCase):
         self.item15 = Item.objects.create(name="item15", description="test item 15")
 
         # Generate End date-time fields
-        auciton_end_time = datetime.now() + timedelta(days=5)
+        auciton_end_time = now() + timedelta(days=5)
 
         # Generate Auction
         self.auction1 = Auction.objects.create(

@@ -6,10 +6,11 @@
 
 """
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.test.testcases import TestCase
+from django.utils.timezone import now
 
 from ..auctions.models import Auction, STAGES
 from ..bids.models import Bid
@@ -23,8 +24,8 @@ class TestEndAuction(TestCase):
         self.auction_instance = Auction.objects.create(
             name="test",
             description="test",
-            start_time=datetime.now(),
-            end_time=datetime.now() + timedelta(days=20)
+            start_time=now(),
+            end_time=now() + timedelta(days=20)
         )
 
         # Unbid items shouldn't affect the outcome.

@@ -22,6 +22,7 @@ LANGUAGE_CODE = 'en-us'
 USE_I18N = False
 USE_L10N = False
 USE_TZ = True
+TIMEZONE = "UTC"
 
 INSTALLED_APPS = [
     'django.contrib.admin',

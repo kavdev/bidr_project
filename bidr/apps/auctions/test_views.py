@@ -6,11 +6,12 @@
 
 """
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.testcases import TestCase
+from django.utils.timezone import now
 
 from ..auctions.models import Auction, STAGES
 from ..organizations.models import Organization
@@ -25,8 +26,8 @@ class TestEndAuctionView(TestCase):
         self.auction_instance = Auction.objects.create(
             name="test",
             description="test",
-            start_time=datetime.now(),
-            end_time=datetime.now() + timedelta(days=20)
+            start_time=now(),
+            end_time=now() + timedelta(days=20)
         )
 
         self.org_instance.auctions.add(self.auction_instance)

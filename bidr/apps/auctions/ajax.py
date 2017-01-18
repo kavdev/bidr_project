@@ -5,13 +5,12 @@
 """
 
 from django.contrib.auth import get_user_model
+from django.utils.timezone import now
 from django.views.decorators.http import require_POST
-
 from django_ajax.decorators import ajax
 
 from ..auctions.models import Auction
 from ..auctions.views import end_auction
-from _datetime import datetime
 
 
 @ajax
@@ -53,7 +52,7 @@ def can_start_auction(request, slug, auction_id):
 @ajax
 @require_POST
 def check_time(request, slug, auction_id):
-    current_time = datetime.now()
+    current_time = now()
     auc_instance = Auction.objects.get(id=auction_id)
 
     if current_time > auc_instance.end_time:
