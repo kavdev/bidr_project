@@ -1,6 +1,6 @@
-echo "-----> Running Django migrations"
-python bidr/manage.py migrate --noinput
-
 echo "-----> Compiling static files"
 sudo apt-get install node-less
 python bidr/manage.py compilestatic
+
+echo "-----> Running Django migrations"
+python bidr/manage.py migrate --noinput
