@@ -18,8 +18,6 @@ django-storages==1.5.1
 django-taggit==0.21.3
 django-widget-tweaks==1.4.1
 djoser==0.5.1
-facebookads==2.8.1
-googleads==4.6.1
 phonenumbers==8.0.1
 pillow==3.4.2
 psycopg2==2.6.2
