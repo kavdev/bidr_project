@@ -13,7 +13,7 @@ django-js-reverse==0.7.2
 django-phonenumber-field==1.1.0
 django-polymorphic==1.0.2
 django-registration-redux==1.2
-django-static-precompiler==1.4
+django-static-precompiler==1.5
 django-storages==1.5.1
 django-taggit==0.21.3
 django-widget-tweaks==1.4.1
