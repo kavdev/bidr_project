@@ -1,4 +1,5 @@
 echo "-----> Compiling static files"
+npm install -g less
 python bidr/manage.py compilestatic
 
 echo "-----> Running Django migrations"
