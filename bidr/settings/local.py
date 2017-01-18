@@ -32,3 +32,5 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': 'ddt_request_history.panels.request_history.allow_ajax',
     'RESULTS_STORE_SIZE': 20,
 }
+
+STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = False

@@ -137,8 +137,14 @@ STATICFILES_DIRS = (
     str(PROJECT_DIR.joinpath(MAIN_APP_NAME, "static").resolve()),
 )
 
+STATICFILES_FINDERS = (
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "static_precompiler.finders.StaticPrecompilerFinder",
+)
+
 STATIC_PRECOMPILER_OUTPUT_DIR = ""
-STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = False
+STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = True
 
 # =========================================================================== #
 #                              REST Configuration                             #

@@ -20,3 +20,4 @@ MIDDLEWARE_CLASSES = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+STATIC_PRECOMPILER_DISABLE_AUTO_COMPILE = False
