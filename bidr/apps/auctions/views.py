@@ -17,13 +17,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 
-from ..auctions.forms import AuctionCreateForm
-from ..auctions.models import STAGES
-from ..auctions.utils import _end_auction
 from ..items.ajax import PopulateBidables
+from ..items.models import ItemCollection, Item
 from ..organizations.models import Organization
-from .forms import ManagerForm
-from .models import Auction
+from .forms import ManagerForm, AuctionCreateForm
+from .models import Auction, STAGES
+from .utils import _end_auction
 
 
 class AuctionView(TemplateView):
@@ -141,10 +140,8 @@ class AuctionPlanView(AuctionMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AuctionPlanView, self).get_context_data(**kwargs)
-        context["items"] = self.object.bidables.filter(polymorphic_ctype__name="item").order_by("name")
-        context["item_collections"] = self.object.bidables.filter(
-            polymorphic_ctype__name="item collection"
-        ).order_by("name")
+        context["items"] = self.object.bidables.instance_of(Item).order_by("name")
+        context["item_collections"] = self.object.bidables.instance_of(ItemCollection).order_by("name")
         return context
 
 

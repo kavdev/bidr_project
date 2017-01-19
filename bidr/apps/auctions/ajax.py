@@ -9,8 +9,9 @@ from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from django_ajax.decorators import ajax
 
-from ..auctions.models import Auction
-from ..auctions.views import end_auction
+from ..items.models import ItemCollection, Item
+from .models import Auction
+from .views import end_auction
 
 
 @ajax
@@ -29,8 +30,8 @@ def remove_manager(request, slug, auction_id):
 @require_POST
 def can_start_auction(request, slug, auction_id):
     auction_instance = Auction.objects.get(id=auction_id)
-    itemcollections = auction_instance.bidables.filter(polymorphic_ctype__name="item collection")
-    items = auction_instance.bidables.filter(polymorphic_ctype__name="item")
+    itemcollections = auction_instance.bidables.instance_of(ItemCollection)
+    items = auction_instance.bidables.instance_of(Item)
 
     good_to_go = True
     message = ""

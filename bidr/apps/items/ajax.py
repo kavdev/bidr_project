@@ -28,23 +28,17 @@ def claim_item(request, slug, auction_id):
     item_id = request.POST["item_id"]
     bid_id = request.POST["bid_id"]
 
-    auction_instance = Auction.objects.get(id=auction_id)
-    itemcollection = auction_instance.bidables.filter(polymorphic_ctype__name="item collection", id=item_id)
-    bid_instance = Bid.objects.get(id=bid_id)
+    auction = Auction.objects.get(id=auction_id)
+    bidable = auction.bidables.get(id=item_id)
+    bid = Bid.objects.get(id=bid_id)
 
-    if itemcollection:
-        item_collection_instance = ItemCollection.objects.get(id=item_id)
-        item_collection_instance.claim(bid_instance)
-    else:
-        item_instance = Item.objects.get(id=item_id)
-        item_instance.claim(bid_instance)
+    bidable.claim(bid)
 
-    auction_instance = Auction.objects.get(id=auction_id)
-    unclaimed_items = auction_instance.bidables.filter(claimed=False).exclude(bids=None)
+    unclaimed_items = auction.bidables.filter(claimed=False).exclude(bids=None).exists()
 
     if not unclaimed_items:
-        auction_instance.stage = STAGES.index("Report")
-        auction_instance.save()
+        auction.stage = STAGES.index("Report")
+        auction.save()
         return redirect('auction_report', slug, auction_id)
 
 
