@@ -1,3 +1,15 @@
+if [ -f bin/install_nodejs ]; then
+    echo "-----> Installing NodeJS"
+    chmod +x bin/install_nodejs
+    bin/install_nodejs
+
+    if [ -f bin/install_less ]; then
+        echo "-----> Installing LESS"
+        chmod +x bin/install_less
+        bin/install_less
+    fi
+fi
+
 echo "-----> Compiling static files"
 python bidr/manage.py compilestatic
 
