@@ -19,7 +19,7 @@ django-widget-tweaks==1.4.1
 djoser==0.5.4
 phonenumbers==8.3.1
 pillow==4.0.0
-psycopg2==2.6.2
+psycopg2==2.7
 pushjack==1.2.1
 python-dotenv==0.6.3
 raven==6.0.0
