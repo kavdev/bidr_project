@@ -1,5 +1,5 @@
 # Development dependencies go here
 -r base.txt
 
-django-debug-toolbar==1.6
+django-debug-toolbar==1.7
 git+https://github.com/djsutho/django-debug-toolbar-request-history.git
