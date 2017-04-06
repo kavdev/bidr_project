@@ -11,7 +11,7 @@ django-cors-headers==2.0.2
 django-js-reverse==0.7.3
 django-phonenumber-field==1.2.0
 django-polymorphic==1.1
-django-registration-redux==1.2
+django-registration-redux==1.5
 django-static-precompiler==1.5
 django-storages==1.5.2
 django-taggit==0.22.0
