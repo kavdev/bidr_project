@@ -5,7 +5,7 @@ django==1.10.6
 djangoajax==2.3.7
 djangorestframework==3.5.4
 django-axes==2.3.3
-django-crispy-forms==1.6.1
+django-crispy-forms==1.7.0
 django-datatables-view==1.12.1
 django-cors-headers==2.1.0
 django-js-reverse==0.7.3
