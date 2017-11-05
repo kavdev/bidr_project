@@ -16,7 +16,7 @@ django-static-precompiler==1.6
 django-storages==1.6.5
 django-taggit==0.22.1
 django-widget-tweaks==1.4.1
-djoser==0.5.4
+djoser==1.1.0
 phonenumbers==8.7.1
 pillow==4.2.1
 psycopg2==2.7.3
