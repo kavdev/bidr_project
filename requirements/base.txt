@@ -4,7 +4,7 @@ dj-database-url==0.4.2
 django==1.10.6
 djangoajax==2.3.7
 djangorestframework==3.5.4
-django-axes==2.3.3
+django-axes==4.3.1
 django-crispy-forms==1.6.1
 django-datatables-view==1.12.1
 django-cors-headers==2.1.0
