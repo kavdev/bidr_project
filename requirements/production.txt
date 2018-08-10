@@ -4,5 +4,5 @@
 -r base.txt
 
 gunicorn==19.7.1
-whitenoise==3.3.0
+whitenoise==4.0
 django-redis-cache==1.7.1
